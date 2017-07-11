@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bots>
+	<bot name="RandomBiasedAI"/>
+	<bot name="HeavyRush"/>
+	<bot name="WorkerRush"/>
+</bots>

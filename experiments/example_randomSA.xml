@@ -1,0 +1,22 @@
+<!-- 
+ This is an example file of experiment specification
+-->
+ 
+<experiment>
+	<parameters>
+		<episodes value="10" />
+		<game-duration value="3000" /> <!-- has no effect yet -->
+		<abstraction-model value="stages" />
+		<reward-function value="winloss" />
+	</parameters>
+
+	<player name="learner" type="QLearning">
+		<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1" />
+	</player>
+
+	<player name="RandomSA" type="RandomSA">
+	</player>
+
+</experiment>

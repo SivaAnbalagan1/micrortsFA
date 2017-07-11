@@ -1,0 +1,27 @@
+<!-- 
+ This file is associated with tests.rl.RLParametersTest, only change it 
+ if you're going to update the test. Otherwise, the test will crash.
+-->
+ 
+<experiment>
+	<parameters>
+		<episodes value="100" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="aggregatediff" />
+		<reward-function value="simpleweighted" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="learner" type="QLearning">
+		<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1" />
+		<epsilon value="0" />
+		<path-to-knowledge value="src/tests/rl/sgql_aggrdiff.xml" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="LightRush" />
+	</player>
+
+</experiment>

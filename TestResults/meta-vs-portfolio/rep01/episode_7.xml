@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<episode value="7">
+  <agent_0 name="MetaBot"/>
+  <agent_1 name="Portfolio"/>
+  <timestamp>
+    <initial-timestamp value="2017-07-11 16:58:29.967"/>
+    <final-timestamp value="2017-07-11 16:58:32.936"/>
+  </timestamp>
+  <duration value="19.0"/>
+  <states-visited value="19"/>
+  <final-state value="FINISHED;AHEAD;EVEN;AHEAD;AHEAD;AHEAD;AHEAD;EVEN"/>
+  <joint-rewards>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="1.000000, -1.000000"/>
+  </joint-rewards>
+  <joint-actions>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+  </joint-actions>
+  <final-state-dump>GameState information:
+ObservableGameState: 1462
+player 0: 5
+player 1: 2
+    Base(20)(0, (2,2), 10, 0) -&gt; 1420 produce(up,Worker)
+    Ranged(2226)(0, (20,22), 1, 0) -&gt; 1460 attack_location(22,21)
+    Worker(22)(0, (0,3), 1, 0) -&gt; 1460 move(down)
+    Worker(2373)(0, (1,16), 1, 0) -&gt; 1460 move(up)
+    Worker(2407)(0, (0,14), 1, 0) -&gt; 1460 move(up)
+    Worker(2446)(0, (0,11), 1, 0) -&gt; 1460 move(up)
+    Worker(2457)(0, (3,7), 1, 0) -&gt; 1460 move(up)
+    Worker(2473)(0, (2,5), 1, 0) -&gt; 1460 move(left)
+    Ranged(2467)(0, (5,6), 1, 0) -&gt; 1460 move(down)
+    Barracks(2092)(0, (1,0), 4, 0) -&gt; 1460 none()
+PhysicalGameState:
+  player 0(5)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 24)
+  Resource(18)(-1, (23,22), 1, 1)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(20)(0, (2,2), 10, 0)
+  Worker(22)(0, (0,3), 1, 0)
+  Barracks(2092)(0, (1,0), 4, 0)
+  Heavy(2224)(0, (21,21), 2, 0)
+  Ranged(2226)(0, (20,22), 1, 0)
+  Worker(2373)(0, (1,16), 1, 0)
+  Heavy(2391)(0, (12,21), 4, 0)
+  Worker(2407)(0, (0,14), 1, 0)
+  Worker(2446)(0, (0,11), 1, 0)
+  Worker(2457)(0, (3,7), 1, 0)
+  Ranged(2467)(0, (5,6), 1, 0)
+  Worker(2473)(0, (2,5), 1, 0)
+
+
+PhysicalGameState information:
+PhysicalGameState:
+  player 0(5)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 24)
+  Resource(18)(-1, (23,22), 1, 1)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(20)(0, (2,2), 10, 0)
+  Worker(22)(0, (0,3), 1, 0)
+  Barracks(2092)(0, (1,0), 4, 0)
+  Heavy(2224)(0, (21,21), 2, 0)
+  Ranged(2226)(0, (20,22), 1, 0)
+  Worker(2373)(0, (1,16), 1, 0)
+  Heavy(2391)(0, (12,21), 4, 0)
+  Worker(2407)(0, (0,14), 1, 0)
+  Worker(2446)(0, (0,11), 1, 0)
+  Worker(2457)(0, (3,7), 1, 0)
+  Ranged(2467)(0, (5,6), 1, 0)
+  Worker(2473)(0, (2,5), 1, 0)
+</final-state-dump>
+</episode>

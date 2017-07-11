@@ -1,0 +1,16 @@
+<knowledge>
+
+<learner name='learner' type='rl.adapters.learners.SGQLearningAdapter' id='0' />
+
+<!-- Note: 'a' stands for action -->
+
+<state id='OPENING'>
+	<a name='LightRush' value='1.462798568401573' />
+	<a name='HeavyRush' value='1.6114845573879353' />
+	<a name='BuildBarracks' value='0.35497652499902377' />
+	<a name='RangedRush' value='1.2718075334495846' />
+	<a name='Expand' value='1.0605406271722395' />
+	<a name='WorkerRush' value='1.2326607166492167' />
+</state>
+
+</knowledge>

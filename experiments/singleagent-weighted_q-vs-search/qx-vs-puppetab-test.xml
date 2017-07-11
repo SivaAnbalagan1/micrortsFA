@@ -1,0 +1,26 @@
+
+<experiment>
+	<parameters>
+		<episodes value="100" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="singleagent" />
+		<microrts-opponent value="PuppetSearchABCD" />
+		<output-dir value="/tmp/results" />
+		<reward-function value="simpleweighted" />
+		<quiet-learning value="true" />
+		<debug-level value="0" />
+	</parameters>
+
+	<player name="QLearning" type="SGQLearningAdapter">
+		<discount value='0' />
+		<learning-rate type='constant' value='0' />
+		<initial-q value='0' />
+		<epsilon value='0' />
+		<!-- <path-to-knowledge value="load from aggrdiff-weighted_qq-qr/policy-{qq,qr}" /> -->
+	</player>
+
+	<player name='pgsai' type='Dummy'>
+		<dummy-policy value="WorkerRush" /> <!-- does not matter -->
+	</player>
+
+</experiment>

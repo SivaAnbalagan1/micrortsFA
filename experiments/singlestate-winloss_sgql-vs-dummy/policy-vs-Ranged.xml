@@ -1,0 +1,19 @@
+<experiment>
+<parameters>
+	<episodes value='100' />
+	<game-duration value='3000' /> 
+	<abstraction-model value='singlestate' />
+	<output-dir value='results' />
+	<reward-function value='winloss' />
+	<quiet-learning value='true' />
+</parameters>
+<player name='learner' type='SGQLearningAdapter'>
+	<discount value='0' />
+	<learning-rate type='constant' value='0' />
+	<initial-q value='0' />
+	<epsilon value='0' />
+</player>
+<player name='dummy' type='Dummy'>
+	<dummy-policy value='RangedRush' />
+</player>
+</experiment>

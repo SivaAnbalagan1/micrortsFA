@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<episode value="2">
+  <agent_0 name="MetaBot"/>
+  <agent_1 name="Portfolio"/>
+  <timestamp>
+    <initial-timestamp value="2017-07-11 16:58:17.617"/>
+    <final-timestamp value="2017-07-11 16:58:21.576"/>
+  </timestamp>
+  <duration value="15.0"/>
+  <states-visited value="15"/>
+  <final-state value="FINISHED;EVEN;BEHIND;EVEN;EVEN;BEHIND;BEHIND;AHEAD"/>
+  <joint-rewards>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="-1.000000, 1.000000"/>
+  </joint-rewards>
+  <joint-actions>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+  </joint-actions>
+  <final-state-dump>GameState information:
+ObservableGameState: 917
+player 0: 9
+player 1: 2
+    Barracks(441)(1, (22,21), 4, 0) -&gt; 890 produce(up,Light)
+    Worker(26)(1, (22,22), 1, 0) -&gt; 900 harvest(right)
+    Light(653)(1, (2,10), 4, 0) -&gt; 910 move(left)
+    Light(671)(1, (17,20), 4, 0) -&gt; 910 move(left)
+    Base(21)(1, (21,21), 10, 0) -&gt; 910 none()
+    Light(610)(1, (2,3), 4, 0) -&gt; 913 none()
+    Light(661)(1, (5,20), 4, 0) -&gt; 916 none()
+PhysicalGameState:
+  player 0(9)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 22)
+  Resource(17)(-1, (0,1), 1, 5)
+  Resource(18)(-1, (23,22), 1, 11)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 0)
+  Barracks(441)(1, (22,21), 4, 0)
+  Light(542)(1, (1,2), 3, 0)
+  Light(610)(1, (2,3), 4, 0)
+  Light(653)(1, (2,10), 4, 0)
+  Light(661)(1, (5,20), 4, 0)
+  Light(671)(1, (17,20), 4, 0)
+
+
+PhysicalGameState information:
+PhysicalGameState:
+  player 0(9)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 22)
+  Resource(17)(-1, (0,1), 1, 5)
+  Resource(18)(-1, (23,22), 1, 11)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 0)
+  Barracks(441)(1, (22,21), 4, 0)
+  Light(542)(1, (1,2), 3, 0)
+  Light(610)(1, (2,3), 4, 0)
+  Light(653)(1, (2,10), 4, 0)
+  Light(661)(1, (5,20), 4, 0)
+  Light(671)(1, (17,20), 4, 0)
+</final-state-dump>
+</episode>

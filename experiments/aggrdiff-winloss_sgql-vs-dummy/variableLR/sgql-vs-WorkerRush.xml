@@ -1,0 +1,20 @@
+<experiment>
+	<parameters>
+		<episodes value="1000" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="aggregatediff" />
+		<output-dir value="results" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="learner" type="SGQLearningAdapter">
+		<discount value="0.9" />
+		<learning-rate type="exponential-decay" initial="1.0" final="0.1" rate="0.995405417" /> <!-- From 1.0 to 0.1 in 500 episodes -->
+		<initial-q value="1" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="WorkerRush" />
+	</player>
+
+</experiment>

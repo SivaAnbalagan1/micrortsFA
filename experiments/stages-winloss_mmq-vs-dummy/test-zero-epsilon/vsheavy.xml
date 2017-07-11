@@ -1,0 +1,203 @@
+<knowledge>
+
+<learner name='learner' type='rl.adapters.learners.PersistentMultiAgentQLearning' id='0' />
+
+<!-- Note: 'ja' stands for joint action
+Joint action name is agent0Action;agent1Action;...  always in this order -->
+
+<state id='OPENING'>
+	<ja name='LightRush;LightRush' value='1000.0' />
+	<ja name='HeavyRush;LightRush' value='1000.0' />
+	<ja name='BuildBarracks;LightRush' value='1000.0' />
+	<ja name='RangedRush;LightRush' value='1000.0' />
+	<ja name='Expand;LightRush' value='1000.0' />
+	<ja name='WorkerRush;LightRush' value='1000.0' />
+	<ja name='LightRush;HeavyRush' value='102.01344552254221' />
+	<ja name='HeavyRush;HeavyRush' value='101.00077009528277' />
+	<ja name='BuildBarracks;HeavyRush' value='101.29144213638843' />
+	<ja name='RangedRush;HeavyRush' value='102.96488209121439' />
+	<ja name='Expand;HeavyRush' value='101.3193251629751' />
+	<ja name='WorkerRush;HeavyRush' value='99.34759350110976' />
+	<ja name='LightRush;BuildBarracks' value='1000.0' />
+	<ja name='HeavyRush;BuildBarracks' value='1000.0' />
+	<ja name='BuildBarracks;BuildBarracks' value='1000.0' />
+	<ja name='RangedRush;BuildBarracks' value='1000.0' />
+	<ja name='Expand;BuildBarracks' value='1000.0' />
+	<ja name='WorkerRush;BuildBarracks' value='1000.0' />
+	<ja name='LightRush;RangedRush' value='1000.0' />
+	<ja name='HeavyRush;RangedRush' value='1000.0' />
+	<ja name='BuildBarracks;RangedRush' value='1000.0' />
+	<ja name='RangedRush;RangedRush' value='1000.0' />
+	<ja name='Expand;RangedRush' value='1000.0' />
+	<ja name='WorkerRush;RangedRush' value='1000.0' />
+	<ja name='LightRush;Expand' value='1000.0' />
+	<ja name='HeavyRush;Expand' value='1000.0' />
+	<ja name='BuildBarracks;Expand' value='1000.0' />
+	<ja name='RangedRush;Expand' value='1000.0' />
+	<ja name='Expand;Expand' value='1000.0' />
+	<ja name='WorkerRush;Expand' value='1000.0' />
+	<ja name='LightRush;WorkerRush' value='1000.0' />
+	<ja name='HeavyRush;WorkerRush' value='1000.0' />
+	<ja name='BuildBarracks;WorkerRush' value='1000.0' />
+	<ja name='RangedRush;WorkerRush' value='1000.0' />
+	<ja name='Expand;WorkerRush' value='1000.0' />
+	<ja name='WorkerRush;WorkerRush' value='1000.0' />
+</state>
+
+<state id='EARLY'>
+	<ja name='LightRush;LightRush' value='1000.0' />
+	<ja name='HeavyRush;LightRush' value='1000.0' />
+	<ja name='BuildBarracks;LightRush' value='1000.0' />
+	<ja name='RangedRush;LightRush' value='1000.0' />
+	<ja name='Expand;LightRush' value='1000.0' />
+	<ja name='WorkerRush;LightRush' value='1000.0' />
+	<ja name='LightRush;HeavyRush' value='112.15428878991072' />
+	<ja name='HeavyRush;HeavyRush' value='79.11385052640179' />
+	<ja name='BuildBarracks;HeavyRush' value='65.76503960843564' />
+	<ja name='RangedRush;HeavyRush' value='74.56328874170667' />
+	<ja name='Expand;HeavyRush' value='98.64947043272024' />
+	<ja name='WorkerRush;HeavyRush' value='87.48850453739166' />
+	<ja name='LightRush;BuildBarracks' value='1000.0' />
+	<ja name='HeavyRush;BuildBarracks' value='1000.0' />
+	<ja name='BuildBarracks;BuildBarracks' value='1000.0' />
+	<ja name='RangedRush;BuildBarracks' value='1000.0' />
+	<ja name='Expand;BuildBarracks' value='1000.0' />
+	<ja name='WorkerRush;BuildBarracks' value='1000.0' />
+	<ja name='LightRush;RangedRush' value='1000.0' />
+	<ja name='HeavyRush;RangedRush' value='1000.0' />
+	<ja name='BuildBarracks;RangedRush' value='1000.0' />
+	<ja name='RangedRush;RangedRush' value='1000.0' />
+	<ja name='Expand;RangedRush' value='1000.0' />
+	<ja name='WorkerRush;RangedRush' value='1000.0' />
+	<ja name='LightRush;Expand' value='1000.0' />
+	<ja name='HeavyRush;Expand' value='1000.0' />
+	<ja name='BuildBarracks;Expand' value='1000.0' />
+	<ja name='RangedRush;Expand' value='1000.0' />
+	<ja name='Expand;Expand' value='1000.0' />
+	<ja name='WorkerRush;Expand' value='1000.0' />
+	<ja name='LightRush;WorkerRush' value='1000.0' />
+	<ja name='HeavyRush;WorkerRush' value='1000.0' />
+	<ja name='BuildBarracks;WorkerRush' value='1000.0' />
+	<ja name='RangedRush;WorkerRush' value='1000.0' />
+	<ja name='Expand;WorkerRush' value='1000.0' />
+	<ja name='WorkerRush;WorkerRush' value='1000.0' />
+</state>
+
+<state id='MID'>
+	<ja name='LightRush;LightRush' value='1000.0' />
+	<ja name='HeavyRush;LightRush' value='1000.0' />
+	<ja name='BuildBarracks;LightRush' value='1000.0' />
+	<ja name='RangedRush;LightRush' value='1000.0' />
+	<ja name='Expand;LightRush' value='1000.0' />
+	<ja name='WorkerRush;LightRush' value='1000.0' />
+	<ja name='LightRush;HeavyRush' value='86.6458784660671' />
+	<ja name='HeavyRush;HeavyRush' value='79.28180382404943' />
+	<ja name='BuildBarracks;HeavyRush' value='42.18567590686426' />
+	<ja name='RangedRush;HeavyRush' value='82.98000428133768' />
+	<ja name='Expand;HeavyRush' value='54.45259224038067' />
+	<ja name='WorkerRush;HeavyRush' value='134.34147338988245' />
+	<ja name='LightRush;BuildBarracks' value='1000.0' />
+	<ja name='HeavyRush;BuildBarracks' value='1000.0' />
+	<ja name='BuildBarracks;BuildBarracks' value='1000.0' />
+	<ja name='RangedRush;BuildBarracks' value='1000.0' />
+	<ja name='Expand;BuildBarracks' value='1000.0' />
+	<ja name='WorkerRush;BuildBarracks' value='1000.0' />
+	<ja name='LightRush;RangedRush' value='1000.0' />
+	<ja name='HeavyRush;RangedRush' value='1000.0' />
+	<ja name='BuildBarracks;RangedRush' value='1000.0' />
+	<ja name='RangedRush;RangedRush' value='1000.0' />
+	<ja name='Expand;RangedRush' value='1000.0' />
+	<ja name='WorkerRush;RangedRush' value='1000.0' />
+	<ja name='LightRush;Expand' value='1000.0' />
+	<ja name='HeavyRush;Expand' value='1000.0' />
+	<ja name='BuildBarracks;Expand' value='1000.0' />
+	<ja name='RangedRush;Expand' value='1000.0' />
+	<ja name='Expand;Expand' value='1000.0' />
+	<ja name='WorkerRush;Expand' value='1000.0' />
+	<ja name='LightRush;WorkerRush' value='1000.0' />
+	<ja name='HeavyRush;WorkerRush' value='1000.0' />
+	<ja name='BuildBarracks;WorkerRush' value='1000.0' />
+	<ja name='RangedRush;WorkerRush' value='1000.0' />
+	<ja name='Expand;WorkerRush' value='1000.0' />
+	<ja name='WorkerRush;WorkerRush' value='1000.0' />
+</state>
+
+<state id='LATE'>
+	<ja name='LightRush;LightRush' value='1000.0' />
+	<ja name='HeavyRush;LightRush' value='1000.0' />
+	<ja name='BuildBarracks;LightRush' value='1000.0' />
+	<ja name='RangedRush;LightRush' value='1000.0' />
+	<ja name='Expand;LightRush' value='1000.0' />
+	<ja name='WorkerRush;LightRush' value='1000.0' />
+	<ja name='LightRush;HeavyRush' value='211.53829345897668' />
+	<ja name='HeavyRush;HeavyRush' value='248.1462999287116' />
+	<ja name='BuildBarracks;HeavyRush' value='105.57707494529515' />
+	<ja name='RangedRush;HeavyRush' value='154.02138701497717' />
+	<ja name='Expand;HeavyRush' value='123.51110917296795' />
+	<ja name='WorkerRush;HeavyRush' value='220.8066050014138' />
+	<ja name='LightRush;BuildBarracks' value='1000.0' />
+	<ja name='HeavyRush;BuildBarracks' value='1000.0' />
+	<ja name='BuildBarracks;BuildBarracks' value='1000.0' />
+	<ja name='RangedRush;BuildBarracks' value='1000.0' />
+	<ja name='Expand;BuildBarracks' value='1000.0' />
+	<ja name='WorkerRush;BuildBarracks' value='1000.0' />
+	<ja name='LightRush;RangedRush' value='1000.0' />
+	<ja name='HeavyRush;RangedRush' value='1000.0' />
+	<ja name='BuildBarracks;RangedRush' value='1000.0' />
+	<ja name='RangedRush;RangedRush' value='1000.0' />
+	<ja name='Expand;RangedRush' value='1000.0' />
+	<ja name='WorkerRush;RangedRush' value='1000.0' />
+	<ja name='LightRush;Expand' value='1000.0' />
+	<ja name='HeavyRush;Expand' value='1000.0' />
+	<ja name='BuildBarracks;Expand' value='1000.0' />
+	<ja name='RangedRush;Expand' value='1000.0' />
+	<ja name='Expand;Expand' value='1000.0' />
+	<ja name='WorkerRush;Expand' value='1000.0' />
+	<ja name='LightRush;WorkerRush' value='1000.0' />
+	<ja name='HeavyRush;WorkerRush' value='1000.0' />
+	<ja name='BuildBarracks;WorkerRush' value='1000.0' />
+	<ja name='RangedRush;WorkerRush' value='1000.0' />
+	<ja name='Expand;WorkerRush' value='1000.0' />
+	<ja name='WorkerRush;WorkerRush' value='1000.0' />
+</state>
+
+<state id='END'>
+	<ja name='LightRush;LightRush' value='1000.0' />
+	<ja name='HeavyRush;LightRush' value='1000.0' />
+	<ja name='BuildBarracks;LightRush' value='1000.0' />
+	<ja name='RangedRush;LightRush' value='1000.0' />
+	<ja name='Expand;LightRush' value='1000.0' />
+	<ja name='WorkerRush;LightRush' value='1000.0' />
+	<ja name='LightRush;HeavyRush' value='242.7350386045259' />
+	<ja name='HeavyRush;HeavyRush' value='198.12927826701124' />
+	<ja name='BuildBarracks;HeavyRush' value='186.8785540171939' />
+	<ja name='RangedRush;HeavyRush' value='163.64354118376852' />
+	<ja name='Expand;HeavyRush' value='138.39494603044395' />
+	<ja name='WorkerRush;HeavyRush' value='298.76637509769955' />
+	<ja name='LightRush;BuildBarracks' value='1000.0' />
+	<ja name='HeavyRush;BuildBarracks' value='1000.0' />
+	<ja name='BuildBarracks;BuildBarracks' value='1000.0' />
+	<ja name='RangedRush;BuildBarracks' value='1000.0' />
+	<ja name='Expand;BuildBarracks' value='1000.0' />
+	<ja name='WorkerRush;BuildBarracks' value='1000.0' />
+	<ja name='LightRush;RangedRush' value='1000.0' />
+	<ja name='HeavyRush;RangedRush' value='1000.0' />
+	<ja name='BuildBarracks;RangedRush' value='1000.0' />
+	<ja name='RangedRush;RangedRush' value='1000.0' />
+	<ja name='Expand;RangedRush' value='1000.0' />
+	<ja name='WorkerRush;RangedRush' value='1000.0' />
+	<ja name='LightRush;Expand' value='1000.0' />
+	<ja name='HeavyRush;Expand' value='1000.0' />
+	<ja name='BuildBarracks;Expand' value='1000.0' />
+	<ja name='RangedRush;Expand' value='1000.0' />
+	<ja name='Expand;Expand' value='1000.0' />
+	<ja name='WorkerRush;Expand' value='1000.0' />
+	<ja name='LightRush;WorkerRush' value='1000.0' />
+	<ja name='HeavyRush;WorkerRush' value='1000.0' />
+	<ja name='BuildBarracks;WorkerRush' value='1000.0' />
+	<ja name='RangedRush;WorkerRush' value='1000.0' />
+	<ja name='Expand;WorkerRush' value='1000.0' />
+	<ja name='WorkerRush;WorkerRush' value='1000.0' />
+</state>
+
+</knowledge>

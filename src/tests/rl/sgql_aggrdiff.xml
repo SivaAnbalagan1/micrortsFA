@@ -1,0 +1,25 @@
+<!-- This file is associated with RLParametersTest.java -->
+
+<knowledge>
+
+<learner name='learner' type='rl.adapters.learners.SGQLearningAdapter' id='0' />
+
+<!-- Note: 'a' stands for action -->
+
+<state id='OPENING;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND'>
+	<a name='LightRush' value='0.7' />
+	<a name='BuildBarracks' value='0.6' />
+	<a name='RangedRush' value='-.9' />
+	<a name='Expand' value='1.0' />
+	<a name='WorkerRush' value='1.0' />
+</state>
+
+<state id='LATE;EVEN;AHEAD;AHEAD;AHEAD;EVEN;BEHIND;AHEAD'>
+	<a name='LightRush' value='1.0' />
+	<a name='BuildBarracks' value='1.0' />
+	<a name='RangedRush' value='1.0' />
+	<a name='Expand' value='-.5' />
+	<a name='WorkerRush' value='0.33' />
+</state>
+
+</knowledge>

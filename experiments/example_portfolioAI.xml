@@ -1,0 +1,30 @@
+<!-- 
+ This file is associated with tests.rl.RLParametersTest, only change it 
+ if you're going to update the test. Otherwise, the test will crash.
+-->
+ 
+<experiment>
+	<parameters>
+		<episodes value="1" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="stages" />
+		<reward-function value="simpleweighted" />
+		<output-dir value="/tmp/example-portfolioAI" />
+		<debug-level value="1" />
+	</parameters>
+
+	<player name="dummy" type="Dummy">
+	<!--	<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1" /> -->
+		<dummy-policy value="WorkerRush" />
+	</player>
+
+	<player name="searcher" type="PortfolioAI">
+		<timeout value="2000" />
+		<playouts value="-1" />
+		<lookahead value="1000" /> <!-- very important parameter! -->
+		<evaluation-function value="SimpleSqrtEvaluationFunction" />
+	</player>
+
+</experiment>

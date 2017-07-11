@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<episode value="35">
+  <agent_0 name="MetaBot"/>
+  <agent_1 name="Portfolio"/>
+  <timestamp>
+    <initial-timestamp value="2017-07-11 16:59:39.593"/>
+    <final-timestamp value="2017-07-11 16:59:42.015"/>
+  </timestamp>
+  <duration value="21.0"/>
+  <states-visited value="21"/>
+  <final-state value="FINISHED;EVEN;BEHIND;EVEN;EVEN;BEHIND;BEHIND;EVEN"/>
+  <joint-rewards>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="-1.000000, 1.000000"/>
+  </joint-rewards>
+  <joint-actions>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+  </joint-actions>
+  <final-state-dump>GameState information:
+ObservableGameState: 1274
+player 0: 0
+player 1: 1
+    Light(13104)(1, (8,12), 4, 0) -&gt; 1266 none()
+    Light(13107)(1, (11,20), 4, 0) -&gt; 1268 none()
+    Worker(26)(1, (22,22), 1, 1) -&gt; 1270 move(left)
+    Light(12866)(1, (3,3), 2, 0) -&gt; 1270 move(left)
+    Light(13101)(1, (2,7), 4, 0) -&gt; 1270 move(up)
+    Light(13301)(1, (22,20), 4, 0) -&gt; 1270 move(left)
+    Base(21)(1, (21,21), 10, 0) -&gt; 1270 none()
+    Barracks(12785)(1, (22,21), 4, 0) -&gt; 1270 none()
+PhysicalGameState:
+  player 0(0)
+  player 1(1)
+  Resource(16)(-1, (0,0), 1, 25)
+  Resource(17)(-1, (0,1), 1, 2)
+  Resource(18)(-1, (23,22), 1, 3)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 1)
+  Barracks(12785)(1, (22,21), 4, 0)
+  Light(12866)(1, (3,3), 2, 0)
+  Light(13003)(1, (2,2), 4, 0)
+  Light(13056)(1, (3,1), 4, 0)
+  Light(13098)(1, (4,0), 4, 0)
+  Light(13101)(1, (2,7), 4, 0)
+  Light(13104)(1, (8,12), 4, 0)
+  Light(13107)(1, (11,20), 4, 0)
+  Light(13301)(1, (22,20), 4, 0)
+
+
+PhysicalGameState information:
+PhysicalGameState:
+  player 0(0)
+  player 1(1)
+  Resource(16)(-1, (0,0), 1, 25)
+  Resource(17)(-1, (0,1), 1, 2)
+  Resource(18)(-1, (23,22), 1, 3)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 1)
+  Barracks(12785)(1, (22,21), 4, 0)
+  Light(12866)(1, (3,3), 2, 0)
+  Light(13003)(1, (2,2), 4, 0)
+  Light(13056)(1, (3,1), 4, 0)
+  Light(13098)(1, (4,0), 4, 0)
+  Light(13101)(1, (2,7), 4, 0)
+  Light(13104)(1, (8,12), 4, 0)
+  Light(13107)(1, (11,20), 4, 0)
+  Light(13301)(1, (22,20), 4, 0)
+</final-state-dump>
+</episode>

@@ -1,0 +1,20 @@
+<experiment>
+	<parameters>
+		<episodes value="120000" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="aggregatediff" />
+		<output-dir value="/tmp/results" />
+		<reward-function value="simpleweighted" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="QLearning1" type="SGQLearningAdapter">
+		<discount value="0.9" />
+		<learning-rate type="exponential-decay" initial="1.0" final="0.01" rate="0.999961624" /> <!-- From 1.0 to 0.01 in 120000 episodes -->
+		<initial-q value="1" />
+	</player>
+
+	<player name="RandomSA" type="RandomSA">
+	</player>
+
+</experiment>

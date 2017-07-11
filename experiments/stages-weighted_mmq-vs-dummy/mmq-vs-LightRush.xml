@@ -1,0 +1,21 @@
+ 
+<experiment>
+	<parameters>
+		<episodes value="1000" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="stages" />
+		<output-dir value="/tmp/mmq-vs-lightrush" />
+		<reward-function value="simpleweighted" />
+	</parameters>
+
+	<player name="learner" type="MinimaxQ">
+		<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1E6" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="LightRush" />
+	</player>
+
+</experiment>

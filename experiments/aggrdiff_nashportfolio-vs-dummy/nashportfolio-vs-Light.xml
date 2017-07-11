@@ -1,0 +1,19 @@
+<experiment>
+<parameters>
+	<episodes value='100' />
+	<game-duration value='3000' /> 
+	<abstraction-model value="aggregatediff" />
+	<output-dir value='results' />
+	<reward-function value='winloss' />
+	<quiet-learning value='true' />
+</parameters>
+<player name='learner' type='NashPortfolioAI'>
+	<timeout value="50" />
+	<playouts value="150" />
+	<lookahead value="1000" />
+	<evaluation-function value="SimpleSqrtEvaluationFunction3" />
+</player>
+<player name='dummy' type='Dummy'>
+	<dummy-policy value='LightRush' />
+</player>
+</experiment>

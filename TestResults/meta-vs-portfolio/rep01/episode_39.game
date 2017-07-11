@@ -1,0 +1,112 @@
+!!burlap.behavior.stochasticgames.GameEpisode
+jointActions:
+- actions:
+  - &id005 !!burlap.mdp.core.action.SimpleAction {name: WorkerRush}
+  - &id001 !!burlap.mdp.core.action.SimpleAction {name: LightRush}
+- actions:
+  - &id002 !!burlap.mdp.core.action.SimpleAction {name: HeavyRush}
+  - *id001
+- actions:
+  - &id003 !!burlap.mdp.core.action.SimpleAction {name: Expand}
+  - *id001
+- actions:
+  - *id002
+  - *id001
+- actions:
+  - &id004 !!burlap.mdp.core.action.SimpleAction {name: LightRush}
+  - *id001
+- actions:
+  - *id002
+  - *id001
+- actions:
+  - *id003
+  - *id001
+- actions:
+  - *id004
+  - *id001
+- actions:
+  - *id003
+  - *id001
+- actions:
+  - *id003
+  - *id001
+- actions:
+  - !!burlap.mdp.core.action.SimpleAction {name: RangedRush}
+  - *id001
+- actions:
+  - *id005
+  - *id001
+- actions:
+  - *id002
+  - *id001
+- actions:
+  - *id002
+  - *id001
+- actions:
+  - *id003
+  - *id001
+jointRewards:
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [0.0, 0.0]
+- [-1.0, 1.0]
+states:
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: OPENING,
+  workerDiff: EVEN}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: BEHIND, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: AHEAD, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: BEHIND, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: AHEAD, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: OPENING,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: EARLY,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: AHEAD, stage: EARLY,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: EVEN, rangedDiff: EVEN, resourcesDiff: EVEN, stage: EARLY,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: EARLY,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: MID,
+  workerDiff: AHEAD}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: EVEN, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: MID,
+  workerDiff: EVEN}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: BEHIND, basesDiff: EVEN,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: MID,
+  workerDiff: EVEN}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: BEHIND, basesDiff: BEHIND,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: MID,
+  workerDiff: EVEN}
+- !!rl.models.aggregatediff.AggregateDiffState {barracksDiff: BEHIND, basesDiff: BEHIND,
+  heavyDiff: EVEN, lightDiff: BEHIND, rangedDiff: EVEN, resourcesDiff: EVEN, stage: FINISHED,
+  workerDiff: EVEN}

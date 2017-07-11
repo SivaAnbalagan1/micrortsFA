@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<episode value="97">
+  <agent_0 name="MetaBot"/>
+  <agent_1 name="Portfolio"/>
+  <timestamp>
+    <initial-timestamp value="2017-07-11 17:02:10.88"/>
+    <final-timestamp value="2017-07-11 17:02:13.105"/>
+  </timestamp>
+  <duration value="9.0"/>
+  <states-visited value="9"/>
+  <final-state value="FINISHED;EVEN;BEHIND;EVEN;EVEN;BEHIND;BEHIND;AHEAD"/>
+  <joint-rewards>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="-1.000000, 1.000000"/>
+  </joint-rewards>
+  <joint-actions>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="Expand;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+  </joint-actions>
+  <final-state-dump>GameState information:
+ObservableGameState: 1365
+player 0: 14
+player 1: 3
+    Barracks(36299)(1, (22,21), 4, 0) -&gt; 1290 produce(up,Light)
+    Worker(26)(1, (22,22), 1, 0) -&gt; 1350 harvest(right)
+    Light(36360)(1, (6,15), 4, 0) -&gt; 1358 move(left)
+    Light(36369)(1, (11,20), 4, 0) -&gt; 1358 move(left)
+    Base(21)(1, (21,21), 10, 0) -&gt; 1360 none()
+    Light(36357)(1, (2,6), 4, 0) -&gt; 1362 move(up)
+    Light(36351)(1, (2,3), 4, 0) -&gt; 1364 move(up)
+PhysicalGameState:
+  player 0(14)
+  player 1(3)
+  Resource(16)(-1, (0,0), 1, 19)
+  Resource(18)(-1, (23,22), 1, 2)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 0)
+  Barracks(36299)(1, (22,21), 4, 0)
+  Light(36351)(1, (2,3), 4, 0)
+  Light(36354)(1, (1,2), 4, 0)
+  Light(36357)(1, (2,6), 4, 0)
+  Light(36360)(1, (6,15), 4, 0)
+  Light(36369)(1, (11,20), 4, 0)
+
+
+PhysicalGameState information:
+PhysicalGameState:
+  player 0(14)
+  player 1(3)
+  Resource(16)(-1, (0,0), 1, 19)
+  Resource(18)(-1, (23,22), 1, 2)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(21)(1, (21,21), 10, 0)
+  Worker(26)(1, (22,22), 1, 0)
+  Barracks(36299)(1, (22,21), 4, 0)
+  Light(36351)(1, (2,3), 4, 0)
+  Light(36354)(1, (1,2), 4, 0)
+  Light(36357)(1, (2,6), 4, 0)
+  Light(36360)(1, (6,15), 4, 0)
+  Light(36369)(1, (11,20), 4, 0)
+</final-state-dump>
+</episode>

@@ -1,0 +1,22 @@
+ 
+<experiment>
+	<parameters>
+		<episodes value="1000" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="aggregatediff" />
+		<output-dir value="/tmp/mmq-vs-workerrush" />
+		<reward-function value="winloss" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="learner" type="MinimaxQ">
+		<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1000" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="WorkerRush" />
+	</player>
+
+</experiment>

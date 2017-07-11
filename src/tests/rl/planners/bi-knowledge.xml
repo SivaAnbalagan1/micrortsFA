@@ -1,0 +1,87 @@
+<!-- values in this file are fictional, they are just intended for 
+  -  testing. See TestBackwardInduction.java
+  -->
+
+<knowledge>
+
+<learner name='test' type='ai.metagame.BackwardInduction' id='0' />
+
+<state id='OPENING;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND;BEHIND' value='0.000000'>
+	<ja name='LightRush;LightRush' value='0.010000' />
+	<ja name='LightRush;HeavyRush' value='0.000000' />
+	<ja name='LightRush;BuildBarracks' value='0.000000' />
+	<ja name='LightRush;RangedRush' value='0.000000' />
+	<ja name='LightRush;Expand' value='0.000000' />
+	<ja name='LightRush;WorkerRush' value='0.700000' />
+	<ja name='HeavyRush;LightRush' value='0.000000' />
+	<ja name='HeavyRush;HeavyRush' value='0.000000' />
+	<ja name='HeavyRush;BuildBarracks' value='0.000000' />
+	<ja name='HeavyRush;RangedRush' value='0.000000' />
+	<ja name='HeavyRush;Expand' value='0.000000' />
+	<ja name='HeavyRush;WorkerRush' value='0.000000' />
+	<ja name='BuildBarracks;LightRush' value='0.000000' />
+	<ja name='BuildBarracks;HeavyRush' value='0.000000' />
+	<ja name='BuildBarracks;BuildBarracks' value='0.000000' />
+	<ja name='BuildBarracks;RangedRush' value='0.000000' />
+	<ja name='BuildBarracks;Expand' value='0.000000' />
+	<ja name='BuildBarracks;WorkerRush' value='0.000000' />
+	<ja name='RangedRush;LightRush' value='0.000000' />
+	<ja name='RangedRush;HeavyRush' value='0.000000' />
+	<ja name='RangedRush;BuildBarracks' value='0.000000' />
+	<ja name='RangedRush;RangedRush' value='0.000000' />
+	<ja name='RangedRush;Expand' value='0.000000' />
+	<ja name='RangedRush;WorkerRush' value='0.000000' />
+	<ja name='Expand;LightRush' value='0.000000' />
+	<ja name='Expand;HeavyRush' value='0.000000' />
+	<ja name='Expand;BuildBarracks' value='0.000000' />
+	<ja name='Expand;RangedRush' value='0.000000' />
+	<ja name='Expand;Expand' value='0.000000' />
+	<ja name='Expand;WorkerRush' value='0.000000' />
+	<ja name='WorkerRush;LightRush' value='0.000000' />
+	<ja name='WorkerRush;HeavyRush' value='0.000000' />
+	<ja name='WorkerRush;BuildBarracks' value='0.000000' />
+	<ja name='WorkerRush;RangedRush' value='0.000000' />
+	<ja name='WorkerRush;Expand' value='0.000000' />
+	<ja name='WorkerRush;WorkerRush' value='0.000000' />
+</state>
+
+<state id='MID;EVEN;EVEN;BEHIND;EVEN;EVEN;EVEN;AHEAD' value='1.000000'>
+	<ja name='LightRush;LightRush' value='1.000000' />
+	<ja name='LightRush;HeavyRush' value='1.000000' />
+	<ja name='LightRush;BuildBarracks' value='1.000000' />
+	<ja name='LightRush;RangedRush' value='1.000000' />
+	<ja name='LightRush;Expand' value='-1.000000' />
+	<ja name='LightRush;WorkerRush' value='-1.000000' />
+	<ja name='HeavyRush;LightRush' value='1.000000' />
+	<ja name='HeavyRush;HeavyRush' value='1.000000' />
+	<ja name='HeavyRush;BuildBarracks' value='1.000000' />
+	<ja name='HeavyRush;RangedRush' value='1.000000' />
+	<ja name='HeavyRush;Expand' value='-1.000000' />
+	<ja name='HeavyRush;WorkerRush' value='-1.000000' />
+	<ja name='BuildBarracks;LightRush' value='1.000000' />
+	<ja name='BuildBarracks;HeavyRush' value='1.000000' />
+	<ja name='BuildBarracks;BuildBarracks' value='1.000000' />
+	<ja name='BuildBarracks;RangedRush' value='1.000000' />
+	<ja name='BuildBarracks;Expand' value='-1.000000' />
+	<ja name='BuildBarracks;WorkerRush' value='-1.000000' />
+	<ja name='RangedRush;LightRush' value='1.000000' />
+	<ja name='RangedRush;HeavyRush' value='1.000000' />
+	<ja name='RangedRush;BuildBarracks' value='1.000000' />
+	<ja name='RangedRush;RangedRush' value='1.000000' />
+	<ja name='RangedRush;Expand' value='-1.000000' />
+	<ja name='RangedRush;WorkerRush' value='-1.000000' />
+	<ja name='Expand;LightRush' value='1.000000' />
+	<ja name='Expand;HeavyRush' value='1.000000' />
+	<ja name='Expand;BuildBarracks' value='1.000000' />
+	<ja name='Expand;RangedRush' value='1.000000' />
+	<ja name='Expand;Expand' value='-1.000000' />
+	<ja name='Expand;WorkerRush' value='-1.000000' />
+	<ja name='WorkerRush;LightRush' value='1.000000' />
+	<ja name='WorkerRush;HeavyRush' value='1.000000' />
+	<ja name='WorkerRush;BuildBarracks' value='1.000000' />
+	<ja name='WorkerRush;RangedRush' value='1.000000' />
+	<ja name='WorkerRush;Expand' value='-1.000000' />
+	<ja name='WorkerRush;WorkerRush' value='-1.000000' />
+</state>
+
+</knowledge>

@@ -1,0 +1,26 @@
+<!-- 
+ This file is associated with tests.rl.RLParametersTest, only change it 
+ if you're going to update the test. Otherwise, the test will crash.
+-->
+ 
+<experiment>
+	<parameters>
+		<episodes value="200" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="singleagent" />
+		<microrts-opponent value="PGSAI" />
+		<reward-function value="simpleweighted" />
+		<debug-level value="2" />
+	</parameters>
+
+	<player name="normal-LR" type="QLearning">
+		<discount value="0.9" />
+		<learning-rate value="0.1" />
+		<initial-q value="1" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="WorkerRush" /> <!-- does not matter -->
+	</player>
+
+</experiment>

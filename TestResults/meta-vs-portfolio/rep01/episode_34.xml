@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<episode value="34">
+  <agent_0 name="MetaBot"/>
+  <agent_1 name="Portfolio"/>
+  <timestamp>
+    <initial-timestamp value="2017-07-11 16:59:36.344"/>
+    <final-timestamp value="2017-07-11 16:59:39.587"/>
+  </timestamp>
+  <duration value="15.0"/>
+  <states-visited value="15"/>
+  <final-state value="FINISHED;EVEN;AHEAD;EVEN;EVEN;AHEAD;AHEAD;EVEN"/>
+  <joint-rewards>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="0.000000, 0.000000"/>
+    <joint-reward value="1.000000, -1.000000"/>
+  </joint-rewards>
+  <joint-actions>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="BuildBarracks;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="HeavyRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="LightRush;LightRush"/>
+    <joint-action value="RangedRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+    <joint-action value="WorkerRush;LightRush"/>
+  </joint-actions>
+  <final-state-dump>GameState information:
+ObservableGameState: 1345
+player 0: 3
+player 1: 2
+    Barracks(12264)(0, (1,0), 4, 0) -&gt; 1290 produce(right,Ranged)
+    Light(12608)(0, (14,19), 4, 0) -&gt; 1338 move(down)
+    Light(12649)(0, (6,17), 4, 0) -&gt; 1338 move(down)
+    Worker(22)(0, (1,2), 1, 0) -&gt; 1340 move(left)
+    Base(20)(0, (2,2), 10, 0) -&gt; 1340 produce(up,Worker)
+    Light(12479)(0, (21,21), 4, 0) -&gt; 1342 move(left)
+    Light(12703)(0, (3,8), 4, 0) -&gt; 1342 move(down)
+    Light(12606)(0, (18,19), 4, 0) -&gt; 1343 attack_location(18,20)
+PhysicalGameState:
+  player 0(3)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 25)
+  Resource(17)(-1, (0,1), 1, 2)
+  Resource(18)(-1, (23,22), 1, 2)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(20)(0, (2,2), 10, 0)
+  Worker(22)(0, (1,2), 1, 0)
+  Barracks(12264)(0, (1,0), 4, 0)
+  Ranged(12434)(0, (19,22), 1, 0)
+  Light(12479)(0, (21,21), 4, 0)
+  Light(12606)(0, (18,19), 4, 0)
+  Light(12608)(0, (14,19), 4, 0)
+  Light(12649)(0, (6,17), 4, 0)
+  Light(12703)(0, (3,8), 4, 0)
+
+
+PhysicalGameState information:
+PhysicalGameState:
+  player 0(3)
+  player 1(2)
+  Resource(16)(-1, (0,0), 1, 25)
+  Resource(17)(-1, (0,1), 1, 2)
+  Resource(18)(-1, (23,22), 1, 2)
+  Resource(19)(-1, (23,23), 1, 25)
+  Base(20)(0, (2,2), 10, 0)
+  Worker(22)(0, (1,2), 1, 0)
+  Barracks(12264)(0, (1,0), 4, 0)
+  Ranged(12434)(0, (19,22), 1, 0)
+  Light(12479)(0, (21,21), 4, 0)
+  Light(12606)(0, (18,19), 4, 0)
+  Light(12608)(0, (14,19), 4, 0)
+  Light(12649)(0, (6,17), 4, 0)
+  Light(12703)(0, (3,8), 4, 0)
+</final-state-dump>
+</episode>

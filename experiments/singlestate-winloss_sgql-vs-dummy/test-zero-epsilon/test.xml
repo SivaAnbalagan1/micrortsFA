@@ -1,0 +1,22 @@
+<experiment>
+	<parameters>
+		<episodes value="100" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="singlestate" />
+		<output-dir value="results" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="learner" type="SGQLearningAdapter">
+		<discount value="0" />
+		<learning-rate type="constant" value="0" />
+		<initial-q value="0" />
+		<epsilon value="0" />
+		<path-to-knowledge value="experiments/singlestate-winloss_sgql-vs-dummy/test/vsheavy.xml" />
+	</player>
+
+	<player name="dummy" type="Dummy">
+		<dummy-policy value="HeavyRush" />
+	</player>
+
+</experiment>

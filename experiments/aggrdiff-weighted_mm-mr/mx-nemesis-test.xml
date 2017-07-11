@@ -1,0 +1,32 @@
+<!-- 
+	This is to test MM or MQ versus their nemesis.
+	We just need to specify which policy to load via command line
+-->
+
+<experiment>
+	<parameters>
+		<episodes value="100" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="aggregatediff" />
+		<output-dir value="/tmp/results" />
+		<reward-function value="simpleweighted" />
+		<quiet-learning value="true" />
+	</parameters>
+
+	<player name="MinimaxQ" type="MinimaxQ">
+		<discount value='0' />
+		<learning-rate type='constant' value='0' />
+		<initial-q value='0' />
+		<epsilon value='0' />
+		<!-- <path-to-knowledge value="specify/via/cmd/line" /> -->
+	</player>
+
+	<player name="MNemesis" type="SGQLearningAdapter">
+		<discount value='0' />
+		<learning-rate type='constant' value='0' />
+		<initial-q value='0' />
+		<epsilon value='0' />
+		<!-- <path-to-knowledge value="specify/via/cmd/line" /> -->
+	</player>
+
+</experiment>

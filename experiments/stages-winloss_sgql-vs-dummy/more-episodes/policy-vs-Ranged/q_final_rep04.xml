@@ -1,0 +1,52 @@
+<knowledge>
+
+<learner name='learner' type='rl.adapters.learners.SGQLearningAdapter' id='0' />
+
+<!-- Note: 'a' stands for action -->
+
+<state id='OPENING'>
+	<a name='LightRush' value='1.4021789297768907' />
+	<a name='HeavyRush' value='1.3781514409375815' />
+	<a name='BuildBarracks' value='1.4406676942923597' />
+	<a name='RangedRush' value='1.4778598320069904' />
+	<a name='Expand' value='1.3462403675741095' />
+	<a name='WorkerRush' value='1.4374704733823938' />
+</state>
+
+<state id='EARLY'>
+	<a name='LightRush' value='0.8373878089131735' />
+	<a name='HeavyRush' value='0.7325821143961099' />
+	<a name='BuildBarracks' value='0.7310874186685814' />
+	<a name='RangedRush' value='0.735293802771246' />
+	<a name='Expand' value='0.7472586696535997' />
+	<a name='WorkerRush' value='0.6806745464761077' />
+</state>
+
+<state id='MID'>
+	<a name='LightRush' value='0.37125566724981535' />
+	<a name='HeavyRush' value='0.7337910314869076' />
+	<a name='BuildBarracks' value='0.3655969289594994' />
+	<a name='RangedRush' value='0.32526925790433525' />
+	<a name='Expand' value='0.4126862414838416' />
+	<a name='WorkerRush' value='0.42148236269662637' />
+</state>
+
+<state id='LATE'>
+	<a name='LightRush' value='0.7032162949414514' />
+	<a name='HeavyRush' value='0.15784839406070023' />
+	<a name='BuildBarracks' value='0.12185541747449673' />
+	<a name='RangedRush' value='0.1709702087059422' />
+	<a name='Expand' value='0.1538444874046094' />
+	<a name='WorkerRush' value='0.25656672368639133' />
+</state>
+
+<state id='END'>
+	<a name='LightRush' value='-0.2891009219597902' />
+	<a name='HeavyRush' value='-0.3616215388824249' />
+	<a name='BuildBarracks' value='-0.2125704881805155' />
+	<a name='RangedRush' value='-0.1224822955239633' />
+	<a name='Expand' value='-0.1933450465426699' />
+	<a name='WorkerRush' value='-0.025954795333312828' />
+</state>
+
+</knowledge>
