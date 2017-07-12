@@ -36,7 +36,7 @@ public class TDlinearFA {
 	List<double[]> weightList; double[] valueStore;
 	Map<String,int []> actionFeatureidx;
 	Map<String,double []> actionWeights;
-	
+	double [] weighttemp = new double [featuresize];
 	public TDlinearFA(AI [] ai, String [] aiNames,double [] weights,double []fValues){
 		s = new MetaState("dummy");
 		weightChange = new double[featuresize];//weight update for each feature in each action
@@ -83,9 +83,14 @@ public class TDlinearFA {
 			dummy = LVFA.evaluate(s, ma);
 			idx = LVFA.getidx(ma);			
 			actionFeatureidx.put(ma.actionName(), idx.clone());
-			for(int i=0;i<idx.length;i++)LVFA.setParameter(idx[i],weights[i+step]);
+			for(int i=0;i<idx.length;i++){
+				LVFA.setParameter(idx[i],weights[i+step]);
+				weighttemp[i] = weights[i+step];
+				}
+			actionWeights.put(ma.actionName(), weighttemp);
 		}
 	}
+	
 	public void updateWeights(double[] weights){
 		double dummy;int [] idx = new int [8];int step;
 		step = featuresize;
@@ -93,8 +98,11 @@ public class TDlinearFA {
 			dummy = LVFA.evaluate(s, ma);
 			//System.out.println("zero weight check" + dummy);
 			idx = actionFeatureidx.get(ma.actionName());
-			for(int i=0;i<idx.length;i++)
+			for(int i=0;i<idx.length;i++){
 				LVFA.setParameter(idx[i],weights[i+step]);
+				weighttemp[i] = weights[i+step];
+			}
+			actionWeights.put(ma.actionName(), weighttemp);
 		}
 	}
 	public double[] getWeights(){
@@ -134,7 +142,7 @@ public class TDlinearFA {
         return actionEpsilon.actionName();//implement the best action in microRTS.		
 	}
 	private void calcTDWeight(){
-		int i;int idx[];double[] prevWeight;
+		int i;int idx[];double[] prevWeight; double newWeight;
 		i=0;
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
@@ -145,18 +153,16 @@ public class TDlinearFA {
 		i=0;
 		idx = actionFeatureidx.get(prevAction);
 		prevWeight = actionWeights.get(prevAction);
-		if(prevWeight == null){actionWeights.put(prevAction, weightChange);}
-		else{
 		 for(i=0;i<featuresize;i++){
 //			System.out.println(weightChange[i] + " " + prevWeight[i]);
-			if(weightChange[i] < prevWeight[i]){//stopping at first minimum
-				LVFA.setParameter(idx[i],weightChange[i]);
-				System.out.println("id: " + idx[i] + " " + weightChange[i] );
-				prevWeight[i]=weightChange[i];				
+			 newWeight = prevWeight[i] - weightChange[i]; 
+			if(newWeight < prevWeight[i]){//stopping at first minimum
+				LVFA.setParameter(idx[i],newWeight);
+				System.out.println("id: " + idx[i] + " " + newWeight );
+				prevWeight[i]=newWeight;				
 			}
 		 }
 		 actionWeights.put(prevAction, prevWeight);//feature based weight update
-		}
 	}
 	private int calcReward(List<StateFeature> prev,List<StateFeature> cur){
 		int rtemp=0,r=0;
