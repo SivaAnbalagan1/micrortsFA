@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +17,7 @@ import ai.ahtn.AHTNAI;
 import ai.core.AI;
 import ai.evaluation.SimpleSqrtEvaluationFunction3;
 import ai.metagame.MetaBotAI;
+import ai.metagame.MetaBotAIR1;
 import ai.portfolio.NashPortfolioAI;
 import ai.portfolio.PortfolioAI;
 import ai.portfolio.portfoliogreedysearch.PGSAI;
@@ -27,21 +29,23 @@ public class MetaBotTest {
 	public static void main(String args[]) throws Exception {
 		List<AI> bots = new LinkedList<>();
         UnitTypeTable unitTypeTable = new UnitTypeTable();
-        
+        int featSize = unitTypeTable.getUnitTypes().size();
         //bots.add(new MetaBot(timeBudget, iterationsBudget, unitTypeTable, "/tmp/qltest/qtable0_99"));
         //bots.add(new ai.rl.MetaBot("BackwardInduction", "/tmp/solution-winloss.xml", "aggregatediff"));
         //bots.add(new ai.rl.MetaBot("MinimaxQ", "/tmp/solution-winloss.xml", "aggregatediff"));
         //bots.add(new ai.rl.MetaBot());
-        double weightLow = -1/Math.sqrt(8);
-        double weightHigh = 1/Math.sqrt(8);
+        double weightLow = -1/Math.sqrt(featSize*9*2);//quadrant 9 and player 2
+        double weightHigh = 1/Math.sqrt(featSize*9*2);
         double range = weightHigh - weightLow;
-        double [] initialWeights = new double[8*4];
+        double [] initialWeights = new double[featSize*9*2*4];//4 AI-actions
+        double [] features = new double[featSize*9*2];
+        Arrays.fill(features, 0.1);
         Random r = new Random();
-        for(int i=0;i<8*4;i++){//4 AIs and 8 features.
+        for(int i=0;i<initialWeights.length;i++){
             initialWeights[i] = r.nextDouble() * range + weightLow;
-            System.out.println(initialWeights[i]);
+ //           System.out.println(initialWeights[i]);
         }
-        AI player1 = new MetaBotAI(
+        AI player1 = new MetaBotAIR1(
         		new AI[]{
     	    		new WorkerRush(unitTypeTable),
     	            new LightRush(unitTypeTable),
@@ -52,13 +56,15 @@ public class MetaBotTest {
                 },
                new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
                initialWeights,
+               features,
             /*  new double[]{
             		  		1,1,1,1,1,1,1,1,
             		  		1,1,1,1,1,1,1,1,
             		  		1,1,1,1,1,1,1,1,
             		  		1,1,1,1,1,1,1,1},*/
+               
               100, -1, 100,
-               new SimpleSqrtEvaluationFunction3()
+               new SimpleSqrtEvaluationFunction3(),unitTypeTable
             );
         /*AI player1 = new NashPortfolioAI(
     		new AI[]{

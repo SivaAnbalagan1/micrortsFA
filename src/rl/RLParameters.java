@@ -38,6 +38,7 @@ import burlap.mdp.stochasticgames.world.World;
 import burlap.statehashing.simple.SimpleHashableStateFactory;
 import rl.adapters.domain.EnumerableSGDomain;
 import rl.adapters.gamenatives.MetaBotAIAdapter;
+import rl.adapters.gamenatives.MetaBotAIAdapterLQ;
 import rl.adapters.gamenatives.NashPortfolioAIAdapter;
 import rl.adapters.gamenatives.PortfolioAIAdapter;
 import rl.adapters.learners.MultiAgentRandom;
@@ -360,6 +361,11 @@ public class RLParameters {
 				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapter")) {
 			return "rl.adapters.gamenatives.MetaBotAIAdapter";
 		}
+		else if(e.getAttribute("type").equalsIgnoreCase("MetaBotAIR1") || 
+				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapterLQ")) {
+			return "rl.adapters.gamenatives.MetaBotAIAdapterLQ";
+		}
+
 		else if(e.getAttribute("type").equalsIgnoreCase("BI") || 
 				e.getAttribute("type").equalsIgnoreCase("BackwardInduction")) {
 			return "rl.planners.BackwardInduction";
@@ -578,10 +584,21 @@ public class RLParameters {
 		// MetaBotAI or MetaBotAIAdapter or 
 		else if(e.getAttribute("type").equalsIgnoreCase("MetaBotAI") || 
 				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapter")) {
-			System.out.println("inside");
-			agent = new MetaBotAIAdapter(
+				agent = new MetaBotAIAdapter(
 				e.getAttribute("name"), 
 				new SGAgentType("MetaBotAI", world.getDomain().getActionTypes()),
+				(int) playerParams.get(RLParamNames.TIMEOUT),
+				(int) playerParams.get(RLParamNames.PLAYOUTS),
+				(int) playerParams.get(RLParamNames.LOOKAHEAD),
+				(String) playerParams.get(RLParamNames.EVALUATION_FUNCTION)
+			);
+		}
+		// MetaBotAI or MetaBotAIAdapter or 
+		else if(e.getAttribute("type").equalsIgnoreCase("MetaBotAIR1") || 
+				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapterLQ")) {
+			agent = new MetaBotAIAdapterLQ(
+				e.getAttribute("name"), 
+				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes()),
 				(int) playerParams.get(RLParamNames.TIMEOUT),
 				(int) playerParams.get(RLParamNames.PLAYOUTS),
 				(int) playerParams.get(RLParamNames.LOOKAHEAD),

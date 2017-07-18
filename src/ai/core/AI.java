@@ -12,8 +12,10 @@ import rts.PlayerAction;
  *
  * @author santi
  */
-public abstract class AI {
-    public abstract void reset();
+public abstract class AI{
+    
+
+	public abstract void reset();
     
     
     public abstract PlayerAction getAction(int player, GameState gs) throws Exception;

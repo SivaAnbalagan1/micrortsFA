@@ -88,7 +88,7 @@ public class MetaBotAI extends AIWithComputationBudget {
 		 }
 		
 	}
-		
+	
 	public List<StateFeature> getFeatures(GameState gs) throws Exception {
 		int id;	double stageVal = 0;AggregateDiffState aggDiffState;
 		

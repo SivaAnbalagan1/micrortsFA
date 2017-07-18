@@ -3,12 +3,14 @@ package rl.adapters.gamenatives;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import ai.core.AI;
 import ai.evaluation.EvaluationFunction;
 import ai.evaluation.SimpleSqrtEvaluationFunction3;
 import ai.metagame.MetaBotAI;
+import ai.metagame.MetaBotAIR1;
 import ai.portfolio.NashPortfolioAI;
 import burlap.mdp.core.action.Action;
 import burlap.mdp.core.state.State;
@@ -18,12 +20,13 @@ import burlap.mdp.stochasticgames.world.World;
 import rl.RLParamNames;
 import rl.RLParameters;
 import rl.adapters.learners.PersistentLearner;
+import rl.functionapprox.linearq.GameInfo;
 import rl.models.common.MicroRTSState;
 import rl.models.common.ScriptActionTypes;
 import rts.GameState;
 import rts.units.UnitTypeTable;
 
-public class MetaBotAIAdapter implements PersistentLearner {
+public class MetaBotAIAdapterLQ implements PersistentLearner {
 	
 	/**
 	 * 
@@ -35,7 +38,7 @@ public class MetaBotAIAdapter implements PersistentLearner {
 	/**
 	 * The underlying microRTS AI
 	 */
-	MetaBotAI metaBotAI;
+	MetaBotAIR1 metaBotAI;
 	
 	// PortfolioAI parameters
 	int timeout, playouts, lookahead;
@@ -67,7 +70,7 @@ public class MetaBotAIAdapter implements PersistentLearner {
 	 * @param agentName
 	 * @param agentType
 	 */
-	public MetaBotAIAdapter(String agentName, SGAgentType agentType){
+	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType){
 		this(agentName, agentType, 100, -1, 100, SimpleSqrtEvaluationFunction3.class.getSimpleName());
 	}
 	
@@ -79,7 +82,7 @@ public class MetaBotAIAdapter implements PersistentLearner {
 	 * @param playouts number of playouts per computation
 	 * @param lookahead max search tree depth (?)
 	 */
-	public MetaBotAIAdapter(String agentName, SGAgentType agentType, 
+	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType, 
 			int timeout, int playouts, int lookahead, String evalFuncName){
 		this.name = agentName;
 		this.type = agentType;
@@ -116,7 +119,8 @@ public class MetaBotAIAdapter implements PersistentLearner {
 			initializeMetaBotAI(gs.getUnitTypeTable());
 		}
 		try{
-		String currentAI = metaBotAI.tdLinearFA.getAction(metaBotAI.getFeatures(gs));
+			
+		String currentAI = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
 		currentStrategy = metaBotAI.AIlookup.get(currentAI).clone();
 		} catch (Exception e) {
 		e.printStackTrace();
@@ -138,7 +142,6 @@ public class MetaBotAIAdapter implements PersistentLearner {
 	 * @param unitTypeTable
 	 */
 	protected void initializeMetaBotAI(UnitTypeTable unitTypeTable) {
-		
 		// initializes string -> action map
 		nameToAction = ScriptActionTypes.getMapToLearnerActions();
 		
@@ -152,11 +155,23 @@ public class MetaBotAIAdapter implements PersistentLearner {
 		// selects the first AI as currentStrategy just to prevent NullPointerException
 		currentStrategy = portfolioArray[0];
 		
+		UnitTypeTable uTTable = new UnitTypeTable();
+        int featSize = uTTable.getUnitTypes().size();
+        int actionnum = portfolioArray.length;
 		// Create an initial weights for each action (AIs).
-		// 8 - Number of Features.
-		double [] initialWeights = new double[portfolio.size()*8];
-		Arrays.fill(initialWeights, 1);
-		
+	       double weightLow = -1/Math.sqrt(featSize*9*2);//quadrant 9 and player 2
+	        double weightHigh = 1/Math.sqrt(featSize*9*2);
+	        double range = weightHigh - weightLow;
+	        double [] initialWeights = new double[featSize*9*2*actionnum];
+	        double [] features = new double[featSize*9*2];
+	        Arrays.fill(features, 0.1);
+	        //System.out.println(features.length);
+	        Random r = new Random();
+	        for(int i=0;i<initialWeights.length;i++){
+	            initialWeights[i] = r.nextDouble() * range + weightLow;
+	 //           System.out.println(initialWeights[i]);
+	        }
+	 	
 		
 		EvaluationFunction evalFunc = null;
 		try {
@@ -170,9 +185,9 @@ public class MetaBotAIAdapter implements PersistentLearner {
 		}
 		
 		// finally creates the MetaBotAI w/ specified parameters
-		metaBotAI = new MetaBotAI(
-			portfolioArray, AInames,initialWeights, timeout, 
-			playouts, lookahead, evalFunc
+		metaBotAI = new MetaBotAIR1(
+			portfolioArray, AInames,initialWeights,features, timeout, 
+			playouts, lookahead, evalFunc,unitTypeTable
 		);
 		
 		// sets the debug level accordingly
