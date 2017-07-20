@@ -5,14 +5,15 @@ import burlap.statehashing.HashableState;
 import burlap.statehashing.HashableStateFactory;
 
 public class LinearQHashStateFactory implements HashableStateFactory {
-
+	LinearQHashState lq;
 	public LinearQHashStateFactory() {
+		lq = new LinearQHashState();
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public HashableState hashState(State s) {
-		LinearQHashState lq = new LinearQHashState();
+		
 		// TODO Auto-generated method stub
 		return lq;
 	}

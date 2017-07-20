@@ -7,13 +7,8 @@
 	<reward-function value='winloss' />
 	<quiet-learning value='true' />
 </parameters>
-<player name='MetaBot' type='MetaBotAI'>
-	<timeout value="50" />
-	<playouts value="150" />
-	<lookahead value="1000" />
-	<evaluation-function value="SimpleSqrtEvaluationFunction3" />
-</player>
-<player name='Portfolio' type='PortfolioAI'>
+<player name='MetaBot' type='MetaBotAIR1'></player>
+<player type='PortfolioAI'>
 	<timeout value="50" />
 	<playouts value="150" />
 	<lookahead value="1000" />

@@ -14,6 +14,7 @@ public class RLParamNames {
 	// parameters of RL methods
 	public static final String DISCOUNT = "discount";
 	public static final String LEARNING_RATE = "learning-rate";
+	public static final String DECAY_RATE = "decay-rate";
 	public static final String INITIAL_Q = "initial-q";
 	public static final String EPSILON = "epsilon";
 	public static final String DUMMY_POLICY = "dummy-policy";

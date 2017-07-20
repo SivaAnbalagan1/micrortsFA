@@ -66,6 +66,8 @@ public class GameInfo {
 			}
 		}
 		setupFeatnWeight();
+		featureValue[featureValue.length-1] = gs.getTime();
+		normalize();
 		//gameValues.clear();
 		//gameValues.add(featureValue);gameValues.add(weights);
 		return featureValue;
@@ -84,7 +86,7 @@ public class GameInfo {
 	public void setupFeatnWeight(){
 		int i;
 	//	weights = new double[unitTypes.size() *quadnos*2*ainames.length];
-		featureValue = new double[unitTypes.size() *quadnos*2];
+		featureValue = new double[unitTypes.size() *quadnos*2+1];
 		i=0;
 		for(String qd: quadrants)
 			for(String type: unitTypes){
@@ -98,14 +100,7 @@ public class GameInfo {
 				stat.addValue(featureValue[i]);
 				i++;
 			}
-		//Data Standardization.
-		double avg = stat.getMean();
-		double std = stat.getStandardDeviation();
-		double max = stat.getMax();
-		double min = stat.getMin();
-		for(i=0;i<featureValue.length;i++){
-			featureValue[i] = (featureValue[i]-avg)/(max-min);
-		}
+		
 	/*	i=0;
 		for(String action: ainames)
 			for(String qd: quadrants)
@@ -148,6 +143,17 @@ public class GameInfo {
 			for(int j=1;j<=6;j++)
 				quadrants.add(player+Integer.toString(i)+Integer.toString(j));*/
 		
+	}
+	public void normalize(){
+		//Data Normalization.
+		double avg = stat.getMean();
+		double std = stat.getStandardDeviation();
+		double max = stat.getMax();
+		double min = stat.getMin();
+		for(int i=0;i<featureValue.length;i++){
+			featureValue[i] = (featureValue[i]-avg)/(max-min);
+		}
+
 	}
 
 }

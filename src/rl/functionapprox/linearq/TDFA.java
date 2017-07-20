@@ -9,38 +9,43 @@ import burlap.behavior.functionapproximation.sparse.StateFeature;
 import burlap.behavior.policy.EpsilonGreedy;
 import burlap.mdp.core.action.*;
 import burlap.behavior.learningrate.SoftTimeInverseDecayLR;
+import burlap.behavior.learningrate.ExponentialDecayLR;
 
 public class TDFA {
 	double reward;
 	EpsilonGreedy epslionGreedy;
 	LinearQState s;
-	LinearQStateFeatures lQSFlayer1,lQSFlayer2;
-	
-	
+		
 	double [] weightChange,prevweightChange,prevfeatValue;
 	double qt,qtplus1;//ToDo - change to list for multi-step 
-	double EPSILON = 1.0;//1.0 always explore and 0.0 always exploit
-	double learningRate = 1.0,discountFactor = 0.9;
+	double EPSILON = 0.5;//1.0 always explore and 0.0 always exploit
+	double learningRate = 1.0,discountFactor = 0.9,curLR;
 	int time = 0;
 	int featuresize;
-	Action actionEpsilon,prevactionEpsilon;
+	Action actionEpsilon,prevactionEpsilon,dummy;
 	String prevAction;
 	List<StateFeature> curFeature,prevFeature,gradient;
 	List<double[]> weightList; double[] valueStore;
 	Map<String,int []> actionFeatureidx;
 	Map<String,double []> actionWeights;
-	SoftTimeInverseDecayLR timeInverseLR,timeInverseExplore;
+	LearningRateTimeInverse timeInverseLR,timeInverseExplore;
+	LearningRateExpDecay ExpDLearningRate;
 	double [] weighttemp = new double [featuresize];
 	LinearQ LQ;
-	public TDFA(AI [] ai, String [] aiNames,double [] featureValue,double [] weights){
-	//	System.out.println(featureValue.length);
-		LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
+	
+	public TDFA(AI [] ai, String [] aiNames,double [] featureValue,double [] weights
+			){
+	    LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
 		featuresize = featureValue.length;
 		weightChange = new double[featuresize];
+		curLR = 1.0; //set initial learning rate
 		LinearQHashState sdummy = new LinearQHashState();
 		LinearQHashStateFactory hashDummy = new LinearQHashStateFactory();
-		timeInverseLR = new SoftTimeInverseDecayLR(0.01,0.01,hashDummy,true);
-		timeInverseExplore = new SoftTimeInverseDecayLR(0.4,2,0.1,hashDummy,false);
+		ExpDLearningRate = new LearningRateExpDecay(1.0,0.99907939,0.01); 
+		
+	//	timeInverseLR = new LearningRateTimeInverse(1.0,0.99907939,0.01,hashDummy,true);
+	//	timeInverseExplore = new LearningRateTimeInverse(1,0.0,0.0001,hashDummy,false);
+		
 	}
 	
 	public String getAction(double [] featValue){
@@ -52,8 +57,9 @@ public class TDFA {
 		//determines the best action using epsilon greedy.
 		//EpsilonGreedy calls qvalues to calculate q-value for all actions
 		// and returns the epsilon greedy action.
-		EPSILON = timeInverseExplore.peekAtLearningRate(0);
-	//	System.out.println("Epsilon " + EPSILON);
+//		time = (int)featValue[featValue.length-1];
+//		EPSILON = timeInverseExplore.pollLearningRate(
+//				time,s,prevactionEpsilon);
 		epslionGreedy = new EpsilonGreedy(LQ.qValues,EPSILON);
 		actionEpsilon = epslionGreedy.action(s);//get epsilon greedy action.
 		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
@@ -61,20 +67,17 @@ public class TDFA {
 		if(prevAction != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
 		{ 
 			reward = calcReward(featValue,prevfeatValue);
-			
-		//	System.out.println(time);
-			learningRate = timeInverseLR.peekAtLearningRate(s, prevactionEpsilon);
-		//	learningRate = timeInverseLR.pollLearningRate(time, s, prevactionEpsilon);
-		//	System.out.println("learning Rate " + learningRate);
+		//	learningRate = timeInverseLR.pollLearningRate(
+		//			time,s, prevactionEpsilon);
+			learningRate = ExpDLearningRate.nextLRVal(curLR);
+			curLR = learningRate;
         	calcTDWeight();
-        	time++;
 		}
     	qt = qtplus1;
 		//prevFeature = sfList;
     	prevactionEpsilon = actionEpsilon;
     	prevAction = actionEpsilon.actionName();
     	prevfeatValue = featValue;
-    	//System.out.println("Action issue " + prevAction);
         return actionEpsilon.actionName();//implement the best action in microRTS.		
 	}
 	private void calcTDWeight(){
@@ -84,19 +87,15 @@ public class TDFA {
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
 				 (reward + (discountFactor * qtplus1) - qt) * sf.value;
-		//	System.out.println(weightChange[i] + " " + qtplus1 + " " + qt + " " + sf.value);
 			i++;
 		}
 		i=0;
 		idx = LQ.actionFeatureidx.get(prevAction);
 		prevWeight = LQ.actionWeights.get(prevAction);
-	//	System.out.println("prevAction" + prevAction);
 		 for(i=0;i<featuresize;i++){
-//			System.out.println(weightChange[i] + " " + prevWeight[i]);
 			 newWeight = prevWeight[i] - weightChange[i]; 
 			if(newWeight < prevWeight[i]){//stopping at first minimum
 				LQ.LVFA.setParameter(idx[i],newWeight);
-			//	System.out.println("id: " + idx[i] + " " + newWeight );
 				prevWeight[i]=newWeight;				
 			}
 		 }

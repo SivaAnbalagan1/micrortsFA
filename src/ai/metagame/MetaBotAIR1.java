@@ -28,7 +28,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	AI activeAI;
 	AI [] givenAIs;
 	
-	int LOOKAHEAD = 500;
+	
     AI strategies[] = null;
     EvaluationFunction evaluation = null;
     UnitTypeTable utt1;
@@ -42,7 +42,8 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	public Map<String, AI> AIlookup;
 	double [] featinit,weightsclone;
 	double [] weights,featureValue;
-//To do change default weights and initial fvalues.		
+	
+
 	public MetaBotAIR1(UnitTypeTable utt) {
 		this(new AI[]{new WorkerRush(utt),
                    new LightRush(utt),
@@ -51,16 +52,16 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
           new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
           new double[]{},
           new double[]{},
-        		  100, -1, 100,
-          new SimpleSqrtEvaluationFunction3(),utt);
+                 utt);
 	    }
 	   
-	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,int time, int max_playouts, int la,
-			EvaluationFunction e,UnitTypeTable utt) {
-	        super(time, max_playouts);
+	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,
+			UnitTypeTable utt) {
+	        super(3000, 10);
+	        
 	        tdFA =  new TDFA(s,n,featureinit,weights);
 	        weightsclone = weights; featinit = featureinit;
-	        LOOKAHEAD = la;givenAIs = s;names=n;utt1=utt;
+	        givenAIs = s;names=n;utt1=utt;
 	        AIlookup = new HashMap<String,AI>();
 	        unitTypes = utt.getUnitTypes();
 	        for(int i=0;i<s.length;i++)AIlookup.put(n[i], s[i]);
@@ -91,13 +92,13 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     
     @Override
     public AI clone() {
-        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,TIME_BUDGET, ITERATIONS_BUDGET, LOOKAHEAD, evaluation,utt1);
+        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,utt1);
     }
     
     
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" + TIME_BUDGET + ", " + ITERATIONS_BUDGET + ", " + LOOKAHEAD + ", " + evaluation + ")";
+        return getClass().getSimpleName(); // + "(" + TIME_BUDGET + ", " + ITERATIONS_BUDGET + ", " + LOOKAHEAD + ", " + evaluation + ")";
     }
 
     
@@ -105,16 +106,12 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     public List<ParameterSpecification> getParameters() {
         List<ParameterSpecification> parameters = new ArrayList<>();
         
-        parameters.add(new ParameterSpecification("TimeBudget",int.class,100));
-        parameters.add(new ParameterSpecification("IterationsBudget",int.class,-1));
-        parameters.add(new ParameterSpecification("PlayoutLookahead",int.class,100));
-        parameters.add(new ParameterSpecification("EvaluationFunction", EvaluationFunction.class, new SimpleSqrtEvaluationFunction3()));
         
         return parameters;
     }
     
     
-    public int getPlayoutLookahead() {
+   /* public int getPlayoutLookahead() {
         return LOOKAHEAD;
     }
     
@@ -131,7 +128,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     
     public void setEvaluationFunction(EvaluationFunction a_ef) {
         evaluation = a_ef;
-    }           
+    }*/           
 }
 
 

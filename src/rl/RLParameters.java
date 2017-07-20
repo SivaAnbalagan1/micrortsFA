@@ -598,11 +598,8 @@ public class RLParameters {
 				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapterLQ")) {
 			agent = new MetaBotAIAdapterLQ(
 				e.getAttribute("name"), 
-				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes()),
-				(int) playerParams.get(RLParamNames.TIMEOUT),
-				(int) playerParams.get(RLParamNames.PLAYOUTS),
-				(int) playerParams.get(RLParamNames.LOOKAHEAD),
-				(String) playerParams.get(RLParamNames.EVALUATION_FUNCTION)
+				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes())
+			     
 			);
 		}
 		
@@ -669,7 +666,6 @@ public class RLParameters {
 						Double.parseDouble(paramElement.getAttribute("value"))
 					);
 				}
-				
 				// tests for Exponential Decay
 				else if(paramElement.getAttribute("type").equalsIgnoreCase("exponential-decay")){
 					learningRate = new ExponentialDecayLR(
@@ -678,7 +674,6 @@ public class RLParameters {
 						Float.parseFloat(paramElement.getAttribute("final"))
 					);
 				}
-				
 				// unknown learning rate, raises exception
 				else {
 					throw new RuntimeException("Unknown learning rate type: " + paramElement.getAttribute("type"));
@@ -688,6 +683,7 @@ public class RLParameters {
 				initialParameters.put(
 					RLParamNames.LEARNING_RATE, learningRate
 				);
+		 	
 			}
 			else {	//parameter is a string (probably)
 				initialParameters.put(parameter.getNodeName(), paramElement.getAttribute("value"));

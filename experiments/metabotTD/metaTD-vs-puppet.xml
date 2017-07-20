@@ -1,0 +1,21 @@
+
+<experiment>
+	<parameters>
+		<episodes value="5000" />
+		<game-duration value="3000" /> 
+		<abstraction-model value="singleagent" />
+		<microrts-opponent value="PuppetSearchMCTS" />
+		<output-dir value="/tmp/results" />
+		<reward-function value="simpleweighted" />
+		<quiet-learning value="true" />
+		<debug-level value="0" />
+	</parameters>
+
+	<player name="MetaBotAI" type="MetaBotAIR1">
+	</player>
+
+	<player name='pgsai' type='Dummy'>
+		<dummy-policy value="WorkerRush" /> <!-- does not matter -->
+	</player>
+
+</experiment>

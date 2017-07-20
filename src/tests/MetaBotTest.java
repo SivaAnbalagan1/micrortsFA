@@ -30,10 +30,6 @@ public class MetaBotTest {
 		List<AI> bots = new LinkedList<>();
         UnitTypeTable unitTypeTable = new UnitTypeTable();
         int featSize = unitTypeTable.getUnitTypes().size();
-        //bots.add(new MetaBot(timeBudget, iterationsBudget, unitTypeTable, "/tmp/qltest/qtable0_99"));
-        //bots.add(new ai.rl.MetaBot("BackwardInduction", "/tmp/solution-winloss.xml", "aggregatediff"));
-        //bots.add(new ai.rl.MetaBot("MinimaxQ", "/tmp/solution-winloss.xml", "aggregatediff"));
-        //bots.add(new ai.rl.MetaBot());
         double weightLow = -1/Math.sqrt(featSize*9*2);//quadrant 9 and player 2
         double weightHigh = 1/Math.sqrt(featSize*9*2);
         double range = weightHigh - weightLow;
@@ -57,14 +53,7 @@ public class MetaBotTest {
                new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
                initialWeights,
                features,
-            /*  new double[]{
-            		  		1,1,1,1,1,1,1,1,
-            		  		1,1,1,1,1,1,1,1,
-            		  		1,1,1,1,1,1,1,1,
-            		  		1,1,1,1,1,1,1,1},*/
-               
-              100, -1, 100,
-               new SimpleSqrtEvaluationFunction3(),unitTypeTable
+               unitTypeTable
             );
         /*AI player1 = new NashPortfolioAI(
     		new AI[]{

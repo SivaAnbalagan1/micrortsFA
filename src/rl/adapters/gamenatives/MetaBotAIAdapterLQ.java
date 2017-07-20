@@ -40,8 +40,8 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 */
 	MetaBotAIR1 metaBotAI;
 	
-	// PortfolioAI parameters
-	int timeout, playouts, lookahead;
+
+	
 	
 	/**
 	 * Name of evaluation function to use
@@ -70,9 +70,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * @param agentName
 	 * @param agentType
 	 */
-	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType){
-		this(agentName, agentType, 100, -1, 100, SimpleSqrtEvaluationFunction3.class.getSimpleName());
-	}
+	/*public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType){
+		this(agentName, agentType );
+	}*/
 	
 	/**
 	 * Creates a MetaBotAIAdapter specifying all parameters
@@ -82,14 +82,8 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * @param playouts number of playouts per computation
 	 * @param lookahead max search tree depth (?)
 	 */
-	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType, 
-			int timeout, int playouts, int lookahead, String evalFuncName){
-		this.name = agentName;
-		this.type = agentType;
-		this.timeout = timeout;
-		this.playouts = playouts;
-		this.lookahead = lookahead;
-		this.evalFuncName = evalFuncName;
+	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType){
+		this.name=agentName;this.type=agentType;
 	}
 
 	@Override
@@ -172,43 +166,19 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 //           System.out.println(initialWeights[i]);
 	        }
 	 	
-		
-		EvaluationFunction evalFunc = null;
-		try {
-			evalFunc = EvaluationFunctionFactory.fromString(evalFuncName);
-		}
-		catch (Exception e){
-			System.err.println("An error has occurred while attempting to load an Evaluation Function.");
-			System.err.println("Defaulting to SimpleSqrtEvaluationFunction3");
-			evalFunc = new SimpleSqrtEvaluationFunction3();
-			e.printStackTrace();
-		}
+
 		
 		// finally creates the MetaBotAI w/ specified parameters
 		metaBotAI = new MetaBotAIR1(
-			portfolioArray, AInames,initialWeights,features, timeout, 
-			playouts, lookahead, evalFunc,unitTypeTable
+			portfolioArray, AInames,initialWeights,features, 
+	unitTypeTable
 		);
 		
 		// sets the debug level accordingly
 		//NashPortfolioAI.DEBUG = (int) RLParameters.getInstance().getParameter(RLParamNames.DEBUG_LEVEL);
 	}
 	
-	public int getTimeout(){
-		return timeout;
-	}
-	
-	public int getPlayouts(){
-		return playouts;
-	}
-	
-	public int getLookahead() {
-		return lookahead;
-	}
-	
-	public String getEvaluationFunctionName() {
-		return evalFuncName;
-	}
+
 
 	@Override
 	public void observeOutcome(State s, JointAction jointAction, double[] jointReward, State sprime,
