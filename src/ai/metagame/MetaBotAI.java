@@ -21,7 +21,7 @@ import ai.evaluation.EvaluationFunction;
 import ai.evaluation.SimpleSqrtEvaluationFunction3;
 import ai.portfolio.PortfolioAI;
 
-import burlap.behavior.singleagent.vfa.common.LinearFVVFA;
+//import burlap.behavior.singleagent.vfa.common.LinearFVVFA;
 import burlap.behavior.functionapproximation.sparse.LinearVFA;
 import burlap.behavior.functionapproximation.sparse.StateFeature;
 import burlap.mdp.core.state.State;
