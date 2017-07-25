@@ -66,7 +66,8 @@ public class TDFA {
 		//start TD from 2nd iteration.
 		if(prevAction != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
 		{ 
-			reward = calcReward(featValue,prevfeatValue);
+		//	reward = calcReward(featValue,prevfeatValue);
+			reward = 0;//no reward shaping
 		//	learningRate = timeInverseLR.pollLearningRate(
 		//			time,s, prevactionEpsilon);
 			learningRate = ExpDLearningRate.nextLRVal(curLR);
