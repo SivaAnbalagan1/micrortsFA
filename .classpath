@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_121">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="microrts_amanda/lib"/>
 		</attributes>
@@ -11,6 +11,6 @@
 	<classpathentry kind="lib" path="lib/SCPSolver.jar"/>
 	<classpathentry kind="lib" path="lib/LPSOLVESolverPack.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar" sourcepath="lib/commons-cli-1.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib/burlap.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-1.4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
