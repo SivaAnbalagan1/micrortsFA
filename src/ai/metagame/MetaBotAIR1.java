@@ -13,7 +13,6 @@ import ai.core.AI;
 import ai.core.AIWithComputationBudget;
 import ai.core.ParameterSpecification;
 import ai.evaluation.EvaluationFunction;
-import ai.evaluation.SimpleSqrtEvaluationFunction3;
 import rl.functionapprox.linearq.GameInfo;
 import rl.functionapprox.linearq.LinearQStateFeatures;
 import rl.functionapprox.linearq.TDFA;
@@ -21,8 +20,8 @@ import rl.models.stages.GameStage;
 import rl.models.stages.GameStages;
 import rts.GameState;
 import rts.PlayerAction;
+import rts.units.UnitType;
 import rts.units.UnitTypeTable;
-import rts.units.*;
 public class MetaBotAIR1 extends AIWithComputationBudget {
 	GameState gs1;
 	AI activeAI;
@@ -45,27 +44,38 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	
 
 	public MetaBotAIR1(UnitTypeTable utt) {
-		this(new AI[]{new WorkerRush(utt),
-                   new LightRush(utt),
-                   new RangedRush(utt),
-                   new HeavyRush(utt)},
-          new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
-          new double[]{},
-          new double[]{},
-                 utt);
-	    }
+		this(
+			new AI[]{
+				new WorkerRush(utt),
+				new LightRush(utt),
+				new RangedRush(utt),
+				new HeavyRush(utt)
+			},
+		    new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
+		    new double[]{},
+		    new double[]{},
+		    utt
+	    );
+    }
 	   
 	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,
 			UnitTypeTable utt) {
-	        super(3000, 10);
 	        
-	        tdFA =  new TDFA(s,n,featureinit,weights);
-	        weightsclone = weights; featinit = featureinit;
-	        givenAIs = s;names=n;utt1=utt;
-	        AIlookup = new HashMap<String,AI>();
-	        unitTypes = utt.getUnitTypes();
-	        for(int i=0;i<s.length;i++)AIlookup.put(n[i], s[i]);
-	    }
+		super(3000, 10);
+	        
+        tdFA =  new TDFA(s,n,featureinit,weights);
+        weightsclone = weights; 
+        featinit = featureinit;
+        givenAIs = s;
+        names=n;
+        utt1=utt;
+        AIlookup = new HashMap<String,AI>();
+        unitTypes = utt.getUnitTypes();
+        
+        for(int i=0;i<s.length;i++){
+        	AIlookup.put(n[i], s[i]);
+        }
+    }
 	    
 	public PlayerAction getAction(int player, GameState gs) throws Exception {
 		 if (gs.canExecuteAnyAction(player)) {

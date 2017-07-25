@@ -4,23 +4,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import ai.core.AI;
-import ai.evaluation.EvaluationFunction;
-import ai.evaluation.SimpleSqrtEvaluationFunction3;
-import ai.metagame.MetaBotAI;
 import ai.metagame.MetaBotAIR1;
-import ai.portfolio.NashPortfolioAI;
 import burlap.mdp.core.action.Action;
 import burlap.mdp.core.state.State;
 import burlap.mdp.stochasticgames.JointAction;
 import burlap.mdp.stochasticgames.agent.SGAgentType;
 import burlap.mdp.stochasticgames.world.World;
-import rl.RLParamNames;
-import rl.RLParameters;
 import rl.adapters.learners.PersistentLearner;
-import rl.functionapprox.linearq.GameInfo;
 import rl.models.common.MicroRTSState;
 import rl.models.common.ScriptActionTypes;
 import rts.GameState;
@@ -31,7 +23,6 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	/**
 	 * 
 	 */
-	
 	String name;
 	SGAgentType type;
 	
@@ -39,9 +30,6 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * The underlying microRTS AI
 	 */
 	MetaBotAIR1 metaBotAI;
-	
-
-	
 	
 	/**
 	 * Name of evaluation function to use
@@ -83,7 +71,8 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * @param lookahead max search tree depth (?)
 	 */
 	public MetaBotAIAdapterLQ(String agentName, SGAgentType agentType){
-		this.name=agentName;this.type=agentType;
+		this.name = agentName;
+		this.type = agentType;
 	}
 
 	@Override
@@ -113,11 +102,10 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 			initializeMetaBotAI(gs.getUnitTypeTable());
 		}
 		try{
-			
-		String currentAI = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
-		currentStrategy = metaBotAI.AIlookup.get(currentAI).clone();
+			String currentAI = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
+			currentStrategy = metaBotAI.AIlookup.get(currentAI).clone();
 		} catch (Exception e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 	
         /*portfolioAI.startNewComputation(agentNum, state.getUnderlyingState().clone());
@@ -152,26 +140,27 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		UnitTypeTable uTTable = new UnitTypeTable();
         int featSize = uTTable.getUnitTypes().size();
         int actionnum = portfolioArray.length;
-		// Create an initial weights for each action (AIs).
-	       double weightLow = -1/Math.sqrt(featSize*9*2);//quadrant 9 and player 2
-	        double weightHigh = 1/Math.sqrt(featSize*9*2);
-	        double range = weightHigh - weightLow;
-	        double [] initialWeights = new double[featSize*9*2*actionnum];
-	        double [] features = new double[featSize*9*2];
-	        Arrays.fill(features, 0.1);
-	        //System.out.println(features.length);
-	        Random r = new Random();
-	        for(int i=0;i<initialWeights.length;i++){
-	            initialWeights[i] = r.nextDouble() * range + weightLow;
-	 //           System.out.println(initialWeights[i]);
-	        }
+		
+        // Create an initial weights for each action (AIs).
+	    double weightLow = -1 / Math.sqrt(featSize*9*2);//quadrant 9 and player 2
+	    double weightHigh = 1 / Math.sqrt(featSize*9*2);
+        double range = weightHigh - weightLow;
+        double [] initialWeights = new double[featSize*9*2*actionnum];
+        double [] features = new double[featSize*9*2];
+        Arrays.fill(features, 0.1);
+        
+        //System.out.println(features.length);
+        Random r = new Random();
+        for(int i=0; i<initialWeights.length; i++){
+            initialWeights[i] = r.nextDouble() * range + weightLow;
+ //           System.out.println(initialWeights[i]);
+        }
 	 	
-
 		
 		// finally creates the MetaBotAI w/ specified parameters
 		metaBotAI = new MetaBotAIR1(
 			portfolioArray, AInames,initialWeights,features, 
-	unitTypeTable
+			unitTypeTable
 		);
 		
 		// sets the debug level accordingly
