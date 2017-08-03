@@ -30,8 +30,8 @@ public class MetaBotTest {
 		List<AI> bots = new LinkedList<>();
         UnitTypeTable unitTypeTable = new UnitTypeTable();
         int featSize = unitTypeTable.getUnitTypes().size();
-        double weightLow = -1/Math.sqrt(featSize*9*2);//quadrant 9 and player 2
-        double weightHigh = 1/Math.sqrt(featSize*9*2);
+        double weightLow = -1/Math.sqrt(featSize*9*2*4);//quadrant 9 and player 2
+        double weightHigh = 1/Math.sqrt(featSize*9*2*4);
         double range = weightHigh - weightLow;
         double [] initialWeights = new double[featSize*9*2*4];//4 AI-actions
         double [] features = new double[featSize*9*2];
@@ -99,7 +99,7 @@ public class MetaBotTest {
         System.out.println("Maps prepared.");
         
         // runs the 'tournament'
-        Experimenter.runExperiments(bots, maps, unitTypeTable, 1, 3000, 300, true, out);
+        Experimenter.runExperiments(bots, maps, unitTypeTable, 1, 3000, 300, true, out,0,true,false);
         System.out.println("Done.");
 	}
     

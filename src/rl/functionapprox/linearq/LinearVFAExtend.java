@@ -1,6 +1,7 @@
 package rl.functionapprox.linearq;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ public class LinearVFAExtend extends LinearVFA {
 		super.lastState = s;
 		super.lastAction = a;
 		actionFeatureidx.put(a.actionName(), idx.clone());
+//		System.out.println("Ids ");
+//		print(a.actionName(),idx);
 		return val;
 	}
 	public int[] getidx(Action a) {
@@ -51,7 +54,14 @@ public class LinearVFAExtend extends LinearVFA {
 	}
 	public List<StateFeature> getFeatures(){
 		return super.currentFeatures;
-	} 
+	}
+	private void print(String act, int[] weight){
+		System.out.println(String.format(
+				"\t<a name='%s' value='%s' />\n",
+				act,
+				Arrays.toString(weight)));
+	}
+
 	public void updateFeatureValue(List<StateFeature> sf){
 	///to do	
 	}

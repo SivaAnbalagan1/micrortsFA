@@ -596,7 +596,7 @@ public class RLParameters {
 		// MetaBotAI or MetaBotAIAdapter or 
 		else if(e.getAttribute("type").equalsIgnoreCase("MetaBotAIR1") || 
 				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapterLQ")) {
-			agent = new MetaBotAIAdapterLQ(
+			agent = new MetaBotAIAdapterLQ(world.getDomain(),
 				e.getAttribute("name"), 
 				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes())
 			     

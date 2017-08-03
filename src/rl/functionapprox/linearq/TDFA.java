@@ -1,5 +1,6 @@
 package rl.functionapprox.linearq;
 
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.Map;
@@ -19,15 +20,15 @@ public class TDFA {
 	double [] weightChange,prevweightChange,prevfeatValue;
 	double qt,qtplus1;//ToDo - change to list for multi-step 
 	double EPSILON = 0.5;//1.0 always explore and 0.0 always exploit
-	double learningRate = 1.0,discountFactor = 0.9,curLR;
+	double learningRate = 0.8,discountFactor = 0.9,curLR;
 	int time = 0;
 	int featuresize;
 	Action actionEpsilon,prevactionEpsilon,dummy;
 	String prevAction;
 	List<StateFeature> curFeature,prevFeature,gradient;
 	List<double[]> weightList; double[] valueStore;
-	Map<String,int []> actionFeatureidx;
-	Map<String,double []> actionWeights;
+//	Map<String,int []> actionFeatureidx;
+//	Map<String,double []> actionWeights;
 	LearningRateTimeInverse timeInverseLR,timeInverseExplore;
 	LearningRateExpDecay ExpDLearningRate;
 	double [] weighttemp = new double [featuresize];
@@ -38,10 +39,10 @@ public class TDFA {
 	    LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
 		featuresize = featureValue.length;
 		weightChange = new double[featuresize];
-		curLR = 1.0; //set initial learning rate
+		curLR = 0.001; //set initial learning rate
 		LinearQHashState sdummy = new LinearQHashState();
 		LinearQHashStateFactory hashDummy = new LinearQHashStateFactory();
-		ExpDLearningRate = new LearningRateExpDecay(1.0,0.99907939,0.01); 
+		ExpDLearningRate = new LearningRateExpDecay(.001,0.99907939,0.00001); 
 		
 	//	timeInverseLR = new LearningRateTimeInverse(1.0,0.99907939,0.01,hashDummy,true);
 	//	timeInverseExplore = new LearningRateTimeInverse(1,0.0,0.0001,hashDummy,false);
@@ -49,8 +50,9 @@ public class TDFA {
 	}
 	
 	public String getAction(double [] featValue){
-
-		gradient= LQ.LVFA.getFeatures();//differentiating gives just feature values.
+		//differentiating gives just feature values.
+		//getting previous feature values. deltaw q(s,a,q)
+		gradient= LQ.LVFA.getFeatures();
 
 		LQ.updatefeatureLVFA(featValue);
 		//New Feature values plugged-in and weight estimates from previous iteration
@@ -82,25 +84,39 @@ public class TDFA {
         return actionEpsilon.actionName();//implement the best action in microRTS.		
 	}
 	private void calcTDWeight(){
-		int i;int idx[];double[] prevWeight; double newWeight;
+		double threshold = 0.00001,change;
+		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
 		i=0;
-		
+		//previous action features.
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
-				 (reward + (discountFactor * qtplus1) - qt) * sf.value;
+				(reward + (discountFactor * qtplus1) - qt) * sf.value;
+			 //differentiation of qt is its value. X(s)
 			i++;
 		}
 		i=0;
 		idx = LQ.actionFeatureidx.get(prevAction);
-		prevWeight = LQ.actionWeights.get(prevAction);
+		for(i=0;i<idx.length;i++)
+			prevWeight[i]=LQ.LVFA.getParameter(idx[i]);
+		
+//		prevWeight = LQ.actionWeights.get(prevAction);
+//		System.out.println("Before");
+//		print(prevAction,prevWeight);
+//		print(prevAction,LQ.actionWeights.get(prevAction));
 		 for(i=0;i<featuresize;i++){
-			 newWeight = prevWeight[i] - weightChange[i]; 
-			if(newWeight < prevWeight[i]){//stopping at first minimum
+			 newWeight = prevWeight[i] - weightChange[i];
+			 change = Math.abs(newWeight - prevWeight[i]);
+			//if(newWeight > prevWeight[i]){//stopping at first minimum
+			 if( change > threshold ){
 				LQ.LVFA.setParameter(idx[i],newWeight);
 				prevWeight[i]=newWeight;				
 			}
 		 }
-		 LQ.actionWeights.put(prevAction, prevWeight);//feature based weight update
+//		 LQ.actionWeights.put(prevAction, prevWeight);//feature based weight update
+//		System.out.println("After");
+// 		print(prevAction,prevWeight);
+//		print(prevAction,LQ.actionWeights.get(prevAction));
+		 
 	}
 	private double calcReward(double[] features,double[] prevfeat){
 		double oppResCur,oppResPrev,playerResCur,playerResPrev,rateOpp,ratePlayer,r;
@@ -121,5 +137,22 @@ public class TDFA {
 		r = rateOpp*4 + ratePlayer*-3;
 		return r;
 	}
+	public Map<String,double []> actionWeightret(){
+		return LQ.actionWeightret();
+	}
+	public String[] actionNames(){
+		return LQ.actionNames();
+	}
+	public double getLearninRate(){
+		return curLR;
+	}
+	private void print(String act, double[] weight){
+		System.out.println(String.format(
+				"\t<a name='%s' value='%s' />\n",
+				act,
+				Arrays.toString(weight)));
+	}
+	
+
 	
 }

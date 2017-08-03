@@ -30,6 +30,7 @@ public class GameInfo {
     ArrayList<double []> gameValues;
     List<UnitType> unitTypeList;
     SummaryStatistics stat = new SummaryStatistics();
+    SummaryStatistics stat_time = new SummaryStatistics();
     
 	public GameInfo(GameState gs,String[] ai, List<UnitType> lu) {
 		unitTypes = new ArrayList<String>();
@@ -66,8 +67,14 @@ public class GameInfo {
 			}
 		}
 		setupFeatnWeight();
-		featureValue[featureValue.length-1] = gs.getTime();
+		standardizeTimeFeat(gs.getTime());
 		normalize();
+	//	featureValue[featureValue.length-1] = gs.getTime();
+		
+/*		for(int i=0;i<featureValue.length;i++){
+			System.out.print(featureValue[i]);
+		}			System.out.println(" ");
+*/
 		//gameValues.clear();
 		//gameValues.add(featureValue);gameValues.add(weights);
 		return featureValue;
@@ -154,6 +161,17 @@ public class GameInfo {
 			featureValue[i] = (featureValue[i]-avg)/(max-min);
 		}
 
+	}
+	public void standardizeTimeFeat(int time){
+		//Standardisation for streaming data. 
+		//Range wont be available for this to calculate normalised
+		for(int i=0;i<3000;i++){
+			stat_time.addValue(i);
+		}
+		
+		double avg = stat_time.getMean();
+		double std = stat_time.getStandardDeviation();
+		featureValue[featureValue.length-1] = (time-avg)/std;
 	}
 
 }

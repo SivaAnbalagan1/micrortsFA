@@ -1,6 +1,7 @@
 package rl.functionapprox.linearq;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,8 @@ public class LinearQ {
 				weighttemp[i] = weight;
 				}
 			step=step+featureSize;
+//			System.out.println(" Update");
+//			print(qa.actionName(),weighttemp);
 			actionWeights.put(qa.actionName(), weighttemp);
 		}
 	}
@@ -81,33 +84,94 @@ public class LinearQ {
 	}
 	
 	public void updatefeatureLVFA(double[] featureValue){
-		double [] weights;
+		double[] weights = new double[weightlength];
+//    	System.out.println("Before update");
+//		for(int i=0;i<weightlength;i++)weights[i] = LVFA.getParameter(i);
 		weights = getWeights(); //get weights from LVFA
+//		print(weights);
 		featureValues(featureValue); //recreate LVFA with new feature values.
+//		System.out.println("After update");
         updateWeights(weights);
+//		for(LinearQAction qa : linearQActions)	print(qa.actionName(),actionWeights.get(qa.actionName()));
+//		for(int i=0;i<weightlength;i++)weights[i] = LVFA.getParameter(i); 
+//		print(weights);
 		createQvalues();
 	}
 	public double[] getWeights(){
 		double[] weights = new double[weightlength];
-		for(int i=0;i<weights.length;i++) {weights[i]=LVFA.getParameter(i);
-		 }
+		for(int i=0;i<weights.length;i++) weights[i]=LVFA.getParameter(i);
 		return weights;
 	}
 
-	public void updateWeights(double[] weights){
+	public void updateWeights(double [] weights){
 		double dummy;int [] idx;int step;
 		step = 0; 
+		for(LinearQAction qa : linearQActions)dummy = LVFA.evaluate(s, qa);
 		for(LinearQAction qa : linearQActions){
-			dummy = LVFA.evaluate(s, qa);
-			//System.out.println("zero weight check" + dummy);
 			idx = actionFeatureidx.get(qa.actionName());
 			for(int i=0;i<idx.length;i++){
-				LVFA.setParameter(idx[i],weights[i+step]);
-				weighttemp[i] = weights[i+step];
+				LVFA.setParameter(idx[i],weights[idx[i]]);
+			    weighttemp[i] = weights[idx[i]];
+			}
+//			actionWeights.put(qa.actionName(), weighttemp);
+		}	
+/*		for(LinearQAction qa : linearQActions){
+			//System.out.println("zero weight check" + dummy);
+			idx = LVFA.getidx(qa);
+//			System.out.println("After ids");
+			print(qa.actionName(),idx);
+            Arrays.fill(weighttemp, 0);
+			for(int i=0;i<idx.length;i++){
+				LVFA.setParameter(idx[i],weights[idx[i]]);
+				weighttemp[i] = weights[idx[i]];
+//				LVFA.setParameter(idx[i],weights[i+step]);
+//				weighttemp[i] = weights[i+step];
 			}
 			step=step+featureSize;
+//			System.out.println(" Update");
+			print(qa.actionName(),weighttemp);
 			actionWeights.put(qa.actionName(), weighttemp);
-		}
+//			print(qa.actionName(),weighttemp);
+
+		}*/
 	}
-	
+	public Map<String,double []> actionWeightret(){
+		int [] idx; double [] weights = new double[weightlength];
+		double [] weightstemp = new double[featureSize];
+		actionWeights.clear();
+		
+		for(int i=0;i<weights.length;i++) weights[i]=LVFA.getParameter(i);
+	      for(LinearQAction qa : linearQActions){
+			idx = actionFeatureidx.get(qa.actionName());
+			for(int i=0;i<idx.length;i++)weightstemp[i] = weights[idx[i]];
+			actionWeights.put(qa.actionName(), weightstemp.clone());
+		}
+	  	
+		return actionWeights;
+	}
+	public String[] actionNames(){
+		String[] actname = new String[linearQActions.size()];
+		int i=0;
+		for(LinearQAction qa : linearQActions){
+            actname[i] = qa.actionName();i++;}
+		return actname;
+	}
+	private void print(String act, int[] weight){
+		System.out.println(String.format(
+				"\t<a name='%s' value='%s' />\n",
+				act,
+				Arrays.toString(weight)));
+	}
+	private void print(String act, double[] weight){
+		System.out.println(String.format(
+				"\t<a name='%s' value='%s' />\n",
+				act,
+				Arrays.toString(weight)));
+	}
+
+	private void print(double[] weight){
+		System.out.println(String.format(
+				"\t< value='%s' />\n",
+				Arrays.toString(weight)));
+	}
 }
