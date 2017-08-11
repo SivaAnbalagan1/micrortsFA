@@ -1,6 +1,8 @@
 package rl.functionapprox.linearq;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -19,11 +21,11 @@ public class TDFA {
 		
 	double [] weightChange,prevweightChange,prevfeatValue;
 	double qt,qtplus1;//ToDo - change to list for multi-step 
-	double EPSILON = 0.5;//1.0 always explore and 0.0 always exploit
-	double learningRate = 0.8,discountFactor = 0.9,curLR;
+	double EPSILON = 0.1,error;//1.0 always explore and 0.0 always exploit
+	double learningRate = 0.8,discountFactor = 0.9,curLR,curEpsilon,epsilonDecay;
 	int time = 0;
 	int featuresize;
-	Action actionEpsilon,prevactionEpsilon,dummy;
+	Action actionEpsilon,prevactionEpsilon,dummy,prevActionQ;
 	String prevAction;
 	List<StateFeature> curFeature,prevFeature,gradient;
 	List<double[]> weightList; double[] valueStore;
@@ -31,19 +33,38 @@ public class TDFA {
 //	Map<String,double []> actionWeights;
 	LearningRateTimeInverse timeInverseLR,timeInverseExplore;
 	LearningRateExpDecay ExpDLearningRate;
+	LearningRateExpDecay ExpDEpsilon;
+	Map<String, LearningRateExpDecay> actionLR;
+	Map<String, Double> actionCurLR;
+	Map<String, ArrayList<Double>> predError;
 	double [] weighttemp = new double [featuresize];
 	LinearQ LQ;
+	String [] aiNamesref;
 	
 	public TDFA(AI [] ai, String [] aiNames,double [] featureValue,double [] weights
-			){
+			,double lr, double epi, double epiDecay){
 	    LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
 		featuresize = featureValue.length;
 		weightChange = new double[featuresize];
-		curLR = 0.001; //set initial learning rate
+		actionLR =  new HashMap();actionCurLR =  new HashMap();
+		predError = new HashMap();aiNamesref = aiNames.clone();
+//		curLR = lr; //set initial learning rate
+		curEpsilon =epi;
+		epsilonDecay = epiDecay;
+//		EPSILON=0.1;
+		//adding initial learning rate for all actions
+		for(String action : aiNames){
+			actionLR.put(action, new LearningRateExpDecay(lr,0.99907939,0.000001));
+			actionCurLR.put(action, lr);
+			predError.put(action, new ArrayList<Double>());
+		}
+	//	actionCurLR.put("RangedRush", 0.0001);
 		LinearQHashState sdummy = new LinearQHashState();
 		LinearQHashStateFactory hashDummy = new LinearQHashStateFactory();
-		ExpDLearningRate = new LearningRateExpDecay(.001,0.99907939,0.00001); 
-		
+//		ExpDLearningRate = new LearningRateExpDecay(.00001,0.99907939,0.00000001);
+		ExpDEpsilon = new LearningRateExpDecay(curEpsilon,epsilonDecay,0.000001);
+		//constant learning rate unless decayed between episodes.
+		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 	//	timeInverseLR = new LearningRateTimeInverse(1.0,0.99907939,0.01,hashDummy,true);
 	//	timeInverseExplore = new LearningRateTimeInverse(1,0.0,0.0001,hashDummy,false);
 		
@@ -62,9 +83,12 @@ public class TDFA {
 //		time = (int)featValue[featValue.length-1];
 //		EPSILON = timeInverseExplore.pollLearningRate(
 //				time,s,prevactionEpsilon);
-		epslionGreedy = new EpsilonGreedy(LQ.qValues,EPSILON);
+//		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
+//		System.out.println("curEpsilon " + curEpsilon);
+		epslionGreedy = new EpsilonGreedy(LQ.qValues,curEpsilon);
 		actionEpsilon = epslionGreedy.action(s);//get epsilon greedy action.
-		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
+		//qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
+		qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
 		//start TD from 2nd iteration.
 		if(prevAction != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
 		{ 
@@ -72,8 +96,13 @@ public class TDFA {
 			reward = 0;//no reward shaping
 		//	learningRate = timeInverseLR.pollLearningRate(
 		//			time,s, prevactionEpsilon);
-			learningRate = ExpDLearningRate.nextLRVal(curLR);
-			curLR = learningRate;
+		//	learningRate = ExpDLearningRate.nextLRVal(curLR);
+			learningRate = actionLR.get(prevAction).nextLRVal(actionCurLR.get(prevAction));
+			actionCurLR.put(prevAction, learningRate);
+			error = discountFactor * qtplus1 - qt;
+			predError.get(prevAction).add(error);
+		//	System.out.println("Action " + prevAction + "LR " + learningRate);
+		//	curLR = learningRate;
         	calcTDWeight();
 		}
     	qt = qtplus1;
@@ -84,7 +113,7 @@ public class TDFA {
         return actionEpsilon.actionName();//implement the best action in microRTS.		
 	}
 	private void calcTDWeight(){
-		double threshold = 0.00001,change;
+		double threshold = 0.0001,change;
 		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
 		i=0;
 		//previous action features.
@@ -145,6 +174,22 @@ public class TDFA {
 	}
 	public double getLearninRate(){
 		return curLR;
+	}
+	public void setLearninRate(double lr){
+		for(String action : aiNamesref){
+			actionCurLR.put(action, lr);
+		}
+	}
+	public void decayEpslion(){
+		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
+//		System.out.println("Epsilon " + curEpsilon);
+	}
+	public void setEpslion(double epsilon){
+		curEpsilon = epsilon;
+//		System.out.println("Epsilon " + curEpsilon);
+	}
+	public Map<String, ArrayList<Double>> getPredError(){
+		return predError;
 	}
 	private void print(String act, double[] weight){
 		System.out.println(String.format(

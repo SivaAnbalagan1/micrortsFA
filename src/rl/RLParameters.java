@@ -102,7 +102,11 @@ public class RLParameters {
 	 * Stores the actual player objects
 	 */
 	List<PersistentLearner> players;
-	
+	/*
+	 * 
+	 * Flag to delay loading knowledge for Metabot
+	 */
+	 boolean metaBot;
 	/**
 	 * Initializes with default parameters
 	 */
@@ -149,6 +153,7 @@ public class RLParameters {
 			floatParams.add(RLParamNames.DISCOUNT);
 			floatParams.add(RLParamNames.EPSILON); 
 			floatParams.add(RLParamNames.INITIAL_Q);
+			floatParams.add(RLParamNames.DECAY_RATE);
 		}
 		return floatParams;
 	}
@@ -188,6 +193,7 @@ public class RLParameters {
 		params.put(RLParamNames.LEARNING_RATE, 0.1f);
 		params.put(RLParamNames.INITIAL_Q, 1.0f);
 		params.put(RLParamNames.EPSILON, 0.1f);
+		params.put(RLParamNames.DECAY_RATE, 0.1f);
 		
 		// parameters of search methods
 		params.put(RLParamNames.TIMEOUT, 100);
@@ -598,9 +604,15 @@ public class RLParameters {
 				e.getAttribute("type").equalsIgnoreCase("MetaBotAIAdapterLQ")) {
 			agent = new MetaBotAIAdapterLQ(world.getDomain(),
 				e.getAttribute("name"), 
-				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes())
+				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes()),
+						(String) playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE),
+						(double) ((ConstantLR) playerParams.get(RLParamNames.LEARNING_RATE)).learningRate,
+						(double) ((float)playerParams.get(RLParamNames.EPSILON)),
+						(double) ((float)playerParams.get(RLParamNames.DECAY_RATE))
+						
 			     
 			);
+			metaBot = true;
 		}
 		
 		if(agent == null) {
@@ -610,6 +622,7 @@ public class RLParameters {
 		
 		// checks whether knowledge should be loaded
 		if(playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE) != null){
+			if(!metaBot)
 			agent.loadKnowledge((String) playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE));
 		}
 		

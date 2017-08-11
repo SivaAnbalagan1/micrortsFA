@@ -75,7 +75,7 @@ public class LinearQ {
 				}
 			step=step+featureSize;
 //			System.out.println(" Update");
-//			print(qa.actionName(),weighttemp);
+//			System.out.println(qa.actionName() + " "+Arrays.toString(weighttemp));
 			actionWeights.put(qa.actionName(), weighttemp);
 		}
 	}

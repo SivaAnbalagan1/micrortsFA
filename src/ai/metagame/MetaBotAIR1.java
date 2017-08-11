@@ -42,7 +42,8 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	public Map<String, AI> AIlookup;
 	double [] featinit,weightsclone;
 	double [] weights,featureValue;
-	
+	int playerGameInfo;
+	double lRate, epsi, epsiDecay;
 
 	public MetaBotAIR1(UnitTypeTable utt) {
 		this(new AI[]{new WorkerRush(utt),
@@ -52,15 +53,16 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
           new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
           new double[]{},
           new double[]{},
-                 utt);
+                 utt, 0.001,0.5,0.9999);
 	    }
 	   
 	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,
-			UnitTypeTable utt) {
+			UnitTypeTable utt, double learningRate,double epsilon, double decayEpsilon) {
 	        super(3000, 10);
 	        
-	        tdFA =  new TDFA(s,n,featureinit,weights);
+	        tdFA =  new TDFA(s,n,featureinit,weights,learningRate,epsilon,decayEpsilon);
 	        weightsclone = weights; featinit = featureinit;
+	        lRate = learningRate; epsi = epsilon; epsiDecay = decayEpsilon;
 	        givenAIs = s;names=n;utt1=utt;
 	        AIlookup = new HashMap<String,AI>();
 	        unitTypes = utt.getUnitTypes();
@@ -69,7 +71,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	    
 	public PlayerAction getAction(int player, GameState gs) throws Exception {
 		 if (gs.canExecuteAnyAction(player)) {
-			 
+			 playerGameInfo = player;
 			 activeAI = AIlookup.get(tdFA.getAction(getFeature(gs))).clone();
 			return activeAI.getAction(player, gs);
 		 }
@@ -79,7 +81,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 		
 	}
 	public double[] getFeature(GameState gs){
-		 gameInfo = new GameInfo(gs,names,unitTypes);
+		 gameInfo = new GameInfo(gs,names,unitTypes,playerGameInfo);
 		 featureValue = gameInfo.findGamePosition(gs);
          return featureValue; 
 	}
@@ -92,7 +94,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     
     @Override
     public AI clone() {
-        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,utt1);
+        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,utt1,lRate,epsi,epsiDecay);
     }
     
     
@@ -110,25 +112,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
         return parameters;
     }
     
-    
-   /* public int getPlayoutLookahead() {
-        return LOOKAHEAD;
-    }
-    
-    
-    public void setPlayoutLookahead(int a_pola) {
-        LOOKAHEAD = a_pola;
-    }
-       
-    
-    public EvaluationFunction getEvaluationFunction() {
-        return evaluation;
-    }
-    
-    
-    public void setEvaluationFunction(EvaluationFunction a_ef) {
-        evaluation = a_ef;
-    }*/           
+          
 }
 
 

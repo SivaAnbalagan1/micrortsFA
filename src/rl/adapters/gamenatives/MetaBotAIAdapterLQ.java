@@ -1,13 +1,32 @@
 package rl.adapters.gamenatives;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import ai.core.AI;
 import ai.evaluation.EvaluationFunction;
@@ -22,6 +41,7 @@ import burlap.mdp.stochasticgames.JointAction;
 import burlap.mdp.stochasticgames.SGDomain;
 import burlap.mdp.stochasticgames.agent.SGAgentType;
 import burlap.mdp.stochasticgames.world.World;
+
 import rl.RLParamNames;
 import rl.RLParameters;
 import rl.adapters.domain.EnumerableSGDomain;
@@ -30,6 +50,7 @@ import rl.functionapprox.linearq.GameInfo;
 import rl.models.common.MicroRTSState;
 import rl.models.common.ScriptActionTypes;
 import rts.GameState;
+import rts.units.UnitType;
 import rts.units.UnitTypeTable;
 
 public class MetaBotAIAdapterLQ implements PersistentLearner {
@@ -45,10 +66,6 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * The underlying microRTS AI
 	 */
 	MetaBotAIR1 metaBotAI;
-	
-
-	
-	
 	/**
 	 * Name of evaluation function to use
 	 */
@@ -61,6 +78,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	Collection<String> names;
 	GameState gs;
 	String[] AInames;
+	Map<String, ArrayList<Double>> predError;
+	Map<String, double[]> weightInit;
+	int featSize;
 	/**
 	 * Maps AI names to stochastic game Actions
 	 */
@@ -71,6 +91,11 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 */
 	int agentNum;
 	SGDomain domain;
+	boolean initWeight;
+	String path;
+	boolean onlyCount;
+	double [] initialWeights;
+	double learningRate,epsilon,epsiDecay;
 	/**
 	 * Creates a MetaBotAIAdapter with default timeout, playouts and lookahead
 	 * @param agentName
@@ -88,8 +113,14 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	 * @param playouts number of playouts per computation
 	 * @param lookahead max search tree depth (?)
 	 */
-	public MetaBotAIAdapterLQ(SGDomain domain,String agentName, SGAgentType agentType){
+	/*public MetaBotAIAdapterLQ(SGDomain domain,String agentName, SGAgentType agentType){
 		this.name=agentName;this.type=agentType;this.domain = domain;
+	}*/
+	public MetaBotAIAdapterLQ(SGDomain domain,String agentName, SGAgentType agentType,
+			String path, double lr,double epi,double epiDecay){
+		this.name=agentName;this.type=agentType;this.domain = domain;this.path=path;
+		this.learningRate = lr; this.epsilon=epi;this.epsiDecay = epiDecay; 
+	
 	}
 
 	@Override
@@ -126,15 +157,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		e.printStackTrace();
 		}
 	
-        /*portfolioAI.startNewComputation(agentNum, state.getUnderlyingState().clone());
-        try {
-			portfolioAI.computeDuringOneGameFrame();
-			currentStrategy = portfolioAI.getBestScriptSoFar();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-        //System.out.println("Returning " + currentStrategy.getClass().getSimpleName());
-        return nameToAction.get(currentStrategy.getClass().getSimpleName());
+         return nameToAction.get(currentStrategy.getClass().getSimpleName());
 	}
 
 	/**
@@ -144,7 +167,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	protected void initializeMetaBotAI(UnitTypeTable unitTypeTable) {
 		// initializes string -> action map
 		nameToAction = ScriptActionTypes.getMapToLearnerActions();
-		
+		weightInit = new HashMap();
 		// retrieves the list of AIs and transforms it in an array
 		Map<String, AI> actionMapping = ScriptActionTypes.getLearnerActionMapping(unitTypeTable);
 		portfolio = actionMapping.values();
@@ -154,37 +177,44 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		
 		// selects the first AI as currentStrategy just to prevent NullPointerException
 		currentStrategy = portfolioArray[0];
-		
+		int runit =0;
 		UnitTypeTable uTTable = new UnitTypeTable();
-        int featSize = uTTable.getUnitTypes().size();
+        for(UnitType ut: uTTable.getUnitTypes())if(ut.isResource)runit++;
+        int quadFeat = 0;
+        quadFeat = uTTable.getUnitTypes().size() -runit;
+        featSize = quadFeat *9*2 +9+9+2+1;// 2-resource, 9-health for 2 players and time
+    //   featSize = quadFeat *9*2 +1;// and time.
+
         int actionnum = portfolioArray.length;
+        double [] features = new double[featSize];
+        Arrays.fill(features, 0.0);
+        initWeight = false;
+        initialWeights = new double[featSize*actionnum];
+		if(path==null)initWeight=true;
+		else loadKnowledge(path);
+		
+		if(initWeight){
 		// Create an initial weights for each action (AIs).
-	       double weightLow = -1/Math.sqrt(featSize*9*2*actionnum);//quadrant 9 and player 2
-	        double weightHigh = 1/Math.sqrt(featSize*9*2*actionnum);
+	       double weightLow = -1/Math.sqrt(featSize);//quadrant 9 and player 2
+	        double weightHigh = 1/Math.sqrt(featSize);
 	        double range = weightHigh - weightLow;
-	        double [] initialWeights = new double[featSize*9*2*actionnum];
-	        double [] features = new double[featSize*9*2];
-	        Arrays.fill(features, 0.0);
+	        
 	        //System.out.println(features.length);
 	        Random r = new Random();
 	        for(int i=0;i<initialWeights.length;i++){
 	            initialWeights[i] = r.nextDouble() * range + weightLow;
 	        }
-	 	
-
-		
+		}
 		// finally creates the MetaBotAI w/ specified parameters
 		metaBotAI = new MetaBotAIR1(
 			portfolioArray, AInames,initialWeights,features, 
-	unitTypeTable
+	unitTypeTable,learningRate,epsilon,epsiDecay
 		);
-		
+//		setLearningRate(0.001);
+//		setEpsilon(0.5);
 		// sets the debug level accordingly
 		//NashPortfolioAI.DEBUG = (int) RLParameters.getInstance().getParameter(RLParamNames.DEBUG_LEVEL);
 	}
-	
-
-
 	@Override
 	public void observeOutcome(State s, JointAction jointAction, double[] jointReward, State sprime,
 			boolean isTerminal) {
@@ -193,9 +223,17 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void gameTerminated() {
-		// does nothing
+		decayEpsilon();//decay epsilon over episodes.
 	}
-
+	public void decayEpsilon() {
+		metaBotAI.tdFA.decayEpslion();
+	}
+	public void setEpsilon(double epi) {
+		metaBotAI.tdFA.setEpslion(epi);
+	}
+	public void setLearningRate(double lr) {
+		metaBotAI.tdFA.setLearninRate(lr);
+	}
 	@Override
 	public void saveKnowledge(String path) {
 		BufferedWriter fileWriter;
@@ -216,17 +254,10 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 					name, this.getClass().getName(), agentNum,metaBotAI.tdFA.getLearninRate()
 				));
 				
-				// a friendly remark
-//				fileWriter.write(
-//					"<!-- Note: 'a' stands for action -->\n\n"
-//				);
-				
-	//			for (State s : enumDomain.enumerate()) {
-					// opens state tag
-	//				fileWriter.write(String.format("<state id='%s'>\n", s)); 
-					// runs through qValues for the current state
+				fileWriter.write(String.format("<state id='dummy'>\n")); 
 				    actions = metaBotAI.tdFA.actionNames();
 				    Map<String,double []> actionWeights1 = metaBotAI.tdFA.actionWeightret();
+				    predError = metaBotAI.tdFA.getPredError();
 					for(String action: actions ){
 							fileWriter.write(String.format(
 								"\t<a name='%s' value='%s' />\n",
@@ -235,10 +266,16 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 								);
 
 					}
-					// closes state tag
-					fileWriter.write("</state>\n\n");
-		//		}
-				
+					for(String action: actions ){
+						fileWriter.write(String.format(
+							"\t<a name='%sSGD' value='%s' />\n",
+							action,
+							Arrays.toString(predError.get(action).toArray()))
+							);
+				}
+				// closes state tag
+				fileWriter.write("</state>\n\n");
+					
 				// closes xml root
 				fileWriter.write("</knowledge>\n"); 
 				fileWriter.close();
@@ -257,8 +294,67 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void loadKnowledge(String path) {
-		// also does nothing
+		//learner.loadQTable(path);
 		
-	}
-
+		//opens xml file
+		DocumentBuilder dBuilder = null;
+		Document doc = null;
+		try {
+			dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			doc = dBuilder.parse(new File(path));
+		} catch (ParserConfigurationException|SAXException|IOException e) {
+			System.out.println("Previous knowledge file doesnt exist " + path +". knowledge NOT LOADED!");
+			initWeight = true;
+//			e.printStackTrace();
+			return;
+		}
+		initWeight = false;
+		//retrieves the game states, they'll be useful for filling the knowledge in
+		Map<String, State> nameToState = ((EnumerableSGDomain)domain).namesToStates();
+		
+		//traverses all 1st level nodes of xml file (children of root node) 
+		NodeList nList = doc.getDocumentElement().getChildNodes();
+		
+		for (int i = 0; i < nList.getLength(); i++){
+			Node n = nList.item(i);
+			//if node is 'learner', checks if ID is the same as mine
+			if (n.getNodeName() == "learner"){
+				Element e = (Element) n;
+				if(! e.getAttribute("type").equals(this.getClass().getName())){
+					System.err.println(
+						"WARNING! Loading knowledge of agent with different type. This might end up in error..."
+					);
+				}
+				if(Integer.parseInt(e.getAttribute("id")) != agentNum){
+					System.err.println(
+						"WARNING! Loading knowledge of agent with different ID. "
+					);
+				}
+			}
+			else if (n.getNodeName() == "state"){
+				Element e = (Element) n;
+				for(Node actionNode = n.getFirstChild(); actionNode != null; actionNode = actionNode.getNextSibling()){
+					if (actionNode.getNodeType() != Node.ELEMENT_NODE) continue;	//prevents ClassCastException
+					// retrieves the action object 
+					Element actionElement = (Element) actionNode;
+					String actionName = actionElement.getAttribute("name");
+					// creates and stores the loaded QValue
+					String value = actionElement.getAttribute("value");
+					String value1 = value.substring(1, value.length()-1);
+					String [] weightString = value1.split(",");
+					double [] weightDouble = Arrays.stream(weightString).mapToDouble(Double::parseDouble).toArray();
+					//System.out.println(actionName.substring(actionName.length()-2,3));
+					if(!actionName.contains("SGD"))
+						weightInit.put(actionName, weightDouble.clone());
+				}
+			}
+			}
+		int srcPos =0,destPos=0;
+          for(String act: AInames){
+        	  double [] tempcopy = weightInit.get(act).clone();
+        	  System.arraycopy(tempcopy, srcPos, initialWeights, destPos, featSize);
+        	  destPos=destPos+featSize;
+          }		
+          System.out.println("Loaded Knowledge...");
+		}
 }

@@ -29,13 +29,15 @@ public class MetaBotTest {
 	public static void main(String args[]) throws Exception {
 		List<AI> bots = new LinkedList<>();
         UnitTypeTable unitTypeTable = new UnitTypeTable();
-        int featSize = unitTypeTable.getUnitTypes().size();
-        double weightLow = -1/Math.sqrt(featSize*9*2*4);//quadrant 9 and player 2
-        double weightHigh = 1/Math.sqrt(featSize*9*2*4);
+        int featSize = unitTypeTable.getUnitTypes().size()-1;
+        featSize = featSize*9 *2;
+        featSize = featSize + 9+9+2+1;
+        double weightLow = -1/Math.sqrt(featSize);//quadrant 9 and player 2
+        double weightHigh = 1/Math.sqrt(featSize);
         double range = weightHigh - weightLow;
-        double [] initialWeights = new double[featSize*9*2*4];//4 AI-actions
-        double [] features = new double[featSize*9*2];
-        Arrays.fill(features, 0.1);
+        double [] initialWeights = new double[featSize*4];//4 AI-actions
+        double [] features = new double[featSize];
+        Arrays.fill(features, 0.0);
         Random r = new Random();
         for(int i=0;i<initialWeights.length;i++){
             initialWeights[i] = r.nextDouble() * range + weightLow;
@@ -53,7 +55,7 @@ public class MetaBotTest {
                new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
                initialWeights,
                features,
-               unitTypeTable
+               unitTypeTable,0.001,0.5,0.9999
             );
         /*AI player1 = new NashPortfolioAI(
     		new AI[]{
