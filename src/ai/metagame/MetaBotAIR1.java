@@ -14,7 +14,9 @@ import ai.core.AIWithComputationBudget;
 import ai.core.ParameterSpecification;
 import ai.evaluation.EvaluationFunction;
 import ai.evaluation.SimpleSqrtEvaluationFunction3;
+import burlap.behavior.learningrate.LearningRate;
 import rl.functionapprox.linearq.GameInfo;
+import rl.functionapprox.linearq.LearningRateExpDecay;
 import rl.functionapprox.linearq.LinearQStateFeatures;
 import rl.functionapprox.linearq.TDFA;
 import rl.models.stages.GameStage;
@@ -43,8 +45,8 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	double [] featinit,weightsclone;
 	double [] weights,featureValue;
 	int playerGameInfo;
-	double lRate, epsi, epsiDecay;
-
+	double  epsi, epsiDecay;
+	LearningRateExpDecay lRate;
 	public MetaBotAIR1(UnitTypeTable utt) {
 		this(new AI[]{new WorkerRush(utt),
                    new LightRush(utt),
@@ -53,14 +55,14 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
           new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
           new double[]{},
           new double[]{},
-                 utt, 0.001,0.5,0.9999);
+                 utt, new LearningRateExpDecay(0.001,1,0.001),0,1);
 	    }
 	   
 	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,
-			UnitTypeTable utt, double learningRate,double epsilon, double decayEpsilon) {
+			UnitTypeTable utt, LearningRateExpDecay learningRate,double epsilon, double decayEpsilon) {
 	        super(3000, 10);
 	        
-	        tdFA =  new TDFA(s,n,featureinit,weights,learningRate,epsilon,decayEpsilon);
+	        tdFA =  new TDFA(n,featureinit,weights,learningRate,epsilon,decayEpsilon);
 	        weightsclone = weights; featinit = featureinit;
 	        lRate = learningRate; epsi = epsilon; epsiDecay = decayEpsilon;
 	        givenAIs = s;names=n;utt1=utt;
@@ -73,6 +75,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 		 if (gs.canExecuteAnyAction(player)) {
 			 playerGameInfo = player;
 			 activeAI = AIlookup.get(tdFA.getAction(getFeature(gs))).clone();
+	//		 System.out.println("AI" + activeAI.toString());
 			return activeAI.getAction(player, gs);
 		 }
 		 else{

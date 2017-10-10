@@ -4,7 +4,6 @@
  */
 package ai.abstraction;
 
-import ai.core.AI;
 import ai.abstraction.pathfinding.PathFinding;
 import ai.core.AIWithComputationBudget;
 import java.util.ArrayList;
@@ -140,7 +139,7 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
 
     	boolean[][] free=pgs.getAllFree();
         int x,y;
-        for(int l=0;l<Math.max(pgs.getHeight(),pgs.getWidth());l++){
+        for(int l=1;l<Math.max(pgs.getHeight(),pgs.getWidth());l++){
         	for(int side=0;side<4;side++){
         		switch(side){
         		case 0://up

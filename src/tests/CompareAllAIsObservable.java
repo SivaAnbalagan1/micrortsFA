@@ -53,7 +53,7 @@ public class CompareAllAIsObservable {
         List<AI> bots = new LinkedList<>();
         UnitTypeTable utt = new UnitTypeTable();
         
-        bots.add(new RandomAI());
+        bots.add(new RandomAI(utt));
         bots.add(new RandomBiasedAI());
         bots.add(new LightRush(utt, new BFSPathFinding()));
         bots.add(new RangedRush(utt, new BFSPathFinding()));
@@ -72,14 +72,14 @@ public class CompareAllAIsObservable {
         bots.add(new MonteCarlo(TIME, PLAYOUT_TIME, MAX_PLAYOUTS, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
         bots.add(new MonteCarlo(TIME, PLAYOUT_TIME, MAX_PLAYOUTS, MAX_ACTIONS, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
         // by setting "MAX_DEPTH = 1" in the next two bots, this effectively makes them Monte Carlo search, instead of Monte Carlo Tree Search
-        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 0.33f, 0.0f, 0.75f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
-        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 1.00f, 0.0f, 0.25f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
+        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 0.33f, 0.0f, 0.75f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3(), true));
+        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 1.00f, 0.0f, 0.25f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3(), true));
 
         bots.add(new UCT(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
         bots.add(new DownsamplingUCT(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_ACTIONS, MAX_DEPTH, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
         bots.add(new UCTUnitActions(TIME, PLAYOUT_TIME, MAX_DEPTH*10, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
-        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 0.33f, 0.0f, 0.75f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
-        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 1.00f, 0.0f, 0.25f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3()));
+        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 0.33f, 0.0f, 0.75f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3(), true));
+        bots.add(new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 1.00f, 0.0f, 0.25f, new RandomBiasedAI(), new SimpleSqrtEvaluationFunction3(), true));
 
         if (CONTINUING) {
         	// Find out which of the bots can be used in "continuing" mode:
@@ -104,16 +104,16 @@ public class CompareAllAIsObservable {
         List<PhysicalGameState> maps = new LinkedList<PhysicalGameState>();        
 
         maps.clear();
-        maps.add(PhysicalGameState.load("maps/basesWorkers8x8.xml",utt));
+        maps.add(PhysicalGameState.load("maps/8x8/basesWorkers8x8.xml",utt));
 //        Experimenter.runExperimentsPartiallyObservable(bots, maps, 10, 3000, 300, true, out);
-        Experimenter.runExperiments(bots, maps, utt, 10, 3000, 300, false, out);
+        Experimenter.runExperiments(bots, maps, utt, 10, 3000, 300, true, out);
       
         maps.clear();
-        maps.add(PhysicalGameState.load("maps/melee12x12mixed12.xml",utt));
+        maps.add(PhysicalGameState.load("maps/12x12/melee12x12mixed12.xml",utt));
         Experimenter.runExperiments(bots, maps, utt, 10, 3000, 300, true, out);
 
         maps.clear();
-        maps.add(PhysicalGameState.load("maps/melee8x8mixed6.xml",utt));
+        maps.add(PhysicalGameState.load("maps/8x8/melee8x8mixed6.xml",utt));
         Experimenter.runExperiments(bots, maps, utt, 10, 3000, 300, true, out);
 
         maps.clear();

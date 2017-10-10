@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="microrts-burlap-integration">
+    <property environment="env"/>
+    <property name="file_prompt" value=""/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="microrts-burlap-integration.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/jdom.jar"/>
+        <pathelement location="lib/burlap-3.0.1-jar-with-dependencies.jar"/>
+        <pathelement location="lib/SCPSolver.jar"/>
+        <pathelement location="lib/LPSOLVESolverPack.jar"/>
+        <pathelement location="lib/commons-cli-1.4.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="RLExperiment">
+        <java classname="rl.RLExperiment" failonerror="true" fork="yes">
+            <arg line="${file_prompt}"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </java>
+    </target>
+    <target name="MetaGameLearningExample">
+        <java classname="tests.MetaGameLearningExample" failonerror="true" fork="yes">
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </java>
+    </target>
+    <target name="MetaBotTest">
+        <java classname="tests.MetaBotTest" failonerror="true" fork="yes">
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </java>
+    </target>
+    <target name="RLParametersTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.rl.RLParametersTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="AILoaderTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.ailoader.AILoaderTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="RandomSwitch">
+        <java classname="tests.RandomSwitch" failonerror="true" fork="yes">
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </java>
+    </target>
+    <target name="PersistentMultiAgentQLearningTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.rl.adapters.learners.PersistentMultiAgentQLearningTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="GameVisualSimulationTest">
+        <java classname="tests.GameVisualSimulationTest" failonerror="true" fork="yes">
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </java>
+    </target>
+    <target name="SGQLearningAdapterTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.rl.adapters.learners.SGQLearningAdapterTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="AggregateJAMTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.rl.models.simplecounting.AggregateJAMTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="AllTests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.rl.AllTests" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="microrts-burlap-integration.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>

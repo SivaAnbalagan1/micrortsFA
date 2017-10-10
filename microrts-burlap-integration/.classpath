@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin" path="src"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
+	<classpathentry kind="con" path="C:/Lancaster/Dissertation/git/micrortsFA/bin"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/burlap-3.0.1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/SCPSolver.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/LPSOLVESolverPack.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/commons-cli-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/xstream files/xstream-1.4.10.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

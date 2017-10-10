@@ -11,17 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import ai.RandomAI;
 import ai.RandomBiasedAI;
-import ai.abstraction.Expand;
 import ai.abstraction.HeavyRush;
 import ai.abstraction.LightRush;
 import ai.abstraction.RangedRush;
@@ -114,11 +105,9 @@ public class RunConfigurableExperiments {
     public static AI getBot(String botName) {
         switch (botName) {
             case "RandomAI":
-                return new RandomAI();
+                return new RandomAI(utt);
             case "RandomBiasedAI":
                 return new RandomBiasedAI();
-            case "Expand":
-        		return new Expand(utt, getPathFinding());
             case "LightRush":
                 return new LightRush(utt, getPathFinding());
             case "RangedRush":
@@ -161,10 +150,10 @@ public class RunConfigurableExperiments {
             // by setting "MAX_DEPTH = 1" in the next two bots, this effectively makes them Monte Carlo search, instead of Monte Carlo Tree Search
             case "NaiveMCTS1"://MonteCarlo
                 return new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 0.33f, 0.0f, 0.75f,
-                        new RandomBiasedAI(), getEvaluationFunction());
+                        new RandomBiasedAI(), getEvaluationFunction(), true);
             case "NaiveMCTS2"://epsilon-greedy MonteCarlo
                 return new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, 1, 1.00f, 0.0f, 0.25f,
-                        new RandomBiasedAI(), getEvaluationFunction());
+                        new RandomBiasedAI(), getEvaluationFunction(), true);
             case "UCT":
                 return new UCT(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, new RandomBiasedAI(),
                         getEvaluationFunction());
@@ -176,10 +165,10 @@ public class RunConfigurableExperiments {
                         getEvaluationFunction());
             case "NaiveMCTS3"://NaiveMCTS
                 return new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 0.33f, 0.0f, 0.75f,
-                        new RandomBiasedAI(), getEvaluationFunction());
+                        new RandomBiasedAI(), getEvaluationFunction(), true);
             case "NaiveMCTS4"://epsilon-greedy MCTS
                 return new NaiveMCTS(TIME, MAX_PLAYOUTS, PLAYOUT_TIME, MAX_DEPTH, 1.00f, 0.0f, 0.25f,
-                        new RandomBiasedAI(), getEvaluationFunction());
+                        new RandomBiasedAI(), getEvaluationFunction(), true);
             case "AHTN-LL":
                 try {
                     return new AHTNAI("ahtn/microrts-ahtn-definition-lowest-level.lisp", TIME,
@@ -312,53 +301,33 @@ public class RunConfigurableExperiments {
 
     }
 
-	public static void loadBots1(String botFileName) throws IOException {
-		// create a new DocumentBuilderFactory
-		try {
-			File fXmlFile = new File(botFileName);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+    public static void loadBots1(String botFileName) throws IOException {
+        try (Stream<String> lines = Files.lines(Paths.get(botFileName), Charset.defaultCharset())) {
+            lines.forEachOrdered(line -> {
+                try {
+                    if (!line.startsWith("#") && !line.isEmpty()) {
+                        bots1.add(getBot(line));
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
+    }
 
-			doc.getDocumentElement().normalize();
-			NodeList nList = doc.getElementsByTagName("bot");
-
-			for (int i = 0; i < nList.getLength(); i++) {
-				Node nNode = nList.item(i);
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					bots1.add(getBot(eElement.getAttribute("name")));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void loadBots2(String botFileName) throws IOException {
-		// create a new DocumentBuilderFactory
-		try {
-			File fXmlFile = new File(botFileName);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
-
-			doc.getDocumentElement().normalize();
-			NodeList nList = doc.getElementsByTagName("bot");
-
-			for (int i = 0; i < nList.getLength(); i++) {
-				Node nNode = nList.item(i);
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					bots2.add(getBot(eElement.getAttribute("name")));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public static void loadBots2(String botFileName) throws IOException {
+        try (Stream<String> lines = Files.lines(Paths.get(botFileName), Charset.defaultCharset())) {
+            lines.forEachOrdered(line -> {
+                try {
+                    if (!line.startsWith("#") && !line.isEmpty()) {
+                        bots2.add(getBot(line));
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
+    }
 
     public static void processBots(List<AI> bots) throws Exception {
         if (CONTINUING) {
@@ -402,7 +371,7 @@ public class RunConfigurableExperiments {
             saveZip = true;
             traceDir = args[5];
         }
-        if (maps.size() == 1) {
+        if (true) {
             if (asymetric) {
                 ExperimenterAsymmetric.runExperiments(bots1, bots2,
                         maps, utt, iterations, 3000, 300, false, out, saveTrace, saveZip, traceDir);

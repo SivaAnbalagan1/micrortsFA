@@ -4,6 +4,7 @@ import java.util.Map;
 
 import ai.ahtn.AHTNAI;
 import ai.core.AI;
+import ai.mcts.believestatemcts.BS3_NaiveMCTS;
 import ai.portfolio.NashPortfolioAI;
 import ai.portfolio.PortfolioAI;
 import ai.portfolio.portfoliogreedysearch.PGSAI;
@@ -11,6 +12,7 @@ import ai.puppet.PuppetSearchAB;
 import ai.puppet.PuppetSearchMCTS;
 import rl.models.common.ScriptActionTypes;
 import rts.units.UnitTypeTable;
+import standard.StrategyTactics;
 
 /**
  * Singleton class that takes care of loading AIs 
@@ -88,7 +90,20 @@ public class AILoader {
 				aiName.equalsIgnoreCase("NashPortfolio")){
 			toReturn = new NashPortfolioAI(utt);
 		}
-		
+		else if(aiName.equalsIgnoreCase("StrategyTacticsAI") || 
+				aiName.equalsIgnoreCase("StrategyTactics")){
+			try {
+				toReturn = new StrategyTactics(utt);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(aiName.equalsIgnoreCase("BS3_NaiveMCTSAI") || 
+				aiName.equalsIgnoreCase("BS3_NaiveMCTS")){
+			toReturn = new BS3_NaiveMCTS(utt);
+		}
+	
 		else { //name not found
 			throw new RuntimeException("AI name " + aiName + " not found.");
 		}

@@ -45,6 +45,7 @@ import rl.adapters.learners.MultiAgentRandom;
 import rl.adapters.learners.PersistentLearner;
 import rl.adapters.learners.PersistentMultiAgentQLearning;
 import rl.adapters.learners.SGQLearningAdapter;
+import rl.functionapprox.linearq.LearningRateExpDecay;
 import rl.models.common.MicroRTSRewardFactory;
 import rl.models.common.MicroRTSTerminalFunction;
 import rl.models.common.ScriptActionTypes;
@@ -606,7 +607,7 @@ public class RLParameters {
 				e.getAttribute("name"), 
 				new SGAgentType("MetaBotAIR1", world.getDomain().getActionTypes()),
 						(String) playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE),
-						(double) ((ConstantLR) playerParams.get(RLParamNames.LEARNING_RATE)).learningRate,
+						(LearningRateExpDecay) playerParams.get(RLParamNames.LEARNING_RATE_META),
 						(double) ((float)playerParams.get(RLParamNames.EPSILON)),
 						(double) ((float)playerParams.get(RLParamNames.DECAY_RATE))
 						
@@ -670,9 +671,11 @@ public class RLParameters {
 			}
 			
 			// special parameter: learning rate
-			else if(parameter.getNodeName().equalsIgnoreCase(RLParamNames.LEARNING_RATE)){
+			else if(parameter.getNodeName().equalsIgnoreCase(RLParamNames.LEARNING_RATE)|| 
+					parameter.getNodeName().equalsIgnoreCase(RLParamNames.LEARNING_RATE_META)){
 				LearningRate learningRate = null;
-				
+			 LearningRateExpDecay learningRateMeta = null;
+
 				// tests for constant learning rate
 				if(! paramElement.hasAttribute("type") || paramElement.getAttribute("type").equalsIgnoreCase("constant")){
 					learningRate = new ConstantLR(
@@ -686,6 +689,12 @@ public class RLParameters {
 						Float.parseFloat(paramElement.getAttribute("rate")), 
 						Float.parseFloat(paramElement.getAttribute("final"))
 					);
+					learningRateMeta = new LearningRateExpDecay(
+							Double.parseDouble(paramElement.getAttribute("initial")), 
+							Double.parseDouble(paramElement.getAttribute("rate")), 
+							Double.parseDouble(paramElement.getAttribute("final"))
+						);
+
 				}
 				// unknown learning rate, raises exception
 				else {
@@ -696,6 +705,9 @@ public class RLParameters {
 				initialParameters.put(
 					RLParamNames.LEARNING_RATE, learningRate
 				);
+				initialParameters.put(
+						RLParamNames.LEARNING_RATE_META, learningRateMeta
+					);
 		 	
 			}
 			else {	//parameter is a string (probably)

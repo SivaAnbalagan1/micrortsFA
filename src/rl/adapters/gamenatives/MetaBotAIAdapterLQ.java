@@ -34,6 +34,7 @@ import ai.evaluation.SimpleSqrtEvaluationFunction3;
 import ai.metagame.MetaBotAI;
 import ai.metagame.MetaBotAIR1;
 import ai.portfolio.NashPortfolioAI;
+import burlap.behavior.learningrate.LearningRate;
 import burlap.behavior.valuefunction.QValue;
 import burlap.mdp.core.action.Action;
 import burlap.mdp.core.state.State;
@@ -47,11 +48,13 @@ import rl.RLParameters;
 import rl.adapters.domain.EnumerableSGDomain;
 import rl.adapters.learners.PersistentLearner;
 import rl.functionapprox.linearq.GameInfo;
+import rl.functionapprox.linearq.LearningRateExpDecay;
 import rl.models.common.MicroRTSState;
 import rl.models.common.ScriptActionTypes;
 import rts.GameState;
 import rts.units.UnitType;
 import rts.units.UnitTypeTable;
+import ai.abstraction.LightRush;
 
 public class MetaBotAIAdapterLQ implements PersistentLearner {
 	
@@ -79,6 +82,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	GameState gs;
 	String[] AInames;
 	Map<String, ArrayList<Double>> predError;
+	Map<String, Map<String,ArrayList<Double>>> SGD;
 	Map<String, double[]> weightInit;
 	int featSize;
 	/**
@@ -94,8 +98,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	boolean initWeight;
 	String path;
 	boolean onlyCount;
-	double [] initialWeights;
-	double learningRate,epsilon,epsiDecay;
+	double [] initialWeights,sameWeights;
+	double epsilon,epsiDecay;
+	LearningRateExpDecay learningRate;
 	/**
 	 * Creates a MetaBotAIAdapter with default timeout, playouts and lookahead
 	 * @param agentName
@@ -117,7 +122,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		this.name=agentName;this.type=agentType;this.domain = domain;
 	}*/
 	public MetaBotAIAdapterLQ(SGDomain domain,String agentName, SGAgentType agentType,
-			String path, double lr,double epi,double epiDecay){
+			String path, LearningRateExpDecay lr,double epi,double epiDecay){
 		this.name=agentName;this.type=agentType;this.domain = domain;this.path=path;
 		this.learningRate = lr; this.epsilon=epi;this.epsiDecay = epiDecay; 
 	
@@ -156,7 +161,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
-	
+	   
          return nameToAction.get(currentStrategy.getClass().getSimpleName());
 	}
 
@@ -170,11 +175,12 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		weightInit = new HashMap();
 		// retrieves the list of AIs and transforms it in an array
 		Map<String, AI> actionMapping = ScriptActionTypes.getLearnerActionMapping(unitTypeTable);
+//		actionMapping.remove(LightRush.class.getSimpleName());
 		portfolio = actionMapping.values();
 		AI[] portfolioArray = portfolio.toArray(new AI[portfolio.size()]);
 		names = actionMapping.keySet();
 		AInames = names.toArray(new String[names.size()]); 
-		
+		for(String action: AInames)System.out.println("AIs: " + action);
 		// selects the first AI as currentStrategy just to prevent NullPointerException
 		currentStrategy = portfolioArray[0];
 		int runit =0;
@@ -183,13 +189,13 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
         int quadFeat = 0;
         quadFeat = uTTable.getUnitTypes().size() -runit;
         featSize = quadFeat *9*2 +9+9+2+1;// 2-resource, 9-health for 2 players and time
-    //   featSize = quadFeat *9*2 +1;// and time.
-
+ 
         int actionnum = portfolioArray.length;
         double [] features = new double[featSize];
         Arrays.fill(features, 0.0);
         initWeight = false;
         initialWeights = new double[featSize*actionnum];
+        sameWeights = new double[featSize];//same weights for all actions, for testing diff
 		if(path==null)initWeight=true;
 		else loadKnowledge(path);
 		
@@ -198,12 +204,11 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	       double weightLow = -1/Math.sqrt(featSize);//quadrant 9 and player 2
 	        double weightHigh = 1/Math.sqrt(featSize);
 	        double range = weightHigh - weightLow;
-	        
-	        //System.out.println(features.length);
-	        Random r = new Random();
-	        for(int i=0;i<initialWeights.length;i++){
+           Random r = new Random();
+	       for(int i=0;i<initialWeights.length;i++){
 	            initialWeights[i] = r.nextDouble() * range + weightLow;
 	        }
+	        
 		}
 		// finally creates the MetaBotAI w/ specified parameters
 		metaBotAI = new MetaBotAIR1(
@@ -258,7 +263,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 				    actions = metaBotAI.tdFA.actionNames();
 				    Map<String,double []> actionWeights1 = metaBotAI.tdFA.actionWeightret();
 				    predError = metaBotAI.tdFA.getPredError();
-					for(String action: actions ){
+				    for(String action: actions ){
 							fileWriter.write(String.format(
 								"\t<a name='%s' value='%s' />\n",
 								action,
@@ -266,11 +271,13 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 								);
 
 					}
+				
+			//	    SGD = metaBotAI.tdFA.getSGD();
 					for(String action: actions ){
 						fileWriter.write(String.format(
 							"\t<a name='%sSGD' value='%s' />\n",
 							action,
-							Arrays.toString(predError.get(action).toArray()))
+						Arrays.toString(predError.get(action).toArray()))
 							);
 				}
 				// closes state tag
@@ -310,7 +317,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		}
 		initWeight = false;
 		//retrieves the game states, they'll be useful for filling the knowledge in
-		Map<String, State> nameToState = ((EnumerableSGDomain)domain).namesToStates();
+	//	Map<String, State> nameToState = ((EnumerableSGDomain)domain).namesToStates();
 		
 		//traverses all 1st level nodes of xml file (children of root node) 
 		NodeList nList = doc.getDocumentElement().getChildNodes();
@@ -339,13 +346,16 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 					Element actionElement = (Element) actionNode;
 					String actionName = actionElement.getAttribute("name");
 					// creates and stores the loaded QValue
+					if(!actionName.contains("SGD")){
+						if(!actionName.contains("Light")){
 					String value = actionElement.getAttribute("value");
 					String value1 = value.substring(1, value.length()-1);
 					String [] weightString = value1.split(",");
 					double [] weightDouble = Arrays.stream(weightString).mapToDouble(Double::parseDouble).toArray();
 					//System.out.println(actionName.substring(actionName.length()-2,3));
-					if(!actionName.contains("SGD"))
-						weightInit.put(actionName, weightDouble.clone());
+					weightInit.put(actionName, weightDouble.clone());
+						}
+					}
 				}
 			}
 			}
