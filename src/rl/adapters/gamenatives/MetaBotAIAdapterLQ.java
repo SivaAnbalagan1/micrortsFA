@@ -175,12 +175,13 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		weightInit = new HashMap();
 		// retrieves the list of AIs and transforms it in an array
 		Map<String, AI> actionMapping = ScriptActionTypes.getLearnerActionMapping(unitTypeTable);
-//		actionMapping.remove(LightRush.class.getSimpleName());
+		actionMapping.remove(LightRush.class.getSimpleName());
 		portfolio = actionMapping.values();
 		AI[] portfolioArray = portfolio.toArray(new AI[portfolio.size()]);
 		names = actionMapping.keySet();
 		AInames = names.toArray(new String[names.size()]); 
-		for(String action: AInames)System.out.println("AIs: " + action);
+		System.out.println("Strategies used:");
+		for(String action: AInames)System.out.println(action);
 		// selects the first AI as currentStrategy just to prevent NullPointerException
 		currentStrategy = portfolioArray[0];
 		int runit =0;
