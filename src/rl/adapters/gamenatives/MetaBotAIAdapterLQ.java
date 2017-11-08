@@ -99,7 +99,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	String path;
 	boolean onlyCount;
 	double [] initialWeights,sameWeights;
-	double epsilon,epsiDecay;
+	double epsilon,epsiDecay,lambdaEtrace;
 	LearningRateExpDecay learningRate;
 	/**
 	 * Creates a MetaBotAIAdapter with default timeout, playouts and lookahead
@@ -122,9 +122,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		this.name=agentName;this.type=agentType;this.domain = domain;
 	}*/
 	public MetaBotAIAdapterLQ(SGDomain domain,String agentName, SGAgentType agentType,
-			String path, LearningRateExpDecay lr,double epi,double epiDecay){
+			String path, LearningRateExpDecay lr,double epi,double epiDecay,double lEtrace){
 		this.name=agentName;this.type=agentType;this.domain = domain;this.path=path;
-		this.learningRate = lr; this.epsilon=epi;this.epsiDecay = epiDecay; 
+		this.learningRate = lr; this.epsilon=epi;this.epsiDecay = epiDecay; this.lambdaEtrace=lEtrace;
 	
 	}
 
@@ -150,8 +150,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		}
 		
 		MicroRTSState state = (MicroRTSState) s;
+		gs = state.getUnderlyingState();
+
 		if(metaBotAI == null){
-			gs = state.getUnderlyingState();
 			initializeMetaBotAI(gs.getUnitTypeTable());
 		}
 		try{
@@ -161,7 +162,6 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
-	   
          return nameToAction.get(currentStrategy.getClass().getSimpleName());
 	}
 
@@ -175,7 +175,8 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		weightInit = new HashMap();
 		// retrieves the list of AIs and transforms it in an array
 		Map<String, AI> actionMapping = ScriptActionTypes.getLearnerActionMapping(unitTypeTable);
-		actionMapping.remove(LightRush.class.getSimpleName());
+/* uncomment for no light rush test*/		
+//		actionMapping.remove(LightRush.class.getSimpleName());
 		portfolio = actionMapping.values();
 		AI[] portfolioArray = portfolio.toArray(new AI[portfolio.size()]);
 		names = actionMapping.keySet();
@@ -214,7 +215,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		// finally creates the MetaBotAI w/ specified parameters
 		metaBotAI = new MetaBotAIR1(
 			portfolioArray, AInames,initialWeights,features, 
-	unitTypeTable,learningRate,epsilon,epsiDecay
+	unitTypeTable,learningRate,epsilon,epsiDecay,lambdaEtrace
 		);
 //		setLearningRate(0.001);
 //		setEpsilon(0.5);
@@ -229,6 +230,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void gameTerminated() {
+	
 		decayEpsilon();//decay epsilon over episodes.
 	}
 	public void decayEpsilon() {
@@ -348,14 +350,15 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 					String actionName = actionElement.getAttribute("name");
 					// creates and stores the loaded QValue
 					if(!actionName.contains("SGD")){
-						if(!actionName.contains("Light")){
+					/* uncomment for no light rush test*/
+					//	if(!actionName.contains("Light")){
 					String value = actionElement.getAttribute("value");
 					String value1 = value.substring(1, value.length()-1);
 					String [] weightString = value1.split(",");
 					double [] weightDouble = Arrays.stream(weightString).mapToDouble(Double::parseDouble).toArray();
 					//System.out.println(actionName.substring(actionName.length()-2,3));
 					weightInit.put(actionName, weightDouble.clone());
-						}
+					//	}
 					}
 				}
 			}
