@@ -37,25 +37,30 @@ public class TDFA {
 	Map<String, ArrayList<Double>> predError;
 	Map<String, Map<String,ArrayList<Double>>> SGD;
 	Map<String, ArrayList<Double>> weightchange;
+	Map<String, double[]> eligibiltyTrace;
 	double [] weighttemp = new double [featuresize];
 	LinearQ LQ;
 	String [] aiNamesCopy;
 	double convergenceValue;
+	double lambda_eTrace,qOld_eTrace;
 	Map<String, String> convergence;
 	String actiontemp;
 	public TDFA(String [] aiNames,double [] featureValue,double [] weights
-			,LearningRateExpDecay lr, double epi, double epiDecay){
+			,LearningRateExpDecay lr, double epi, double epiDecay,double lambdaEtrace){
 	    LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
 		featuresize = featureValue.length;
 		weightChange = new double[featuresize];
 		actionLR =  new HashMap();actionCurLR =  new HashMap();
 		predError = new HashMap();aiNamesCopy = aiNames.clone();
 		weightchange = new HashMap();convergence = new HashMap();
-		SGD = new HashMap();
+		SGD = new HashMap();eligibiltyTrace = new HashMap();
+		qOld_eTrace = 0;
 		expDecayLRate = lr;
 //		curLR = lr; //set initial learning rate
 		curEpsilon =epi;
 		epsilonDecay = epiDecay;
+		lambda_eTrace = lambdaEtrace;
+				
 		//adding initial learning rate for all actions
 		for(String action : aiNames){
 			LearningRateExpDecay lrdummy = new LearningRateExpDecay(0.1,0.1);
@@ -63,6 +68,7 @@ public class TDFA {
 			actionLR.put(action, lrdummy);
 			actionCurLR.put(action,lrdummy.getinitialRate());
 			predError.put(action, new ArrayList<Double>());
+			eligibiltyTrace.put(action, new double[featuresize]);
 		}
 		LinearQHashState sdummy = new LinearQHashState();
 		LinearQHashStateFactory hashDummy = new LinearQHashStateFactory();
@@ -106,7 +112,8 @@ public class TDFA {
 			actionCurLR.put(prevAction, learningRate);
 			error = qtplus1 - qt;
 			predError.get(prevAction).add(error);
-       		calcTDWeight();
+      		calcTDWeight();
+	//		calcTrueTDWeight();
 		}
     	qt = qtplus1;
 		//prevFeature = sfList;
@@ -115,6 +122,48 @@ public class TDFA {
     	prevfeatValue = featValue;
         return actionEpsilon.actionName();//implement the best action in microRTS.		
 	}	
+	private void calcTrueTDWeight(){
+		/*Van Seijen, H., Mahmood, A.R., Pilarski, P.M., Machado, M.C. and Sutton, R.S., 2016. 
+		 * True online temporal-difference learning. Journal of Machine Learning Research,
+		 *  17(145), pp.1-40
+		 * 
+		 */
+		
+		double [] eTraceTemp = new double[featuresize]; 
+		double [] eTrace_featvalue = new double[featuresize];
+		double[] prevWeight = new double[featuresize];
+		double eTraceFeature,delta,newWeight;int idx[];
+		eTraceFeature =0;
+		delta = reward + (discountFactor * qtplus1) - qt;
+		eTraceTemp = eligibiltyTrace.get(prevAction);
+		//previous action features.
+		int i=0;
+		for(StateFeature sf: gradient){
+			eTrace_featvalue[i] = sf.value;
+			i++;
+		}
+		for(i=0;i<featuresize;i++)
+			eTraceFeature = eTraceFeature + (eTraceTemp[i] * eTrace_featvalue[i]);  
+		for(i=0;i<featuresize;i++)
+			eTraceTemp[i] = (discountFactor * lambda_eTrace * eTraceTemp[i]) + 
+					eTrace_featvalue[i] - 
+					((learningRate*discountFactor * lambda_eTrace*eTraceFeature)
+					*eTrace_featvalue[i]);
+		eligibiltyTrace.put(prevAction, eTraceTemp);
+		
+		idx = LQ.actionFeatureidx.get(prevAction);
+		for(i=0;i<idx.length;i++)
+			prevWeight[i]=LQ.LVFA.getParameter(idx[i]);
+		
+		 for(i=0;i<featuresize;i++){
+			    newWeight = prevWeight[i] + 
+			    		learningRate *(delta + qt - qOld_eTrace) * eTraceTemp[i]
+			    		- learningRate * (qt - qOld_eTrace) * eTrace_featvalue[i];
+				LQ.LVFA.setParameter(idx[i],newWeight);
+		 }
+		 qOld_eTrace =qtplus1; 
+
+	}
 	private void calcTDWeight(){
 		double threshold = 0.000001,change;
 		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
@@ -126,7 +175,6 @@ public class TDFA {
 				(reward + (discountFactor * qtplus1) - qt) * sf.value;
 			 //differentiation of qt is its value. X(s)
 			i++;
-		
 		}
 		i=0;
 		idx = LQ.actionFeatureidx.get(prevAction);
