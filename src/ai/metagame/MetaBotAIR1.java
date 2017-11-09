@@ -45,7 +45,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 	double [] featinit,weightsclone;
 	double [] weights,featureValue;
 	int playerGameInfo;
-	double  epsi, epsiDecay;
+	double  epsi, epsiDecay,l_etrace;
 	LearningRateExpDecay lRate;
 	public MetaBotAIR1(UnitTypeTable utt) {
 		this(new AI[]{new WorkerRush(utt),
@@ -55,16 +55,17 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
           new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush"},
           new double[]{},
           new double[]{},
-                 utt, new LearningRateExpDecay(0.001,1,0.001),0,1);
+                 utt, new LearningRateExpDecay(0.001,1,0.001),0,1,0.3);
 	    }
 	   
 	public MetaBotAIR1(AI s[], String n[], double [] weights,double [] featureinit,
-			UnitTypeTable utt, LearningRateExpDecay learningRate,double epsilon, double decayEpsilon) {
+			UnitTypeTable utt, LearningRateExpDecay learningRate,double epsilon, double decayEpsilon,double lEtrace) {
 	        super(3000, 10);
 	        
-	        tdFA =  new TDFA(n,featureinit,weights,learningRate,epsilon,decayEpsilon);
+	        tdFA =  new TDFA(n,featureinit,weights,learningRate,epsilon,decayEpsilon,lEtrace);
 	        weightsclone = weights; featinit = featureinit;
 	        lRate = learningRate; epsi = epsilon; epsiDecay = decayEpsilon;
+	        l_etrace = lEtrace;
 	        givenAIs = s;names=n;utt1=utt;
 	        AIlookup = new HashMap<String,AI>();
 	        unitTypes = utt.getUnitTypes();
@@ -97,7 +98,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     
     @Override
     public AI clone() {
-        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,utt1,lRate,epsi,epsiDecay);
+        return new MetaBotAIR1(givenAIs, names, weightsclone,featinit,utt1,lRate,epsi,epsiDecay,l_etrace);
     }
     
     
@@ -117,5 +118,4 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
     
           
 }
-
 
