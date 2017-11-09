@@ -155,6 +155,7 @@ public class RLParameters {
 			floatParams.add(RLParamNames.EPSILON); 
 			floatParams.add(RLParamNames.INITIAL_Q);
 			floatParams.add(RLParamNames.DECAY_RATE);
+			floatParams.add(RLParamNames.LAMBDA_ETRACE);
 		}
 		return floatParams;
 	}
@@ -195,6 +196,8 @@ public class RLParameters {
 		params.put(RLParamNames.INITIAL_Q, 1.0f);
 		params.put(RLParamNames.EPSILON, 0.1f);
 		params.put(RLParamNames.DECAY_RATE, 0.1f);
+		params.put(RLParamNames.LAMBDA_ETRACE, 0.1f);
+		
 		
 		// parameters of search methods
 		params.put(RLParamNames.TIMEOUT, 100);
@@ -609,9 +612,8 @@ public class RLParameters {
 						(String) playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE),
 						(LearningRateExpDecay) playerParams.get(RLParamNames.LEARNING_RATE_META),
 						(double) ((float)playerParams.get(RLParamNames.EPSILON)),
-						(double) ((float)playerParams.get(RLParamNames.DECAY_RATE))
-						
-			     
+						(double) ((float)playerParams.get(RLParamNames.DECAY_RATE)),
+						(double) ((float)playerParams.get(RLParamNames.LAMBDA_ETRACE))
 			);
 			metaBot = true;
 		}

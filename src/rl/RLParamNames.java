@@ -20,6 +20,7 @@ public class RLParamNames {
 	public static final String EPSILON = "epsilon";
 	public static final String DUMMY_POLICY = "dummy-policy";
 	public static final String PATH_TO_KNOWLEDGE = "path-to-knowledge";
+	public static final String LAMBDA_ETRACE = "lambda-etrace";
 	
 	// parameters of search methods
 	public static final String TIMEOUT = "timeout";
