@@ -49,7 +49,8 @@ public class MetaBotTest {
         UnitTypeTable unitTypeTable = new UnitTypeTable();
         String [] AInames ;
        AInames = new String[]{"WorkerRush","LightRush","RangedRush","HeavyRush","BuildBarracks","Expand"};
-       // AInames = new String[]{"WorkerRush","RangedRush","HeavyRush","BuildBarracks","Expand"};
+        //without LightRush
+     //  AInames = new String[]{"WorkerRush","RangedRush","HeavyRush","BuildBarracks","Expand"};
         
         int runit =0;
 		UnitTypeTable uTTable = new UnitTypeTable();
@@ -67,7 +68,8 @@ public class MetaBotTest {
         double [] features = new double[featSize];
         double [] loadedWeights; 
         Arrays.fill(features, 0.0);
-        String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/FA-Results-Verification/Strategy/nolight/rep01/q_MetaBot_final11.txt";
+       // String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/experiments/FunctionApprox/q_MetaBot_final.txt";
+        String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/files/q_MetaBot_final.txt";
         loadedWeights = loadKnowledge(path,featSize,AInames);
        if(loadedWeights!= null)initialWeights = loadedWeights;
        else{
@@ -79,7 +81,7 @@ public class MetaBotTest {
         AI player1 = new MetaBotAIR1(
         		new AI[]{
     	    		new WorkerRush(unitTypeTable),
-     	            new LightRush(unitTypeTable),
+    	            new LightRush(unitTypeTable),
     	            new RangedRush(unitTypeTable),
     	            new HeavyRush(unitTypeTable),
     	            new BuildBarracks(unitTypeTable),
@@ -88,7 +90,7 @@ public class MetaBotTest {
         		AInames,
                initialWeights,
                features,
-               unitTypeTable,new LearningRateExpDecay(0,1,0),0,0.9996001
+               unitTypeTable,new LearningRateExpDecay(0,0,0),0,0.9996001,0.3
             );
         /*AI player1 = new NashPortfolioAI(
     		new AI[]{
@@ -120,8 +122,9 @@ public class MetaBotTest {
         );*/
         //AI player2 = new AHTNAI(unitTypeTable);
         
-        //AI player2 = new StrategyTactics(unitTypeTable);
-        AI player2 = new BS3_NaiveMCTS(unitTypeTable);
+     //   AI player2 = new StrategyTactics(unitTypeTable);
+       //AI player2 = new BS3_NaiveMCTS(unitTypeTable);
+       AI player2 = new  LightRush(unitTypeTable);
         bots.add(player1);
         System.out.println("Added first player.");
         
@@ -132,11 +135,12 @@ public class MetaBotTest {
         
         // prepares maps
         List<PhysicalGameState> maps = new LinkedList<PhysicalGameState>();        
-        maps.add(PhysicalGameState.load("maps/basesWorkers24x24.xml", unitTypeTable));
+    //    maps.add(PhysicalGameState.load("maps/basesWorkers24x24.xml", unitTypeTable));
+        maps.add(PhysicalGameState.load("maps/BroodWar/BloodBath.scmB.xml", unitTypeTable));
         System.out.println("Maps prepared.");
         
         // runs the 'tournament'
-        Experimenter.runExperiments(bots, maps, unitTypeTable, 1, 3000, 300, true, out,0,true,false);
+        Experimenter.runExperiments(bots, maps, unitTypeTable, 1, 12000, 300, true, out,0,true,false);
         System.out.println("Done.");
 	}
 	
