@@ -68,8 +68,9 @@ public class MetaBotTest {
         double [] features = new double[featSize];
         double [] loadedWeights; 
         Arrays.fill(features, 0.0);
-       // String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/experiments/FunctionApprox/q_MetaBot_final.txt";
-        String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/files/q_MetaBot_final.txt";
+    
+        String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/experiments/FunctionApprox/q_MetaBot_final.txt";
+        
         loadedWeights = loadKnowledge(path,featSize,AInames);
        if(loadedWeights!= null)initialWeights = loadedWeights;
        else{
@@ -135,8 +136,8 @@ public class MetaBotTest {
         
         // prepares maps
         List<PhysicalGameState> maps = new LinkedList<PhysicalGameState>();        
-    //    maps.add(PhysicalGameState.load("maps/basesWorkers24x24.xml", unitTypeTable));
-        maps.add(PhysicalGameState.load("maps/BroodWar/BloodBath.scmB.xml", unitTypeTable));
+        maps.add(PhysicalGameState.load("maps/basesWorkers24x24.xml", unitTypeTable));
+     //   maps.add(PhysicalGameState.load("maps/BroodWar/BloodBath.scmB.xml", unitTypeTable));
         System.out.println("Maps prepared.");
         
         // runs the 'tournament'

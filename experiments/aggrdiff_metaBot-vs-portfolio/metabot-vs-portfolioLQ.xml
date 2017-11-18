@@ -1,17 +1,18 @@
 <experiment>
 <parameters>
-	<episodes value='100' />
+	<episodes value='500' />
 	<game-duration value='3000' /> 
 	<abstraction-model value="aggregatediff" />
 	<output-dir value='/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/TestResults/meta-vs-portfolio' />
 	<reward-function value='winloss' />
 	<quiet-learning value='true' />
 </parameters>
-<player name='MetaBot' type='MetaBotAIR1'></player>
-<player type='PortfolioAI'>
-	<timeout value="50" />
-	<playouts value="150" />
-	<lookahead value="1000" />
-	<evaluation-function value="SimpleSqrtEvaluationFunction3" />
-</player>
+<player name='MetaBot' type='MetaBotAIR1'>
+	<path-to-knowledge value="/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/Results-FA-AHTN/Portfolio/rep01/q_MetaBot_final.txt"></path-to-knowledge></player>
+	<player type='PortfolioAIAdapter' name="PAIA">
+		<timeout value="50" />
+		<playouts value="150" />
+		<lookahead value="1000" />
+		<evaluation-function value="SimpleSqrtEvaluationFunction3" />
+	</player>
 </experiment>

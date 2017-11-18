@@ -76,6 +76,7 @@ public class MetaBotAIR1 extends AIWithComputationBudget {
 		 if (gs.canExecuteAnyAction(player)) {
 			 playerGameInfo = player;
 			 activeAI = AIlookup.get(tdFA.getAction(getFeature(gs))).clone();
+	//		 System.out.println(gs.getTime());
 	//		 System.out.println("AI" + activeAI.toString());
 			return activeAI.getAction(player, gs);
 		 }

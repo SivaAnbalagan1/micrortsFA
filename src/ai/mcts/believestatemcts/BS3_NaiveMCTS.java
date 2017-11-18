@@ -63,7 +63,8 @@ public class BS3_NaiveMCTS extends NaiveMCTS implements AIWithBelieveState {
         if (gs.canExecuteAnyAction(player)) {
             startNewComputation(player, gs);
             computeDuringOneGameFrame();
-            return getBestActionSoFar();
+            PlayerAction pa1 = getBestActionSoFar();
+            return pa1;
         } else {
             return new PlayerAction();
         }

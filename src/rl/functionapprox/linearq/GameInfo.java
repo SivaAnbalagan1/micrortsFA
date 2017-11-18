@@ -202,13 +202,13 @@ public class GameInfo {
 	public String findQuadrant(int widthpos, int heightpos){
 		 String quadrant = " ";
 		 quadnos = 9;
-		 if (widthpos <=8)quadrant = "1";		 
-		 else if (widthpos <=16)quadrant = "2";		 
-		 else if (widthpos <=24)quadrant = "3";
+		 if (widthpos <=21)quadrant = "1";		 
+		 else if (widthpos <=42)quadrant = "2";		 
+		 else if (widthpos <=64)quadrant = "3";
 
-		 if (heightpos <=8)quadrant += "1";
-		 else if (heightpos <=16)quadrant += "2";
-		 else if (heightpos <=24)quadrant += "3";
+		 if (heightpos <=21)quadrant += "1";
+		 else if (heightpos <=42)quadrant += "2";
+		 else if (heightpos <=64)quadrant += "3";
         return quadrant;
 	}
 	

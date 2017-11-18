@@ -34,7 +34,7 @@ public class SingleAgentJAM implements JointModel {
 		
 		boolean gameOver = false;
 		boolean changedStage = false;	//stores whether game has moved to a different AggregateDiffState
-		
+	
 		// instantiates the AI that player 1 selected (clones the object)
 		AI ai1 = actions.get(ja.action(0).actionName()).clone();
 		

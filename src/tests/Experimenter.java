@@ -125,7 +125,7 @@ public class Experimenter {
                                 pa2 = ai2.getAction(1, new PartiallyObservableGameState(gs,1));
 //                                if (DEBUG>=1) {System.out.println("AI2 done.");out.flush();}
                             } else {
-                                pa1 = ai1.getAction(0, gs);
+                               pa1 = ai1.getAction(0, gs);
                                 if (DEBUG>=1) {System.out.println("AI1 done.");out.flush();}
                                 pa2 = ai2.getAction(1, gs);
                                 if (DEBUG>=1) {System.out.println("AI2 done.");out.flush();}
@@ -137,7 +137,7 @@ public class Experimenter {
                                 trace.addEntry(te);
                             }
                             
-                            if (gs.issueSafe(pa1)) lastTimeActionIssued = gs.getTime();
+                           if (gs.issueSafe(pa1)) lastTimeActionIssued = gs.getTime();
 //                            if (DEBUG>=1) {System.out.println("issue action AI1 done: " + pa1);out.flush();}
                             if (gs.issueSafe(pa2)) lastTimeActionIssued = gs.getTime();
 //                            if (DEBUG>=1) {System.out.println("issue action AI2 done:" + pa2);out.flush();}

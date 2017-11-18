@@ -34,6 +34,7 @@ public class SingleAgentDomain extends EnumerableSGDomain {
 	 */
 	public SingleAgentDomain() throws JDOMException, IOException {
 		this("maps/basesWorkers24x24.xml");
+	//	this("maps/BroodWar/BloodBath.scmB.xml");
 
 	}
 

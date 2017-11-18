@@ -151,7 +151,6 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		
 		MicroRTSState state = (MicroRTSState) s;
 		gs = state.getUnderlyingState();
-
 		if(metaBotAI == null){
 			initializeMetaBotAI(gs.getUnitTypeTable());
 		}
@@ -162,7 +161,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
-         return nameToAction.get(currentStrategy.getClass().getSimpleName());
+	    return nameToAction.get(currentStrategy.getClass().getSimpleName());
 	}
 
 	/**

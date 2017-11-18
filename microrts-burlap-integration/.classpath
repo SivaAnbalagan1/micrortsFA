@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/LPSOLVESolverPack.jar"/>
 	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/commons-cli-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/xstream files/xstream-1.4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Lancaster/Dissertation/git/micrortsFA/lib/minimal-json-0.9.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
