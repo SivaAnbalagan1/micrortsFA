@@ -1,9 +1,9 @@
 <experiment>
 <parameters>
-	<episodes value="3000" ></episodes>
+	<episodes value="3000"></episodes>
 	<game-duration value="3000" /> 
 	<abstraction-model value="singleagent" />
-	<microrts-opponent value="PuppetSearchMCTS" />
+	<microrts-opponent value="StrategyTactics" />
 	<output-dir value="/tmp/results" />
 	<reward-function value="simpleweighted" />
 	<quiet-learning value="true" />
