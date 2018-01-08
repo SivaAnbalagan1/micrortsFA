@@ -5,7 +5,7 @@ classpath=.:bin:lib/*
 
 echo "Launching experiment..."
 
-#java -classpath $classpath -Djava.library.path=lib/ rl.RLExperiment "$@" 
-java -classpath /media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/bin:/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/lib/*  rl.RestartableRLExp "$@"
+java -classpath $classpath -Djava.library.path=lib/ rl.RLExperiment "$@" 
+#java -classpath /media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/bin:/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/lib/*  rl.RestartableRLExp "$@"
 
 echo "Done."
