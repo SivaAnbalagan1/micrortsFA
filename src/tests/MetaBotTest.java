@@ -57,7 +57,8 @@ public class MetaBotTest {
         for(UnitType ut: uTTable.getUnitTypes())if(ut.isResource)runit++;
         int quadFeat = 0;
         quadFeat = uTTable.getUnitTypes().size() -runit;
-        int featSize = quadFeat *9*2 +9+9+2+1;// 2-resource, 9-health for 2 players and time
+        int featSize = quadFeat *9*2 +9+9+2+1+1;// 2-resource, 9-health for 2 players and time
+        //1 more for intercept
         //int featSize = unitTypeTable.getUnitTypes().size()-1;
         //featSize = featSize*9 *2;
         //featSize = featSize + 9+9+2+1;
@@ -69,8 +70,7 @@ public class MetaBotTest {
         double [] loadedWeights; 
         Arrays.fill(features, 0.0);
     
-        String path = "/media/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/experiments/FunctionApprox/q_MetaBot_final.txt";
-        
+        String path = "/media1/siva/OS/Lancaster/Dissertation/git/microrts-burlap-integration/experiments/FunctionApprox/q_MetaBot_final.txt";
         loadedWeights = loadKnowledge(path,featSize,AInames);
        if(loadedWeights!= null)initialWeights = loadedWeights;
        else{
