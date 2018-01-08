@@ -55,7 +55,6 @@ public class LinearQ {
 		createQvalues();//create q-value class.Epsilon greedy will use this.
 	}
 	public void featureValues(double [] featureValue){
-	//	System.out.println(Arrays.toString(featureValue));
 		Features = new LinearQStateFeatures(featureValue, featureSize);
 		LVFA = new LinearVFAExtend(Features,0);
 		LVFA.setFeatureSize(featureSize);

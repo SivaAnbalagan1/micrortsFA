@@ -94,7 +94,6 @@ public class GameInfo {
 		setupFeatnWeight();
 		standardizeTimeFeat(gs.getTime());
 		normalize();
-		featureValue[featureValue.length-1] = 1;
 /*		for(int j=0;j<featureValue.length;j++){
 			System.out.print(featureValue[j]+ " ");
 		}System.out.println();*/
@@ -133,7 +132,7 @@ public class GameInfo {
 		for (Unit u : pgs.getUnits())if(u.getType().isResource)runit++;
 		for(UnitType ut: unitTypeList)if(ut.isResource)runitname++;
 		quadfeat = unitTypeList.size()-runitname;
-		featsize = quadfeat *9*2+9+9+2+1+1;//9-health-2,total res,1-time, intercept
+		featsize = quadfeat *9*2+9+9+2+1;//9-health-2,total res,1-time
 	//	featsize = quadfeat *9*2+1;//1-time
 	//	System.out.println(quadfeat + " " +runit + " " + featsize);
 	//	weights = new double[unitTypes.size() *quadnos*2*ainames.length];
