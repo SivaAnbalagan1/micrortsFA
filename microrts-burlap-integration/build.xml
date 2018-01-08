@@ -3,7 +3,7 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="microrts-burlap-integration">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="micrortsFA">
     <property environment="env"/>
     <property name="file_prompt" value=""/>
     <property name="junit.output.dir" value="junit"/>
@@ -17,6 +17,9 @@
         <pathelement location="lib/SCPSolver.jar"/>
         <pathelement location="lib/LPSOLVESolverPack.jar"/>
         <pathelement location="lib/commons-cli-1.4.jar"/>
+    	<pathelement location="lib/xstream-1.4.10.jar"/>
+        <pathelement location="lib/minimal-json-0.9.4.jar"/>
+    	    	
     </path>
     <target name="init">
         <mkdir dir="bin"/>
