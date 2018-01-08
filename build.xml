@@ -17,6 +17,8 @@
         <pathelement location="lib/SCPSolver.jar"/>
         <pathelement location="lib/LPSOLVESolverPack.jar"/>
         <pathelement location="lib/commons-cli-1.4.jar"/>
+        <pathelement location="lib/minimal-json-0.9.4.jar"/>
+        <pathelement location="lib/xstream-1.4.10.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
