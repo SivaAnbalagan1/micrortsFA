@@ -1,0 +1,24 @@
+<experiment>
+<parameters>
+	<episodes value="100" />
+	<game-duration value="3000" /> 
+	<abstraction-model value="aggregatediff" />
+	<output-dir value="/tmp/results" />
+	<reward-function value="winloss" />
+	<quiet-learning value="true" />
+	<debug-level value="0" />
+</parameters>
+
+<player name='MetaBot' type='MetaBotAIR1'>
+	
+	<learning-rate-meta type="exponential-decay" initial="0" final="0" rate="1" /> <!-- From 1.0 to 0.01 in 55000 episodes -->
+	<epsilon value="0"></epsilon>
+	<decay-rate value="1"></decay-rate></player>
+
+<player name='MetaBot2' type='MetaBotAIR1'>
+        
+        <learning-rate-meta type="exponential-decay" initial="0" final="0" rate="1" /> <!-- From 1.0 to 0.01 in 55000 episodes -->
+        <epsilon value="0"></epsilon>
+        <decay-rate value="1"></decay-rate></player>
+
+</experiment>
