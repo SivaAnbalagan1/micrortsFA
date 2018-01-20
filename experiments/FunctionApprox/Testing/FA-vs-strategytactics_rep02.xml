@@ -13,7 +13,7 @@
 <player name='MetaBot' type='MetaBotAIR1'>
 	
 	<learning-rate-meta type="exponential-decay" initial="0" final="0" rate="1" /> <!-- From 1.0 to 0.01 in 55000 episodes -->
-<path-to-knowledge value="results/FA-vs-strategytactics/rep02/q_MetaBot_final.txt " />
+<path-to-knowledge value="results/FA-vs-strategytactics/rep02/q_MetaBot_final.txt" />
 	<epsilon value="0"></epsilon>
 	<decay-rate value="1"></decay-rate></player>
 <player name='pgsai' type='Dummy'>
