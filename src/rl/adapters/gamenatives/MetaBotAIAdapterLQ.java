@@ -189,7 +189,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
         for(UnitType ut: uTTable.getUnitTypes())if(ut.isResource)runit++;
         int quadFeat = 0;
         quadFeat = uTTable.getUnitTypes().size() -runit;
-        featSize = quadFeat *9*2 +9+9+2+1+1;// 2-resource, 9-health for 2 players,time and bias
+        featSize = quadFeat *9*2 +9+9+2+1;//intercept+1;// 2-resource, 9-health for 2 players,time and bias
  
         int actionnum = portfolioArray.length;
         double [] features = new double[featSize];
