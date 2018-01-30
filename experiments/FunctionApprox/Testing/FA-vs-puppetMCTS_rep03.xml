@@ -3,7 +3,7 @@
 	<episodes value="100" ></episodes>
 	<game-duration value="3000" /> 
 	<abstraction-model value="singleagent" />
-	<microrts-opponent value="BS3_NaiveMCTS" />
+	<microrts-opponent value="PuppetSearchMCTS" />
 	<output-dir value="/tmp/results" />
 	<reward-function value="simpleweighted" />
 	<quiet-learning value="true" />
@@ -13,9 +13,9 @@
 <player name='MetaBot' type='MetaBotAIR1'>
 	
 	<learning-rate-meta type="exponential-decay" initial="0" final="0" rate="1" /> <!-- From 1.0 to 0.01 in 55000 episodes -->
-	<epsilon value="0"> </epsilon>
-	<decay-rate value="1"></decay-rate>
-</player>
+<path-to-knowledge value="results/FA-vs-puppetMCTS/rep03/q_MetaBot_final.txt" />
+	<epsilon value="0"></epsilon>
+	<decay-rate value="1"></decay-rate></player>
 <player name='pgsai' type='Dummy'>
 		<dummy-policy value="WorkerRush" /> <!-- does not matter -->
 </player>

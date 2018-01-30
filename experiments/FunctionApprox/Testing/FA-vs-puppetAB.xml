@@ -11,7 +11,6 @@
 </parameters>
 
 <player name='MetaBot' type='MetaBotAIR1'>
-	<path-to-knowledge value="/home/lancs/anbalaga/micrortsFA-master/files/q_MetaBot_final.txt"></path-to-knowledge>
 	<learning-rate-meta type="exponential-decay" initial="0" final="0" rate="1" /> <!-- From 1.0 to 0.01 in 55000 episodes -->
 	<epsilon value="0"></epsilon>
 	<decay-rate value="1"></decay-rate></player>
