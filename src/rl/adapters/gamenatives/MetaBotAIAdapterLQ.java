@@ -232,7 +232,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void gameTerminated() {
-	
+		int finalReward=0;
+		if(gs.winner()==agentNum)finalReward=1;else finalReward=-1;
+		metaBotAI.tdFA.endStateUpdates(finalReward);
 		decayEpsilon();//decay epsilon over episodes.
 	}
 	public void decayEpsilon() {
