@@ -229,7 +229,7 @@ public class TDFA {
 	public void decayEpslion(){
 		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 	}
-	public void endStateUpdates(int finalReward){
+	public void endStateUpdates(double finalReward){
 		reward = finalReward;
 		calcTDWeight();	//Update based on final reward	
 	}

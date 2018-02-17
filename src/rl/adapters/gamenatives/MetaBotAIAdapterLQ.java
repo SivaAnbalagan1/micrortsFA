@@ -101,6 +101,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	double [] initialWeights,sameWeights;
 	double epsilon,epsiDecay,lambdaEtrace;
 	LearningRateExpDecay learningRate;
+	double finalReward;
 	/**
 	 * Creates a MetaBotAIAdapter with default timeout, playouts and lookahead
 	 * @param agentName
@@ -228,15 +229,11 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	@Override
 	public void observeOutcome(State s, JointAction jointAction, double[] jointReward, State sprime,
 			boolean isTerminal) {
-		// does nothing
+		if(isTerminal)finalReward = jointReward[0];
 	}
 
 	@Override
 	public void gameTerminated() {
-		int finalReward=0;
-		if(gs.winner()==this.agentNum)
-			{finalReward=1;System.out.println("Agent num won" + this.agentNum);}
-		else finalReward=-1;
 		metaBotAI.tdFA.endStateUpdates(finalReward);
 		decayEpsilon();//decay epsilon over episodes.
 	}
