@@ -168,7 +168,7 @@ public class TDFA {
 		double threshold = 0.000001,change;
 		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
 		i=0;
-		
+	//	System.out.println("reward-"+reward);
 		//previous action features.
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 

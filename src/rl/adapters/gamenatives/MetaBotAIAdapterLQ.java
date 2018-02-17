@@ -219,6 +219,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 			portfolioArray, AInames,initialWeights,features, 
 	unitTypeTable,learningRate,epsilon,epsiDecay,lambdaEtrace
 		);
+		System.out.println("Agent num-start" + this.agentNum);
 //		setLearningRate(0.001);
 //		setEpsilon(0.5);
 		// sets the debug level accordingly
@@ -233,7 +234,9 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 	@Override
 	public void gameTerminated() {
 		int finalReward=0;
-		if(gs.winner()==agentNum)finalReward=1;else finalReward=-1;
+		if(gs.winner()==this.agentNum)
+			{finalReward=1;System.out.println("Agent num won" + this.agentNum);}
+		else finalReward=-1;
 		metaBotAI.tdFA.endStateUpdates(finalReward);
 		decayEpsilon();//decay epsilon over episodes.
 	}
