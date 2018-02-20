@@ -220,7 +220,7 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 			portfolioArray, AInames,initialWeights,features, 
 	unitTypeTable,learningRate,epsilon,epsiDecay,lambdaEtrace
 		);
-		System.out.println("Agent num-start" + this.agentNum);
+//		System.out.println("Agent num-start" + this.agentNum);
 //		setLearningRate(0.001);
 //		setEpsilon(0.5);
 		// sets the debug level accordingly
@@ -234,7 +234,11 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void gameTerminated() {
-		metaBotAI.tdFA.endStateUpdates(finalReward);
+		metaBotAI.tdFA.setReward(finalReward);
+//		metaBotAI.tdFA.printweights();
+		String dummycall = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
+		metaBotAI.tdFA.setReward(0);
+//		metaBotAI.tdFA.printweights();
 		decayEpsilon();//decay epsilon over episodes.
 	}
 	public void decayEpsilon() {

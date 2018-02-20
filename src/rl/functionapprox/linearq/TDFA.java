@@ -103,7 +103,7 @@ public class TDFA {
 				//&& convergence.get(prevAction) != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
 		{ 
 		//	reward = calcReward(featValue,prevfeatValue);
-			reward = 0;//no reward shaping
+		//	reward = 0;//no reward shaping
 		//	learningRate = timeInverseLR.pollLearningRate(
 		//			time,s, prevactionEpsilon);
 		//	learningRate = ExpDLearningRate.nextLRVal(curLR);
@@ -168,8 +168,8 @@ public class TDFA {
 		double threshold = 0.000001,change;
 		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
 		i=0;
-	//	System.out.println("reward-"+reward);
 		//previous action features.
+	//	System.out.println("reward " + reward);
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
 				(reward + (discountFactor * qtplus1) - qt) * sf.value;
@@ -185,11 +185,12 @@ public class TDFA {
 	//		 double mse = Math.sqrt(newWeight - prevWeight[i])/2;
 	//		 MSE.get(prevAction).get(Integer.toString(i)).add(mse);
 			 change = Math.abs(newWeight - prevWeight[i]);
-			 if( change > threshold ){
+		//	 if( change > threshold ){
+			//	 System.out.println("Inside threshold");
 				LQ.LVFA.setParameter(idx[i],newWeight);
 		//		SGD.get(prevAction).get(Integer.toString(i)).add(newWeight);
 				prevWeight[i]=newWeight;				
-			}
+		//	}
 		 }
 		 
 	}
@@ -221,6 +222,12 @@ public class TDFA {
 	public double getLearninRate(){
 		return curLR;
 	}
+	public void printweights(){
+		Map<String,double []>  actionweight;
+		actionweight = LQ.actionWeightret();
+		for(String action:LQ.actionNames())
+			System.out.println(action + " " +Arrays.toString(actionweight.get(action)));
+	}
 	public void setLearninRate(double lr){
 		for(String action : aiNamesCopy){
 			actionCurLR.put(action, lr);
@@ -229,9 +236,8 @@ public class TDFA {
 	public void decayEpslion(){
 		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 	}
-	public void endStateUpdates(double finalReward){
-		reward = finalReward;
-		calcTDWeight();	//Update based on final reward	
+	public void setReward(double updReward){
+		reward = updReward;
 	}
 
 	public void setEpslion(double epsilon){
