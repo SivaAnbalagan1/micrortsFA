@@ -110,7 +110,8 @@ public class TDFA {
 			learningRate = actionLR.get(prevAction).nextLRVal(actionCurLR.get(prevAction));
 		//	learningRate = curLR;
 			actionCurLR.put(prevAction, learningRate);
-			error = qtplus1 - qt;
+		//	error = qtplus1 - qt;
+			error = reward + (discountFactor * qtplus1) - qt;
 			predError.get(prevAction).add(error);
       		calcTDWeight();
 	//		calcTrueTDWeight();
