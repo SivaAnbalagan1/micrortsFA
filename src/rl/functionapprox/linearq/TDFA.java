@@ -186,12 +186,12 @@ public class TDFA {
 	//		 double mse = Math.sqrt(newWeight - prevWeight[i])/2;
 	//		 MSE.get(prevAction).get(Integer.toString(i)).add(mse);
 			 change = Math.abs(newWeight - prevWeight[i]);
-		//	 if( change > threshold ){
+			 if( change > threshold ){
 			//	 System.out.println("Inside threshold");
 				LQ.LVFA.setParameter(idx[i],newWeight);
 		//		SGD.get(prevAction).get(Integer.toString(i)).add(newWeight);
 				prevWeight[i]=newWeight;				
-		//	}
+			}
 		 }
 		 
 	}
