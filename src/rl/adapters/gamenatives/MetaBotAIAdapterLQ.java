@@ -234,10 +234,11 @@ public class MetaBotAIAdapterLQ implements PersistentLearner {
 
 	@Override
 	public void gameTerminated() {
-		metaBotAI.tdFA.setReward(finalReward);
 //		metaBotAI.tdFA.printweights();
-		String dummycall = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
-		metaBotAI.tdFA.setReward(0);
+		metaBotAI.tdFA.updateFinalReward(finalReward);
+
+//		String dummycall = metaBotAI.tdFA.getAction(metaBotAI.getFeature(gs));
+//		metaBotAI.tdFA.setReward(0);
 //		metaBotAI.tdFA.printweights();
 		decayEpsilon();//decay epsilon over episodes.
 	}

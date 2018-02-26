@@ -170,7 +170,7 @@ public class TDFA {
 		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
 		i=0;
 		//previous action features.
-	//	System.out.println("reward " + reward);
+	//	System.out.println("Action update " + prevAction);
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
 				(reward + (discountFactor * qtplus1) - qt) * sf.value;
@@ -237,8 +237,9 @@ public class TDFA {
 	public void decayEpslion(){
 		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 	}
-	public void setReward(double updReward){
-		reward = updReward;
+	public void updateFinalReward(double updReward){
+		qtplus1 = updReward;
+		calcTDWeight();
 	}
 
 	public void setEpslion(double epsilon){
