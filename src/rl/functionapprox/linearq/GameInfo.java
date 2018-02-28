@@ -95,7 +95,7 @@ public class GameInfo {
 		standardizeTimeFeat(gs.getTime());
 		normalize();
 		//intercept
-//		featureValue[featureValue.length-1] = 0;//change to 1 for intercept
+		featureValue[featureValue.length-1] = 1;//change to 1 for intercept
 /*		for(int j=0;j<featureValue.length;j++){
 			System.out.print(featureValue[j]+ " ");
 		}System.out.println();*/

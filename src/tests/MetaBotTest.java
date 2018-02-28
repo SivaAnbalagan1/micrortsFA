@@ -57,7 +57,7 @@ public class MetaBotTest {
         for(UnitType ut: uTTable.getUnitTypes())if(ut.isResource)runit++;
         int quadFeat = 0;
         quadFeat = uTTable.getUnitTypes().size() -runit;
-        int featSize = quadFeat *9*2 +9+9+2+1;//intercept+1;// 2-resource, 9-health for 2 players and time
+        int featSize = quadFeat *9*2 +9+9+2+1+1;//intercept added+1;// 2-resource, 9-health for 2 players and time
         //1 more for intercept
         //int featSize = unitTypeTable.getUnitTypes().size()-1;
         //featSize = featSize*9 *2;
