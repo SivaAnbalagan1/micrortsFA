@@ -16,7 +16,11 @@
         <pathelement location="lib/burlap-3.0.1-jar-with-dependencies.jar"/>
         <pathelement location="lib/SCPSolver.jar"/>
         <pathelement location="lib/LPSOLVESolverPack.jar"/>
+        <pathelement location="lib/minimal-json-0.9.4.jar"/>
         <pathelement location="lib/commons-cli-1.4.jar"/>
+        <pathelement location="lib/xmlpull-1.1.3.1.jar"/>
+        <pathelement location="lib/xstream-1.4.10.jar"/>
+        <pathelement location="lib/xpp3_min-1.1.4c.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
