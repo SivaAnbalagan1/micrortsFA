@@ -96,8 +96,8 @@ public class TDFA {
 //		System.out.println("curEpsilon " + curEpsilon);
 		epslionGreedy = new EpsilonGreedy(LQ.qValues,curEpsilon);
 		actionEpsilon = epslionGreedy.action(s);//get epsilon greedy action.
-		//qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
-		qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
+		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
+		//qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
 		//start TD from 2nd iteration.
 		if(prevAction != null)
 				//&& convergence.get(prevAction) != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
