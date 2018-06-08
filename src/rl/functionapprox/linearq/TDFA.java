@@ -16,7 +16,7 @@ import burlap.behavior.learningrate.ExponentialDecayLR;
 
 public class TDFA {
 	double reward;
-	EpsilonGreedy epslionGreedy;
+	EpsilonGreedy epsilonGreedy;
 	LinearQState s;
 		
 	double [] weightChange,prevweightChange,prevfeatValue;
@@ -94,8 +94,8 @@ public class TDFA {
 //				time,s,prevactionEpsilon);
 //		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 //		System.out.println("curEpsilon " + curEpsilon);
-		epslionGreedy = new EpsilonGreedy(LQ.qValues,curEpsilon);
-		actionEpsilon = epslionGreedy.action(s);//get epsilon greedy action.
+		epsilonGreedy = new EpsilonGreedy(LQ.qValues,curEpsilon);
+		actionEpsilon = epsilonGreedy.action(s);//get epsilon greedy action.
 		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
 		//qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
 		//start TD from 2nd iteration.
