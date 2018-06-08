@@ -23,41 +23,60 @@ public class TDFA {
 	double qt,qtplus1;//ToDo - change to list for multi-step 
 	double EPSILON,error;//1.0 always explore and 0.0 always exploit
 	double discountFactor = 0.9,curLR,curEpsilon,epsilonDecay,learningRate;
+	
 	LearningRateExpDecay expDecayLRate; 
 	int time = 0;
-	int featuresize;
+	int featuresize; //the number of features
 	Action actionEpsilon,prevactionEpsilon,dummy,prevActionQ;
 	String prevAction;
+	
 	List<StateFeature> curFeature,prevFeature,gradient;
-	List<double[]> weightList; double[] valueStore;
+	List<double[]> weightList; 
+	double[] valueStore;
+	
 	LearningRateExpDecay ExpDLearningRate;
 	LearningRateExpDecay ExpDEpsilon;
+	
 	Map<String, LearningRateExpDecay> actionLR;
 	Map<String, Double> actionCurLR;
 	Map<String, ArrayList<Double>> predError;
+	
 	Map<String, Map<String,ArrayList<Double>>> SGD;
 	Map<String, ArrayList<Double>> weightchange;
 	Map<String, double[]> eligibiltyTrace;
+	
 	double [] weighttemp = new double [featuresize];
 	LinearQ LQ;
 	String [] aiNamesCopy;
 	double convergenceValue;
-	double lambda_eTrace,qOld_eTrace;
-	Map<String, String> convergence;
-	String actiontemp;
+	double lambda_eTrace, qOld_eTrace;
+	
+	Map<String, String> convergence; //how does this work?
+	
+	String actiontemp; //not used... remove?
+	
 	public TDFA(String [] aiNames,double [] featureValue,double [] weights
 			,LearningRateExpDecay lr, double epi, double epiDecay,double lambdaEtrace){
+		
 	    LQ = new LinearQ(aiNames,weights,featureValue,featureValue.length);
+	    
 		featuresize = featureValue.length;
 		weightChange = new double[featuresize];
-		actionLR =  new HashMap();actionCurLR =  new HashMap();
-		predError = new HashMap();aiNamesCopy = aiNames.clone();
-		weightchange = new HashMap();convergence = new HashMap();
-		SGD = new HashMap();eligibiltyTrace = new HashMap();
+		actionLR =  new HashMap();
+		actionCurLR =  new HashMap();
+		predError = new HashMap();
+		
+		aiNamesCopy = aiNames.clone();
+		
+		weightchange = new HashMap();
+		convergence = new HashMap();
+		SGD = new HashMap();
+		eligibiltyTrace = new HashMap();
+		
 		qOld_eTrace = 0;
 		expDecayLRate = lr;
 //		curLR = lr; //set initial learning rate
-		curEpsilon =epi;
+		curEpsilon = epi;
 		epsilonDecay = epiDecay;
 		lambda_eTrace = lambdaEtrace;
 				
