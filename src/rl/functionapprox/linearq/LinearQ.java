@@ -34,7 +34,7 @@ public class LinearQ {
 	public LinearQ(String [] actionNames,double [] weights,double []featValues,int featSize){
 		s = new LinearQState("dummy");
 		featureSize = featSize;
-		weighttemp = new double [featureSize];
+		weighttemp = new double [featureSize];	//what is weighttemp?
 		weightChange = new double[featureSize];//weight update for each feature in each action
 		prevweightChange = new double[featureSize];
 		actionFeatureidx = new HashMap();
@@ -44,25 +44,34 @@ public class LinearQ {
 		//weight maintained for them separately.
 		setupLVFA(featValues, weights,actionNames);		
 	}
+	
 	public void createActions(String [] actionNames){
 		linearQActions = new ArrayList<LinearQAction>();
-		for(String name : actionNames)linearQActions.add(new LinearQAction(name));
+		
+		for (String name : actionNames)
+			linearQActions.add(new LinearQAction(name));
 	}
+	
 	public void setupLVFA(double[] featureValue,double[] weights,String [] aiNames){
 		weightlength = linearQActions.size() * featureSize;
 		featureValues(featureValue);//create Feature set with its values.
 		setWeights(weights);//setup the feature weight.
 		createQvalues();//create q-value class.Epsilon greedy will use this.
 	}
+	
 	public void featureValues(double [] featureValue){
 	//	System.out.println(Arrays.toString(featureValue));
 		Features = new LinearQStateFeatures(featureValue, featureSize);
 		LVFA = new LinearVFAExtend(Features,0);
 		LVFA.setFeatureSize(featureSize);
 	}
+	
 	public void setWeights(double[] weights){
-		double dummy,weight;int [] idx;int step;
+		double dummy, weight;
+		int[] idx;
+		int step;
 		step = 0;
+		
 		//actions are added in LVFA as they are issued.
 		//hence actions are issued as dummy for addition and their Ids are noted.
 		for(LinearQAction qa : linearQActions){
@@ -80,6 +89,7 @@ public class LinearQ {
 			actionWeights.put(qa.actionName(), weighttemp);
 		}
 	}
+	
 	public void createQvalues(){
 		qValues = new LinearQvalues(LVFA,linearQActions);
 	}
@@ -105,14 +115,20 @@ public class LinearQ {
 	}
 
 	public void updateWeights(double [] weights){
-		double dummy;int [] idx;int step;
+		double dummy;
+		int[] idx;
+		int step;
 		step = 0; 
-		for(LinearQAction qa : linearQActions)dummy = LVFA.evaluate(s, qa);
+		for(LinearQAction qa : linearQActions)
+			dummy = LVFA.evaluate(s, qa);
+		
 		for(LinearQAction qa : linearQActions){
-			idx = actionFeatureidx.get(qa.actionName());
-			for(int i=0;i<idx.length;i++){
-				LVFA.setParameter(idx[i],weights[idx[i]]);
-			    weighttemp[i] = weights[idx[i]];
+			//idx is the vector of feature indices for action a?
+			idx = actionFeatureidx.get(qa.actionName()); 
+			
+			for (int i = 0; i < idx.length; i++) {
+				LVFA.setParameter(idx[i], weights[idx[i]]);
+				weighttemp[i] = weights[idx[i]];
 			}
 //			actionWeights.put(qa.actionName(), weighttemp);
 		}	
@@ -136,6 +152,7 @@ public class LinearQ {
 
 		}*/
 	}
+	
 	public Map<String,double []> actionWeightret(){
 		int [] idx; double [] weights = new double[weightlength];
 		double [] weightstemp = new double[featureSize];
@@ -150,6 +167,7 @@ public class LinearQ {
 	  	
 		return actionWeights;
 	}
+	
 	public String[] actionNames(){
 		String[] actname = new String[linearQActions.size()];
 		int i=0;
@@ -157,22 +175,26 @@ public class LinearQ {
             actname[i] = qa.actionName();i++;}
 		return actname;
 	}
+	
 	private void print(String act, int[] weight){
 		System.out.println(String.format(
-				"\t<a name='%s' value='%s' />\n",
-				act,
-				Arrays.toString(weight)));
+			"\t<a name='%s' value='%s' />\n",
+			act,
+			Arrays.toString(weight)
+		));
 	}
+	
 	private void print(String act, double[] weight){
 		System.out.println(String.format(
-				"\t<a name='%s' value='%s' />\n",
-				act,
-				Arrays.toString(weight)));
+			"\t<a name='%s' value='%s' />\n",
+			act,
+			Arrays.toString(weight)
+		));
 	}
 
 	private void print(double[] weight){
 		System.out.println(String.format(
-				"\t< value='%s' />\n",
-				Arrays.toString(weight)));
+			"\t< value='%s' />\n", Arrays.toString(weight)
+		));
 	}
 }
