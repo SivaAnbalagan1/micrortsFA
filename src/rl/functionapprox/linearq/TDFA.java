@@ -114,18 +114,16 @@ public class TDFA {
 //		curEpsilon = ExpDEpsilon.nextLRVal(curEpsilon);
 //		System.out.println("curEpsilon " + curEpsilon);
 		epsilonGreedy = new EpsilonGreedy(LQ.qValues,curEpsilon);
+		
+		//FIXME s never changes!
 		actionEpsilon = epsilonGreedy.action(s);//get epsilon greedy action.
 		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
 		//qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
+		
 		//start TD from 2nd iteration.
 		if(prevAction != null)
 				//&& convergence.get(prevAction) != null) //prevFeature = new ArrayList<StateFeature>(curFeature);
 		{ 
-		//	reward = calcReward(featValue,prevfeatValue);
-		//	reward = 0;//no reward shaping
-		//	learningRate = timeInverseLR.pollLearningRate(
-		//			time,s, prevactionEpsilon);
-		//	learningRate = ExpDLearningRate.nextLRVal(curLR);
 			learningRate = actionLR.get(prevAction).nextLRVal(actionCurLR.get(prevAction));
 		//	learningRate = curLR;
 			actionCurLR.put(prevAction, learningRate);
@@ -185,9 +183,13 @@ public class TDFA {
 
 	}
 	private void calcTDWeight(){
-		double threshold = 0.000001,change;
-		int i;int idx[];double[] prevWeight = new double[featuresize]; double newWeight;
-		i=0;
+		double threshold = 0.000001, change;
+		int i;
+		int idx[];
+		double[] prevWeight = new double[featuresize];
+		double newWeight;
+		i = 0;
+		
 		//previous action features.
 	//	System.out.println("Action update " + prevAction);
 		for(StateFeature sf: gradient){
@@ -196,22 +198,26 @@ public class TDFA {
 			 //differentiation of qt is its value. X(s)
 			i++;
 		}
+		
 		i=0;
 		idx = LQ.actionFeatureidx.get(prevAction);
-		for(i=0;i<idx.length;i++)
-			prevWeight[i]=LQ.LVFA.getParameter(idx[i]);
-		 for(i=0;i<featuresize;i++){
-			 newWeight = prevWeight[i] - weightChange[i];
-	//		 double mse = Math.sqrt(newWeight - prevWeight[i])/2;
-	//		 MSE.get(prevAction).get(Integer.toString(i)).add(mse);
-			 change = Math.abs(newWeight - prevWeight[i]);
-			 if( change > threshold ){
-			//	 System.out.println("Inside threshold");
-				LQ.LVFA.setParameter(idx[i],newWeight);
-		//		SGD.get(prevAction).get(Integer.toString(i)).add(newWeight);
-				prevWeight[i]=newWeight;				
+		for (i = 0; i < idx.length; i++)
+			prevWeight[i] = LQ.LVFA.getParameter(idx[i]);
+		
+		for (i = 0; i < featuresize; i++) {
+			//FIXME shouldn't it be prevWeight + weightChange?
+			newWeight = prevWeight[i] - weightChange[i];
+			
+			// double mse = Math.sqrt(newWeight - prevWeight[i])/2;
+			// MSE.get(prevAction).get(Integer.toString(i)).add(mse);
+			change = Math.abs(newWeight - prevWeight[i]);
+			if (change > threshold) {
+				// System.out.println("Inside threshold");
+				LQ.LVFA.setParameter(idx[i], newWeight);
+				// SGD.get(prevAction).get(Integer.toString(i)).add(newWeight);
+				prevWeight[i] = newWeight;
 			}
-		 }
+		}
 		 
 	}
 	/*private double calcReward(double[] features,double[] prevfeat){
