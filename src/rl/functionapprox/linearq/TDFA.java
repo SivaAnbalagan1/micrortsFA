@@ -117,6 +117,8 @@ public class TDFA {
 		
 		//FIXME s never changes!
 		actionEpsilon = epsilonGreedy.action(s);//get epsilon greedy action.
+		
+		//FIXME shouldn't qtplus1 be the sum{fi * wi} for each feature i?
 		qtplus1 = LQ.qValues.qValue(s, actionEpsilon);
 		//qtplus1 = LQ.qValues.qValue(s, prevactionEpsilon);
 		
@@ -192,6 +194,7 @@ public class TDFA {
 		
 		//previous action features.
 	//	System.out.println("Action update " + prevAction);
+		//FIXME: where is the reward being set?
 		for(StateFeature sf: gradient){
 			weightChange[i] = learningRate * 
 				(reward + (discountFactor * qtplus1) - qt) * sf.value;
