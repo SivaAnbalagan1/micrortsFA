@@ -623,7 +623,7 @@ public class RLParameters {
 			throw new RuntimeException("Unrecognized player type: " + e.getAttribute("type"));
 		}
 		
-		// checks whether knowledge should be loaded
+		// checks whether knowledge should be loaded -- TODO check whether it is loading MetaBot knowledge after training
 		if(playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE) != null){
 			if(!metaBot)
 			agent.loadKnowledge((String) playerParams.get(RLParamNames.PATH_TO_KNOWLEDGE));
