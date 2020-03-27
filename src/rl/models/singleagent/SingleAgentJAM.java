@@ -43,6 +43,7 @@ public class SingleAgentJAM implements JointModel {
 
 		// advance game until next state is reached or game finishes
 		do {
+			System.out.print(String.format("\rCycle #%5d", gameState.getTime()));
 			PlayerAction pa1 = null, pa2 = null;
 			try {
 				pa1 = ai1.getAction(0, gameState);
