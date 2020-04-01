@@ -37,9 +37,15 @@ This example contains the parameters against PuppetSearchMTCS. Configure a xml l
 </experiment>
 ```
 
-Let's assume it is saved at `<config-path>`. Then, run with (replace output-dir with your preffered directory to store output files):
+Let's assume it is saved at `<config-path>`. Then, run with:
 
-`./rlexperimentRestartable.sh -c <config-path> -o [output-dir]`
+`python experimentmanagerRestartable.py -c <config-path> -o OUT -n N -s S`
 
+Replace OUT by the output directory, N by the total number of repetitions and S by the number of repetitions running simultaneously (in parallel). Data for each repetition will be saved at `OUT/repNUM`, where NUM is in range(0, N).
 
+As mentioned, the config above is for PuppetMCTS. To play against other opponents, replace the values in `microrts-opponent`, `episodes value`, `epsilon`, `decay-rate` and `learning-rate-meta` tags to the ones in the paper: 
+
+"alpha = 1E-4 , gamma = 0.9, epsilon exponentially decaying from 0.2 against PuppetAB, PuppetMCTS and AHTN; and decaying from 0.1 for NaiveMCTS and StrategyTactics, after every game (decay rate ≈ 0.9984). All games have 3000 cycles."
+
+"500 games against PuppetAB, PuppetMCTS and AHTN; and in 100 games against NaiveMCTS and StrategyTactics."
 
