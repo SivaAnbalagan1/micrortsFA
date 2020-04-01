@@ -37,7 +37,7 @@ This example contains the parameters against PuppetSearchMTCS. Configure a xml l
 </experiment>
 ```
 
-Let's assume it is saved at `<config-path>`. Then, run with:
+Let's assume it is saved at `<config-path>`. Then, **train** with:
 
 `python experimentmanagerRestartable.py -c <config-path> -o OUT -n N -s S`
 
@@ -48,4 +48,10 @@ As mentioned, the config above is for PuppetMCTS. To play against other opponent
 "alpha = 1E-4 , gamma = 0.9, epsilon exponentially decaying from 0.2 against PuppetAB, PuppetMCTS and AHTN; and decaying from 0.1 for NaiveMCTS and StrategyTactics, after every game (decay rate ≈ 0.9984). All games have 3000 cycles."
 
 "500 games against PuppetAB, PuppetMCTS and AHTN; and in 100 games against NaiveMCTS and StrategyTactics."
+
+To test, you must create another config with zero alpha and epsilon. Let's assume it is saved at `<test-config-path>`. Then, run the **test** with: 
+
+`python experimentmanagerRestartable.py -c <test-config-path> -o TEST_OUT -n N -s S --p1train-dir OUT`, where:
+
+TEST_OUT is the directory that will contain the output of the tests, N is the total number of repetitions, S is the number of repetitions running simultaneously (in parallel) and `OUT` is the directory where training was saved (i.e. the one specified with -o in the train command. The script assumes the saved policy file is `q_MetaBot_final.txt`. You can specify another one with the `--p1policy-file` paramter.
 
