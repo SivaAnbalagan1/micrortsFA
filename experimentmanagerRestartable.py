@@ -8,7 +8,7 @@ import subprocess
 
 
 def manage_experiment(num_execs, num_concurrent, experiment_config, output_prefix, 
-policy1_prefix, policy2_prefix, other_options):
+policy1_prefix, policy2_prefix, p1traindir, p1policyfile, other_options):
     
     os.makedirs(output_prefix, exist_ok=True)
     
@@ -50,6 +50,11 @@ policy1_prefix, policy2_prefix, other_options):
                 
             if policy2_prefix is not None:
                 additional_args += '-player2policy %s%s.xml ' % (policy2_prefix, str(total_runs).zfill(2))
+                
+            if p1traindir is not None:
+                policy_path = '%s/rep%s/%s ' % (p1traindir, str(total_runs).zfill(2), p1policyfile)
+                additional_args += '-player1policy %s' % policy_path
+                print('Will load P1 policy from %s ' % policy_path )
             # error: other_options is growing up!
             #print(other_options, '-player1policy %s%s.xml ' % (policy1_prefix, str(total_runs).zfill(2)))
             
@@ -96,6 +101,16 @@ if __name__ == '__main__':
     )
     
     parser.add_argument(
+        '--p1train-dir', type=str, required=False,
+        help="Directory where all repetitions of player 1 training is saved (must have as many repetitions as specified in -n here)"
+    )
+    
+    parser.add_argument(
+        '--p1policy-file', type=str, default='q_MetaBot_final.txt',
+        help="File name of player 1 saved policy, defaults to q_MetaBot_final.txt (use in conjunction with p1train-dir)"
+    )
+    
+    parser.add_argument(
         '--policy2-prefix', type=str, required=False,
         help="Prefix of policy file of player 2"
     )
@@ -107,10 +122,13 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
+    
+    
     manage_experiment(
         args.number_reps, args.simultaneous, 
         args.experiment_config, args.output_prefix,
         args.policy1_prefix, args.policy2_prefix,
+        args.p1train_dir, args.p1policy_file,
         args.remaining_options
     )
 
