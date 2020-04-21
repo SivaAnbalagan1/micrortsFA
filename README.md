@@ -6,7 +6,7 @@ This was built over the BURLAP (http://burlap.cs.brown.edu/) integrated microRTS
 ## Instructions:
 ### To reproduce Tavares et al. IJCAI 2018 experiments:
 
-The xml below contains the configuration to train vs PuppetMCTS. It is located in `experiments/train-vs-puppetMCTS.xml`:
+The xml below contains the configuration to train vs PuppetMCTS. It is located in `experiments/ijcai18/train-vs-puppetMCTS.xml`:
 
 ```xml
 <experiment> <!-- Configured according to Tavares et al. IJCAI 2018 -->
