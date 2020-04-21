@@ -6,7 +6,7 @@ This was built over the BURLAP (http://burlap.cs.brown.edu/) integrated microRTS
 ## Instructions:
 ### To reproduce Tavares et al. IJCAI 2018 experiments:
 
-This example contains the parameters against PuppetSearchMTCS. Configure a xml like below:
+The xml below contains the configuration to train vs PuppetMCTS. It is located in `experiments/train-vs-puppetMCTS.xml`:
 
 ```xml
 <experiment> <!-- Configured according to Tavares et al. IJCAI 2018 -->
@@ -36,11 +36,11 @@ This example contains the parameters against PuppetSearchMTCS. Configure a xml l
 </experiment>
 ```
 
-Let's assume it is saved at `<config-path>`. Then, **train** with:
+Run a **train** experiment with:
 
-`python experimentmanagerRestartable.py -c <config-path> -o OUT -n N -s S`
+`python experimentmanagerRestartable.py -c experiments/ijcai18/train-vs-puppetMCTS.xml -o results/train-vs-puppetMCTS -n N -s S`
 
-Replace OUT by the output directory, N by the total number of repetitions and S by the number of repetitions running simultaneously (in parallel). Data for each repetition will be saved at `OUT/repNUM`, where NUM is in range(0, N).
+Replace N by the total number of repetitions and S by the number of repetitions running simultaneously (in parallel). Data for each repetition will be saved at `results/train-vs-puppetMCTS/rep01` for the first repetition, `rep02` for the second, and so on.
 
 As mentioned, the config above is for PuppetMCTS. To play against other opponents, replace the values in `microrts-opponent`, `episodes value`, `epsilon`, `decay-rate` and `learning-rate-meta` tags to the ones in the paper: 
 
@@ -48,9 +48,13 @@ As mentioned, the config above is for PuppetMCTS. To play against other opponent
 
 "500 games against PuppetAB, PuppetMCTS and AHTN; and in 100 games against NaiveMCTS and StrategyTactics."
 
-To test, you must create another config with zero alpha and epsilon. Let's assume it is saved at `<test-config-path>`. Then, run the **test** with: 
+To **test** (i.e. evaluate the previously trained policy), **you must create one config file for each repetition** (sorry for this design decision)  with zero alpha and epsilon. For PuppetMCTS, they're at `experiments/ijcai18/test-vs-puppetMCTS-*.xml` , where * goes from 01 to 05. If you open the xml files, notice that they have the following tag: `<path-to-knowledge value="results/train-vs-puppetMCTS/rep*/q_MetaBot_final.txt" />` , where * goes from 01 to 05. This means that the results of the train experiments must be stored in `results/train-vs-puppetMCTS` (which they will be if you ran with the train command above). Finally, to execute the **test for the first repetition**, run:
 
-`python experimentmanagerRestartable.py -c <test-config-path> -o TEST_OUT -n N -s S --p1train-dir OUT`, where:
+`./rlexperimentRestartable.sh  -c experiments/ijcai18/test-vs-puppetMCTS-01.xml -o results/test-vs-puppetMCTS/rep01`
 
-TEST_OUT is the directory that will contain the output of the tests, N is the total number of repetitions, S is the number of repetitions running simultaneously (in parallel) and `OUT` is the directory where training was saved (i.e. the one specified with -o in the train command. The script assumes the saved policy file is `q_MetaBot_final.txt`. You can specify another one with the `--p1policy-file` paramter.
+To execute five repetitions simultaneously, run (don't worry with the overlapped output at the terminal, resulting files should be fine):
+
+`for i in {01..05}; do ./rlexperimentRestartable.sh  -c experiments/ijcai18/test-vs-puppetMCTS-"$i".xml -o results/test-vs-puppetMCTS/rep"$i" &2>1 ; done`
+
+Test results will be at `test-vs-puppetMCTS/rep*`, where * goes from 01 to 05.
 
