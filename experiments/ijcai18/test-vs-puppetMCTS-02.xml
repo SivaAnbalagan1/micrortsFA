@@ -1,0 +1,27 @@
+<experiment> <!-- Configured according to Tavares et al. IJCAI 2018 -->
+	<parameters>
+		<episodes value="100" /> <!-- number of matches -->
+		<game-duration value="3000" /> <!-- game duration in cycles -->
+		<abstraction-model value="singleagent" /> <!-- the opponent is embedded in the environment -->
+		<microrts-opponent value="PuppetSearchMCTS" /> <!-- this is the opponent embedded in the environment -->
+		<output-dir value="/tmp/results" />
+		<reward-function value="winloss" /> <!-- win=1, loss=-1, draw=0 -->
+		<quiet-learning value="false" /> <!-- quiet=false makes it outputs the knowledge after every episode -->
+		<debug-level value="0" />
+	</parameters>
+	
+	<player name='MetaBot' type='MetaBotAIAdapterLQ'>
+		<path-to-knowledge value="results/train-vs-puppetMCTS/rep02/q_MetaBot_final.txt" /><!-- must specify a valid policy file -->
+		<learning-rate-meta type="exponential-decay" initial="0" final="0" rate="0" /> <!-- no learning-->
+		<discount value="0.9" /> <!-- discount factor for future rewards (gamma) -->
+		<epsilon value="0" /> <!-- no epsilon -->
+		<decay-rate value="0" /> <!-- decay rate of epsilon -->		
+	</player>
+	
+	<player name='pgsai' type='Dummy'> <!-- Dummy because the second player is embedded in the environment -->
+			<dummy-policy value="WorkerRush" /> <!-- does not matter -->
+	</player>
+
+</experiment>
+
+
