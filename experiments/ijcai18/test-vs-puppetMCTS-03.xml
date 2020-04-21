@@ -6,7 +6,7 @@
 		<microrts-opponent value="PuppetSearchMCTS" /> <!-- this is the opponent embedded in the environment -->
 		<output-dir value="/tmp/results" />
 		<reward-function value="winloss" /> <!-- win=1, loss=-1, draw=0 -->
-		<quiet-learning value="false" /> <!-- quiet=false makes it outputs the knowledge after every episode -->
+		<quiet-learning value="true" /> <!-- quiet=false makes it outputs the knowledge after every episode -->
 		<debug-level value="0" />
 	</parameters>
 	
